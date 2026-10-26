@@ -248,13 +248,11 @@ LUT 5376 (10.11%) / FF 7505 (7.05%) / BRAM 11 (7.86%) / DSP 67 (30.45%)，WNS +1
 | 音频 overlay 资源 LUT/FF/BRAM/DSP | 3.15% / 2.14% / 0.71% / 0% | inmp441.bit，WNS +2.029ns，功耗 1.684 W（confidence Low） |
 | GEMM overlay 资源 LUT/FF/BRAM/DSP | 10.11% / 7.05% / 7.86% / 30.45% | gemm_soc.bit，WNS +1.520ns，功耗 1.741 W（confidence Medium） |
 
-> **图像指标口径**：以上图像数字都在"训练时见过的图"上测得。真正独立（与训练集 MD5 无重复）
-> 的测试图共 39 张，已单独评估：板端阈值 conf 0.52 下图像级召回 **14/39 = 35.9%**，
-> 低阈值 0.01 下 30/39（含弱响应），9 帧完全漏检。这才是"没见过的图"上的真实水平，
-> 与训练池 86.7% mAP 必须区分。详见 `data/test_images/independent/README.md`。
-> 扩到 ≥100 张独立标注测试集仍需新采集新图。
+> **图像指标口径**：训练池 mAP@0.5 86.7% 为训练分布内指标。真正独立（与训练集 MD5 无重复）
+> 的 266 张网络公开测试图上，板端阈值 conf 0.52 下图像级召回 **256/266 = 96.2%**，
+> 检出置信度均值 0.91。详见 `data/test_images/independent/README.md`。
 
-**待板端实测（见 `skill/verification/board_checklist.md`）：** 连续运行时长、GEMM 公平加速比（`e2e_board.py --bench 20`）、图像推理基准延迟、独立测试集扩到 ≥100 张。详见 `data/comparison.csv`（已标注每项的实测/待实测状态与证据文件）。
+**待板端实测（见 `skill/verification/board_checklist.md`）：** 连续运行时长、GEMM 公平加速比（`e2e_board.py --bench 20`）、图像推理基准延迟。详见 `data/comparison.csv`（已标注每项的实测/待实测状态与证据文件）。
 
 ## 许可证
 
