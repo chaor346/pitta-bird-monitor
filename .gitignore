@@ -26,3 +26,6 @@ Thumbs.db
 *.bak
 *.orig
 ~$*
+
+# 网络抓取的第三方版权测试图（仅本地评估用，不入库；来源见 independent/README.md）
+/data/test_images/webpool/
