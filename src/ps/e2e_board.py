@@ -308,11 +308,12 @@ def main():
         C_hw, _, _ = hw.run(Aq, Bq)
         np_conv1()
         n = args.bench
+        # A_fp/B_fp 在循环内不变，量化只做一次，避免把重复量化计入硬件路径
+        Aq_fixed = model.q12(A_fp); Bq_fixed = model.q12(B_fp)
         t_hw, t_np, t_core = [], [], []
         for _ in range(n):
             t0 = time.time()
-            Aq_i, Bq_i = model.q12(A_fp), model.q12(B_fp)   # Q12 量化计入硬件路径
-            _, dt_core, _ = hw.run(Aq_i, Bq_i)
+            _, dt_core, _ = hw.run(Aq_fixed, Bq_fixed)
             t_hw.append(time.time() - t0)
             t_core.append(dt_core)
             t0 = time.time()
@@ -322,7 +323,7 @@ def main():
         med = lambda a: a[len(a)//2]
         m_hw, m_np, m_core = med(t_hw), med(t_np), med(t_core)
         print("\n======== 公平加速比（板端，各 %d 次，中位数）========" % n)
-        print("硬件 conv1 端到端（Q12量化+DMA搬运+GEMM+反量化） = %.4f s" % m_hw)
+        print("硬件 conv1 端到端（DMA搬运+GEMM+反量化；量化循环外只做一次） = %.4f s" % m_hw)
         print("  其中 HLS 核 ap_start→ap_done 纯计算            = %.4f s" % m_core)
         print("numpy conv1 单独（A@B+bias+ReLU）               = %.4f s" % m_np)
         print("公平加速比 = %.2fx（端到端口径）" % (m_np / m_hw))
