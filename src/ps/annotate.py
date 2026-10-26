@@ -75,6 +75,27 @@ def save_txt(out_dir, stem, w, h):
             f.write("%d %.6f %.6f %.6f %.6f\n" % (CLASS_ID, cx, cy, bw, bh))
 
 
+def load_existing(out_dir, stem, w, h):
+    """启动时读已有 YOLO 标签，转成像素框作为初始框（支持核对/微调）。"""
+    txt = os.path.join(out_dir, stem + ".txt")
+    boxes = []
+    if not os.path.exists(txt):
+        return boxes
+    with open(txt, encoding="utf-8", errors="ignore") as f:
+        for line in f:
+            t = line.split()
+            if len(t) < 5:
+                continue
+            try:
+                cx, cy, bw, bh = [float(x) for x in t[1:5]]
+            except ValueError:
+                continue
+            x1 = int((cx - bw / 2) * w); y1 = int((cy - bh / 2) * h)
+            x2 = int((cx + bw / 2) * w); y2 = int((cy + bh / 2) * h)
+            boxes.append((x1, y1, x2, y2))
+    return boxes
+
+
 def main():
     img_dir = sys.argv[1]
     out_dir = sys.argv[2]
@@ -95,9 +116,9 @@ def main():
         if img_raw is None:
             i += 1
             continue
-        boxes = []
+        boxes = load_existing(out_dir, stem, img_raw.shape[1], img_raw.shape[0])
         h, w = img_raw.shape[:2]
-        print("[%d/%d] %s" % (i + 1, len(files), os.path.basename(path)))
+        print("[%d/%d] %s  (已加载 %d 个框)" % (i + 1, len(files), os.path.basename(path), len(boxes)))
         draw()
         while True:
             key = cv2.waitKey(0) & 0xFF
