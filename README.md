@@ -89,7 +89,9 @@ pitta_bird_monitor/
 └── report/                # 设计报告 + 大模型协作记录
     ├── llm_collaboration.md
     ├── design_report.md   # 设计报告源文件
-    └── design_report.pdf  # 设计报告 PDF（A4 排版）
+    ├── design_report.pdf  # 设计报告 PDF（A4 排版）
+    ├── abstract_zh.md     # 作品简介定稿 + 评委追问口径表
+    └── final_poster_en.pptx # 决赛英文一页海报（16:9 单页）
 ```
 
 ## 复现步骤
@@ -192,6 +194,24 @@ conv1 最大误差 < 0.02（205824 点 0 超差），判定 PASS。
 ### 5. 测试
 
 播放鸟鸣声音 → 终端1输出 `TRIGGER` → 终端2输出 `收到声音触发，开始搜鸟` → 检测到鸟 → 开始录像 → 鸟消失后延迟结束 → 回到等待。
+
+### 6. 运行产物落点（简介所说的"照片、视频与预测日志"）
+
+板端 `~/runtime/` 下：
+
+| 目录 | 内容 |
+|------|------|
+| `runtime/annotated/` | `frame_*.jpg` 抓拍快照 + `frame_*.json` 预测日志（时间戳、帧序号、框坐标、置信度、推理耗时） |
+| `runtime/videos/` | 目标存在期间的 MP4 录像 |
+| `runtime/trigger/` | 音频触发文件 `pitta.trigger`、录像锁 `vision_recording.lock` |
+
+### 7. 扩展到其他鸟类
+
+软硬件流程与物种无关，换物种只需替换数据与模型：
+
+1. **音频端**：采集新物种鸣声正样本 + 本地环境负样本，重跑 `train_binary_fixed.py`，替换 `audio_model.npz`；
+2. **视觉端**：按 `pitta.yaml` 的标注格式采集新物种图片，重跑 `03_train.py` 训练 + `04_export.py` 导出 ncnn，替换 `best_ncnn.param/bin`；
+3. 调整部署阈值（当前音频 0.985 / 视觉 conf 0.52）即可，采集核、I2S、DMA、录像状态机全部复用。
 
 ## FPGA 资源占用
 
