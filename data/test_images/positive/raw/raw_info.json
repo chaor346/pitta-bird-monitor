@@ -1,0 +1,155 @@
+{
+ "description": "补充正样本带框结果（中小距离）",
+ "items": [
+  {
+   "file": "pitta_raw_01.jpg",
+   "conf": 0.942,
+   "area_ratio": 0.172
+  },
+  {
+   "file": "pitta_raw_02.jpg",
+   "conf": 0.94,
+   "area_ratio": 0.136
+  },
+  {
+   "file": "pitta_raw_03.jpg",
+   "conf": 0.939,
+   "area_ratio": 0.164
+  },
+  {
+   "file": "pitta_raw_04.jpg",
+   "conf": 0.936,
+   "area_ratio": 0.186
+  },
+  {
+   "file": "pitta_raw_05.jpg",
+   "conf": 0.936,
+   "area_ratio": 0.139
+  },
+  {
+   "file": "pitta_raw_06.jpg",
+   "conf": 0.935,
+   "area_ratio": 0.178
+  },
+  {
+   "file": "pitta_raw_07.jpg",
+   "conf": 0.935,
+   "area_ratio": 0.172
+  },
+  {
+   "file": "pitta_raw_08.jpg",
+   "conf": 0.934,
+   "area_ratio": 0.133
+  },
+  {
+   "file": "pitta_raw_09.jpg",
+   "conf": 0.931,
+   "area_ratio": 0.158
+  },
+  {
+   "file": "pitta_raw_10.jpg",
+   "conf": 0.928,
+   "area_ratio": 0.18
+  },
+  {
+   "file": "pitta_raw_11.jpg",
+   "conf": 0.928,
+   "area_ratio": 0.129
+  },
+  {
+   "file": "pitta_raw_12.jpg",
+   "conf": 0.927,
+   "area_ratio": 0.192
+  },
+  {
+   "file": "pitta_raw_13.jpg",
+   "conf": 0.927,
+   "area_ratio": 0.157
+  },
+  {
+   "file": "pitta_raw_14.jpg",
+   "conf": 0.927,
+   "area_ratio": 0.122
+  },
+  {
+   "file": "pitta_raw_15.jpg",
+   "conf": 0.924,
+   "area_ratio": 0.156
+  },
+  {
+   "file": "pitta_raw_16.jpg",
+   "conf": 0.924,
+   "area_ratio": 0.143
+  },
+  {
+   "file": "pitta_raw_17.jpg",
+   "conf": 0.923,
+   "area_ratio": 0.137
+  },
+  {
+   "file": "pitta_raw_18.jpg",
+   "conf": 0.921,
+   "area_ratio": 0.169
+  },
+  {
+   "file": "pitta_raw_19.jpg",
+   "conf": 0.921,
+   "area_ratio": 0.155
+  },
+  {
+   "file": "pitta_raw_20.jpg",
+   "conf": 0.921,
+   "area_ratio": 0.128
+  },
+  {
+   "file": "pitta_raw_21.jpg",
+   "conf": 0.92,
+   "area_ratio": 0.175
+  },
+  {
+   "file": "pitta_raw_22.jpg",
+   "conf": 0.92,
+   "area_ratio": 0.175
+  },
+  {
+   "file": "pitta_raw_23.jpg",
+   "conf": 0.92,
+   "area_ratio": 0.127
+  },
+  {
+   "file": "pitta_raw_24.jpg",
+   "conf": 0.918,
+   "area_ratio": 0.152
+  },
+  {
+   "file": "pitta_raw_25.jpg",
+   "conf": 0.917,
+   "area_ratio": 0.168
+  },
+  {
+   "file": "pitta_raw_26.jpg",
+   "conf": 0.917,
+   "area_ratio": 0.167
+  },
+  {
+   "file": "pitta_raw_27.jpg",
+   "conf": 0.917,
+   "area_ratio": 0.16
+  },
+  {
+   "file": "pitta_raw_28.jpg",
+   "conf": 0.917,
+   "area_ratio": 0.146
+  },
+  {
+   "file": "pitta_raw_29.jpg",
+   "conf": 0.916,
+   "area_ratio": 0.175
+  },
+  {
+   "file": "pitta_raw_30.jpg",
+   "conf": 0.916,
+   "area_ratio": 0.167
+  }
+ ]
+}

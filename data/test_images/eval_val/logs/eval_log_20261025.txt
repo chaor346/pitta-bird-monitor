@@ -1,0 +1,62 @@
+# 图像评测控制台输出（2026-10-25，PC 本机）
+# 模型：D:\嵌赛\Bird image recognition\best.onnx（= src/ps/best.pt 导出的 ONNX 副本）
+# 环境：Python 3.13.16 + onnxruntime 1.31.0（CPU）+ numpy + opencv-python，无 GPU
+# 参数：conf=0.52  iou=0.45  imgsz=320  letterbox 填充 114  分数列直接取（输出已在图内 sigmoid）
+# 脚本：src/ps/eval_val_onnx.py，以及同目录下的对照实验（见各节标题）
+
+## 1. val 评测（260 张，其中 220 张有标注 / 251 框；含训练池演示集对照）
+# 命令：python src/ps/eval_val_onnx.py --onnx <best.onnx> --images .../images/val --labels .../labels/val --out data/test_images/eval_val --seen-positive data/test_images/positive --seen-negative data/test_images/negative
+{
+  "model": "best.onnx",
+  "conf": 0.52,
+  "iou": 0.45,
+  "imgsz": 320,
+  "images_total": 260,
+  "images_with_gt": 220,
+  "gt_boxes": 251,
+  "detected_images": 209,
+  "image_level_recall": 0.95,
+  "detections_total": 242,
+  "mAP50": 0.8668,
+  "images_without_gt": 40,
+  "images_without_gt_detected": 14,
+  "images_without_gt_note": "这些图没有标注文件、但目视含鸟，不能当负样本，故不计入误报率",
+  "seen_positive_images": 90,
+  "seen_positive_detected": 89,
+  "seen_positive_rate": 0.9889,
+  "seen_negative_images": 50,
+  "seen_negative_detected": 0,
+  "seen_negative_fp_rate": 0.0
+}
+
+## 2. 训练池有标注子集（raw_pitta 1,061 张 / 1,236 框）
+labeled imgs 1061 gt boxes 1236
+detected any 1052 0.9915
+detected IoU>=0.5 1046 0.9859
+missed 9 ['pitta_057605c8f2fe.jpg', 'pitta_0a0850ef2678.jpg', 'pitta_0efdf6741818.jpg', 'pitta_2f6d516b5fad.jpg', 'pitta_45703a7f540f.jpg']
+
+## 3. raw_pitta 全量 1,302 张 + 阈值/双 sigmoid 对照
+raw_pitta jpg 1302 detected 1090 rate 0.8372 fail 0 []
+val labeled 220 direct>=0.52 209 0.95 double>=0.52 218 0.9909 direct>=0.50 210 0.9545
+
+## 4. 负样本 380 张（data/neg：321 其他鸟 + 59 纯背景）
+neg images 380 false positives 0 rate 0.0 max score 0.0
+fp list []
+
+## 5. 板端翻拍 5 张检出 + 拉伸预处理对照（300 张抽样）
+sample 300 letterbox 257 0.8567 stretch 251 0.8367
+board_captured [('board_01.png', 1, 0.908), ('board_02.png', 1, 0.924), ('board_03.png', 1, 0.94), ('board_04.png', 1, 0.869), ('board_05.png', 2, 0.903)]
+
+## 6. val 与训练集重复检查
+train 1643 val 260 val byte-identical to a train image: 221 0.85
+sample dup ['pitta_002d667ac16c.jpg', 'pitta_01b691ac8680.jpg', 'pitta_035bcbf8366a.jpg', 'pitta_047b1d0c0909.jpg', 'pitta_048fb73cf2b6.jpg']
+val identical to raw_pitta: 260
+train pitta 1263 val pitta 260
+hamming<=0: 221/260 (85.0%)
+hamming<=2: 221/260 (85.0%)
+hamming<=4: 221/260 (85.0%)
+hamming<=6: 221/260 (85.0%)
+hamming<=10: 221/260 (85.0%)
+hamming<=15: 221/260 (85.0%)
+hamming<=20: 229/260 (88.1%)
+median 0 max 24

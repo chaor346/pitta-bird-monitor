@@ -1,0 +1,320 @@
+{
+ "description": "带框正样本，按鸟在画面中明显的大/中/小分三档（close框≥50%，medium 20-30%，far 3-8%）",
+ "groups": {
+  "close": {
+   "count": 20,
+   "items": [
+    {
+     "file": "pitta_close_01.jpg",
+     "conf": 0.984,
+     "area_ratio": 0.67
+    },
+    {
+     "file": "pitta_close_02.jpg",
+     "conf": 0.972,
+     "area_ratio": 0.538
+    },
+    {
+     "file": "pitta_close_03.jpg",
+     "conf": 0.959,
+     "area_ratio": 0.736
+    },
+    {
+     "file": "pitta_close_04.jpg",
+     "conf": 0.952,
+     "area_ratio": 0.65
+    },
+    {
+     "file": "pitta_close_05.jpg",
+     "conf": 0.952,
+     "area_ratio": 0.617
+    },
+    {
+     "file": "pitta_close_06.jpg",
+     "conf": 0.949,
+     "area_ratio": 0.543
+    },
+    {
+     "file": "pitta_close_07.jpg",
+     "conf": 0.943,
+     "area_ratio": 0.587
+    },
+    {
+     "file": "pitta_close_08.jpg",
+     "conf": 0.94,
+     "area_ratio": 0.666
+    },
+    {
+     "file": "pitta_close_09.jpg",
+     "conf": 0.937,
+     "area_ratio": 0.512
+    },
+    {
+     "file": "pitta_close_10.jpg",
+     "conf": 0.935,
+     "area_ratio": 0.526
+    },
+    {
+     "file": "pitta_close_11.jpg",
+     "conf": 0.934,
+     "area_ratio": 0.569
+    },
+    {
+     "file": "pitta_close_12.jpg",
+     "conf": 0.933,
+     "area_ratio": 0.656
+    },
+    {
+     "file": "pitta_close_13.jpg",
+     "conf": 0.933,
+     "area_ratio": 0.52
+    },
+    {
+     "file": "pitta_close_14.jpg",
+     "conf": 0.931,
+     "area_ratio": 0.621
+    },
+    {
+     "file": "pitta_close_15.jpg",
+     "conf": 0.931,
+     "area_ratio": 0.57
+    },
+    {
+     "file": "pitta_close_16.jpg",
+     "conf": 0.929,
+     "area_ratio": 0.589
+    },
+    {
+     "file": "pitta_close_17.jpg",
+     "conf": 0.929,
+     "area_ratio": 0.504
+    },
+    {
+     "file": "pitta_close_18.jpg",
+     "conf": 0.928,
+     "area_ratio": 0.719
+    },
+    {
+     "file": "pitta_close_19.jpg",
+     "conf": 0.927,
+     "area_ratio": 0.538
+    },
+    {
+     "file": "pitta_close_20.jpg",
+     "conf": 0.927,
+     "area_ratio": 0.531
+    }
+   ]
+  },
+  "medium": {
+   "count": 20,
+   "items": [
+    {
+     "file": "pitta_medium_01.jpg",
+     "conf": 0.946,
+     "area_ratio": 0.259
+    },
+    {
+     "file": "pitta_medium_02.jpg",
+     "conf": 0.945,
+     "area_ratio": 0.216
+    },
+    {
+     "file": "pitta_medium_03.jpg",
+     "conf": 0.942,
+     "area_ratio": 0.263
+    },
+    {
+     "file": "pitta_medium_04.jpg",
+     "conf": 0.941,
+     "area_ratio": 0.298
+    },
+    {
+     "file": "pitta_medium_05.jpg",
+     "conf": 0.938,
+     "area_ratio": 0.225
+    },
+    {
+     "file": "pitta_medium_06.jpg",
+     "conf": 0.937,
+     "area_ratio": 0.28
+    },
+    {
+     "file": "pitta_medium_07.jpg",
+     "conf": 0.937,
+     "area_ratio": 0.203
+    },
+    {
+     "file": "pitta_medium_08.jpg",
+     "conf": 0.936,
+     "area_ratio": 0.298
+    },
+    {
+     "file": "pitta_medium_09.jpg",
+     "conf": 0.936,
+     "area_ratio": 0.228
+    },
+    {
+     "file": "pitta_medium_10.jpg",
+     "conf": 0.934,
+     "area_ratio": 0.244
+    },
+    {
+     "file": "pitta_medium_11.jpg",
+     "conf": 0.934,
+     "area_ratio": 0.201
+    },
+    {
+     "file": "pitta_medium_12.jpg",
+     "conf": 0.933,
+     "area_ratio": 0.265
+    },
+    {
+     "file": "pitta_medium_13.jpg",
+     "conf": 0.933,
+     "area_ratio": 0.244
+    },
+    {
+     "file": "pitta_medium_14.jpg",
+     "conf": 0.933,
+     "area_ratio": 0.208
+    },
+    {
+     "file": "pitta_medium_15.jpg",
+     "conf": 0.932,
+     "area_ratio": 0.23
+    },
+    {
+     "file": "pitta_medium_16.jpg",
+     "conf": 0.931,
+     "area_ratio": 0.249
+    },
+    {
+     "file": "pitta_medium_17.jpg",
+     "conf": 0.931,
+     "area_ratio": 0.225
+    },
+    {
+     "file": "pitta_medium_18.jpg",
+     "conf": 0.93,
+     "area_ratio": 0.269
+    },
+    {
+     "file": "pitta_medium_19.jpg",
+     "conf": 0.928,
+     "area_ratio": 0.259
+    },
+    {
+     "file": "pitta_medium_20.jpg",
+     "conf": 0.927,
+     "area_ratio": 0.281
+    }
+   ]
+  },
+  "far": {
+   "count": 20,
+   "items": [
+    {
+     "file": "pitta_far_01.jpg",
+     "conf": 0.91,
+     "area_ratio": 0.064
+    },
+    {
+     "file": "pitta_far_02.jpg",
+     "conf": 0.908,
+     "area_ratio": 0.051
+    },
+    {
+     "file": "pitta_far_03.jpg",
+     "conf": 0.904,
+     "area_ratio": 0.03
+    },
+    {
+     "file": "pitta_far_04.jpg",
+     "conf": 0.902,
+     "area_ratio": 0.079
+    },
+    {
+     "file": "pitta_far_05.jpg",
+     "conf": 0.9,
+     "area_ratio": 0.066
+    },
+    {
+     "file": "pitta_far_06.jpg",
+     "conf": 0.9,
+     "area_ratio": 0.064
+    },
+    {
+     "file": "pitta_far_07.jpg",
+     "conf": 0.898,
+     "area_ratio": 0.074
+    },
+    {
+     "file": "pitta_far_08.jpg",
+     "conf": 0.893,
+     "area_ratio": 0.065
+    },
+    {
+     "file": "pitta_far_09.jpg",
+     "conf": 0.891,
+     "area_ratio": 0.056
+    },
+    {
+     "file": "pitta_far_10.jpg",
+     "conf": 0.89,
+     "area_ratio": 0.064
+    },
+    {
+     "file": "pitta_far_11.jpg",
+     "conf": 0.885,
+     "area_ratio": 0.074
+    },
+    {
+     "file": "pitta_far_12.jpg",
+     "conf": 0.882,
+     "area_ratio": 0.077
+    },
+    {
+     "file": "pitta_far_13.jpg",
+     "conf": 0.879,
+     "area_ratio": 0.072
+    },
+    {
+     "file": "pitta_far_14.jpg",
+     "conf": 0.876,
+     "area_ratio": 0.052
+    },
+    {
+     "file": "pitta_far_15.jpg",
+     "conf": 0.876,
+     "area_ratio": 0.032
+    },
+    {
+     "file": "pitta_far_16.jpg",
+     "conf": 0.874,
+     "area_ratio": 0.067
+    },
+    {
+     "file": "pitta_far_17.jpg",
+     "conf": 0.869,
+     "area_ratio": 0.078
+    },
+    {
+     "file": "pitta_far_18.jpg",
+     "conf": 0.868,
+     "area_ratio": 0.052
+    },
+    {
+     "file": "pitta_far_19.jpg",
+     "conf": 0.864,
+     "area_ratio": 0.04
+    },
+    {
+     "file": "pitta_far_20.jpg",
+     "conf": 0.857,
+     "area_ratio": 0.05
+    }
+   ]
+  }
+ }
+}

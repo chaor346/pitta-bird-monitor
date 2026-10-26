@@ -1,0 +1,30 @@
+指标名称,类别,数值,单位,测量条件,测试次数,证据文件
+音频采样率,核心,32000,Hz,INMP441+I2S核+AXI DMA；FPGA设计值,100MHz FCLK0,build/utilization.rpt
+音频采集吞吐,核心,256000,bytes/s,32000Hz*2声道*4字节=256000；理论值,连续,build/system.bda
+音频窗口级特异性,AI,100,%,PC numpy实测；18段负样本2063个2s窗口无一≥0.5,2063,data/test_audio/
+音频负样本最高分,AI,0.0329,score,PC numpy实测；距0.5阈值约15倍余量,2063,data/test_audio/negative/other_birds/neg_bird_carpodacus_sibiricus_ussuriensis_predictions.csv
+音频正样本检出窗口,AI,724,个,PC numpy实测；9段正样本1474窗口中score≥0.5（板端阈值0.985下500个）,1474,data/test_audio/manifest.csv
+音频事件级召回率,AI,97.4,%,PC numpy实测；9段正样本155个人耳核对事件；板端阈值0.985下事件有任意窗口≥0.985即算检出（0.5阈值下98.1%、窗口级90.6%/95.4%）；漏检4处其中2处在xc188359；真值取自录音母本非板端实录,155,data/test_audio/positive/recall_results/recall_results.csv
+图像检出率,AI,99.2,%,PC onnxruntime实测；raw_pitta 有标注1061张检出1052张；conf0.52 imgsz320 letterbox（训练池口径）,1061,data/test_images/eval_val/logs/eval_log_20261025.txt
+图像特异性,AI,100,%,PC onnxruntime实测；data/neg 380张（321其他鸟+59纯背景）0误报，最高分0.0（已见负样本口径）,380,data/test_images/eval_val/logs/eval_log_20261025.txt
+图像检测mAP,AI,86.7,%,PC onnxruntime实测；images/val 有标注220张/251框；val 与训练集同源（221/260字节相同），仅训练池口径,220,data/test_images/eval_val/metrics.json
+图像板端推理延迟,核心,5.65~6.72,s,板端ncnn 320x320 双核；端到端联动日志 RECORD-INFER 6 次抽样（均值6.17，不是基准测试）,6,board/test_output/end_to_end_20261024.md
+音频单窗口推理延迟,核心,2075,ms,板端单窗口实测（2s音频，含STFT/mel/conv/numpy）；检测总延迟=窗口填充+推理+hop，未单独计时,1,board/test_output/end_to_end_20261024.md
+端到端响应延迟,核心,约10.5,s,单次实测：鸟鸣TRIGGER 22:18:26.9→开始录像22:18:37（日志为秒级时间戳，误差±0.5s）；P50/P99需多次重复,1,board/test_output/end_to_end_20261024.md
+录像后滚时间,核心,约11.9,s,单次实测：无鸟帧跨度span=11.90s（misses=3后停止）；absence-hits=3叠加每次约6s推理,1,board/test_output/end_to_end_20261024.md
+conv1 GEMM核纯计算耗时,FPGA,6.7,ms,板端e2e_board.py --repeat 5（旧计时口径：等完DMA后才起算、只打印最后一次，属核完成时间下界；脚本已改为从ap_start起算，重跑以新值为准）,1,build/gemm/README.md
+conv1硬件vs浮点最大误差,FPGA,0.001838,误差,205824点逐点|hw-fp|，容差0.02下0点超差；端到端分数0.997878 vs 0.997876,205824,build/gemm/README.md
+GEMM公平加速比,FPGA,待实测,—,硬件conv1端到端(含数据搬运) vs numpy conv1单独，需补测,—,build/gemm/README.md
+GEMM overlay LUT占用,FPGA,10.11,%,GEMM块图(HLS核+3DMA+互联)；Vivado 2026.1 routed实测 5376/53200,综合实现,build/gemm/gemm_utilization.rpt
+GEMM overlay FF占用,FPGA,7.05,%,GEMM块图 routed实测 7505/106400,综合实现,build/gemm/gemm_utilization.rpt
+GEMM overlay BRAM占用,FPGA,7.86,%,GEMM块图 routed实测 11/140 tile(3 RAMB36+16 RAMB18),综合实现,build/gemm/gemm_utilization.rpt
+GEMM overlay DSP占用,FPGA,30.45,%,GEMM块图 routed实测 67/220,综合实现,build/gemm/gemm_utilization.rpt
+GEMM overlay时钟,FPGA,100,MHz,FCLK0；WNS=+1.520ns、WHS=+0.008ns时序收敛,时序收敛,build/gemm/gemm_timing.rpt
+GEMM overlay总功耗,FPGA,1.741,W,Vivado功耗估算 动态1.602+静态0.139；confidence=Medium；结温45.1℃为估算,功耗分析,build/gemm/gemm_power.rpt
+音频overlay LUT占用,FPGA,3.15,%,XC7Z020 I2S+DMA；Vivado 2026.1实测,综合实现,build/utilization.rpt
+音频overlay FF占用,FPGA,2.14,%,XC7Z020 I2S+DMA；Vivado 2026.1实测,综合实现,build/utilization.rpt
+音频overlay BRAM占用,FPGA,0.71,%,XC7Z020 I2S+DMA；Vivado 2026.1实测,综合实现,build/utilization.rpt
+音频overlay DSP占用,FPGA,0,%,XC7Z020 I2S+DMA；Vivado 2026.1实测,综合实现,build/utilization.rpt
+音频overlay时钟频率,FPGA,100,MHz,FCLK0；WNS=+2.029ns时序收敛,时序收敛,build/timing.rpt
+音频overlay总功耗,FPGA,1.684,W,Vivado功耗估算；confidence=Low、无仿真活动文件、环境温度按25℃假设；结温44.4℃为估算值，非上板实测,功耗分析,build/power.rpt
+系统连续运行,可靠性,待实测,h,无人工干预无崩溃，需上板长测；用 board/stability_monitor.sh 采集，注意音频每约31分钟正常重启会递增 NRestarts,—,board/test_output/（待采集 stability_log.csv）

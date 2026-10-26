@@ -1,0 +1,65 @@
+{
+  "device": "xc7z020clg400-1",
+  "tool": "Vivado v.2026.1 (win64) Build 6511674 Tue Jun 16 11:02:23 MDT 2026",
+  "design_state": "Fully Placed",
+  "resources": {
+    "lut": {
+      "label": "LUT",
+      "register_name": "Slice LUTs",
+      "used": 1675,
+      "available": 53200,
+      "util_percent": 3.15
+    },
+    "ff": {
+      "label": "FF",
+      "register_name": "Slice Registers",
+      "used": 2281,
+      "available": 106400,
+      "util_percent": 2.14
+    },
+    "bram": {
+      "label": "BRAM",
+      "register_name": "Block RAM Tile",
+      "used": 1,
+      "available": 140,
+      "util_percent": 0.71
+    },
+    "dsp": {
+      "label": "DSP",
+      "register_name": "DSPs",
+      "used": 0,
+      "available": 220,
+      "util_percent": 0.0
+    },
+    "bufg": {
+      "label": "BUFG",
+      "register_name": "BUFGCTRL",
+      "used": 1,
+      "available": 32,
+      "util_percent": 3.13
+    },
+    "mmcm": {
+      "label": "MMCM/PLL",
+      "register_name": "MMCME2_ADV",
+      "used": 0,
+      "available": 4,
+      "util_percent": 0.0
+    }
+  },
+  "timing": {
+    "constraints_met": true,
+    "wns_ns": 2.029,
+    "tns_ns": 0.0,
+    "whs_ns": 0.016,
+    "ths_ns": 0.0,
+    "failing_endpoints": 0.0,
+    "total_endpoints": 6748.0,
+    "clocks": [
+      {
+        "name": "clk_fpga_0",
+        "period_ns": 10.0,
+        "frequency_mhz": 100.0
+      }
+    ]
+  }
+}

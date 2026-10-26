@@ -1,0 +1,93 @@
+# 技能包自检日志
+# 生成时间：2026-10-26 20:12:19
+
+===== hwh_probe.py --self-test [PASS] =====
+$ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\hwh_probe.py --self-test
+退出码 0，耗时 0.17s
+hwh_probe self-test: OK（解析/基址/寄存器/禁用通道/驱动骨架/偏移对账）
+
+===== bd_lint.py --self-test [PASS] =====
+$ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\bd_lint.py --self-test
+退出码 0，耗时 0.16s
+bd_lint self-test: OK（续行解析/多 pin 捕获/5 类结构规则/XDC 约束/hwh 连通性）
+
+===== vivado_report.py --self-test [PASS] =====
+$ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\vivado_report.py --self-test
+退出码 0，耗时 0.19s
+vivado_report self-test: OK（资源行/时序摘要/时钟/基线对比/回归判定）
+
+===== golden_compare.py --self-test [PASS] =====
+$ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\golden_compare.py --self-test
+退出码 0，耗时 0.57s
+比对 ref.csv vs ok.csv（csv 模式，atol=1e-05 rtol=0）
+  行数：3  列数：3
+  比对单元：9  超差：0
+  列 id           [数值] 超差 0/3
+      最大绝对误差 0  最大相对误差 0
+  列 value        [数值] 超差 0/3
+      最大绝对误差 1e-06  最大相对误差 3.33333e-07
+  列 label        [文本] 超差 0/3
+  结论：在给定容差内一致
+比对 ref.csv vs bad.csv（csv 模式，atol=1e-05 rtol=0）
+  行数：3  列数：3
+  比对单元：9  超差：1
+  列 id           [数值] 超差 0/3
+      最大绝对误差 0  最大相对误差 0
+  列 value        [数值] 超差 1/3
+      最大绝对误差 0.1  最大相对误差 0.0333333
+  列 label        [文本] 超差 0/3
+  结论：存在超差，功能/数值不等价
+golden_compare self-test: OK（CSV 容差/文本列精确/NPY 形状/数值）
+
+===== hwh 解析 [PASS] =====
+$ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\hwh_probe.py D:\嵌赛\pitta_bird_monitor\build\inmp441.hwh --quiet --compact --json D:\嵌赛\pitta_bird_monitor\skill\verification\hwh_summary.json
+退出码 0，耗时 0.14s
+
+已写出 D:\嵌赛\pitta_bird_monitor\skill\verification\hwh_summary.json
+
+===== 块图检查 [PASS] =====
+$ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\bd_lint.py --tcl D:\嵌赛\pitta_bird_monitor\build/build.tcl --hwh D:\嵌赛\pitta_bird_monitor\build\inmp441.hwh --xdc D:\嵌赛\pitta_bird_monitor\src/fpga\inmp441_pmodb.xdc --json D:\嵌赛\pitta_bird_monitor\skill\verification\bd_lint.json
+退出码 0，耗时 0.17s
+[WARN ] H004  axi_dma_0：参数 C_INCLUDE_MM2S=0，说明 MM2S 通道未实现，但寄存器表把 MM2S_DMACR, MM2S_DMASR, MM2S_SA, MM2S_SA_MSB 等 标为启用。读写这些寄存器不会有任何效果（读回复位值），不要据此判断通道是否工作。
+[INFO ] H005  processing_system7_0.S_AXI_HP0_RDISSUECAP1_EN 未接（该 IP 的可选/调试口，通常可以不接）
+[INFO ] H005  processing_system7_0.S_AXI_HP0_WRISSUECAP1_EN 未接（该 IP 的可选/调试口，通常可以不接）
+[INFO ] H005  rst_ps7_0_100M.aux_reset_in 未接（该 IP 的可选/调试口，通常可以不接）
+[INFO ] H005  rst_ps7_0_100M.dcm_locked 未接（该 IP 的可选/调试口，通常可以不接）
+[INFO ] H005  rst_ps7_0_100M.mb_debug_sys_rst 未接（该 IP 的可选/调试口，通常可以不接）
+[INFO ] T008  自定义模块引用：i2s_mems_rx_0（需确认综合时能找到源码，且端口名与 XDC/顶层一致）
+
+检查输入：D:\嵌赛\pitta_bird_monitor\build/build.tcl；D:\嵌赛\pitta_bird_monitor\build\inmp441.hwh；D:\嵌赛\pitta_bird_monitor\src/fpga\inmp441_pmodb.xdc
+汇总：ERROR=0  WARN=1  INFO=6
+结论：未发现阻断性问题。注意本工具只覆盖已固化的规则，仍应在 Vivado 里跑 validate_bd_design 并做上板验证。
+已写出 D:\嵌赛\pitta_bird_monitor\skill\verification\bd_lint.json
+
+===== DMA 测试计划 [PASS] =====
+$ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\dma_selftest.py --hwh D:\嵌赛\pitta_bird_monitor\build\inmp441.hwh --dry-run
+退出码 0，耗时 0.20s
+Overlay 硬件信息：zynq 7z020clg400-1
+
+DMA 实例：axi_dma_0 (xilinx.com:ip:axi_dma:7.1)
+  基址=0x40400000  范围=65536
+  通道 S2MM：已实现
+  通道 MM2S：未实现（跳过）
+  通道 S2MM 将使用的寄存器（偏移取自 .hwh）：
+    S2MM_DA                  0x48
+    S2MM_DA_MSB              0x4C
+    S2MM_DMACR               0x30
+    S2MM_DMASR               0x34
+    S2MM_LENGTH              0x58
+
+板端计划：对每个已实现通道 —— 预填已知模式并 flush → 由 PYNQ DMA 驱动发起传输并计时 → invalidate 缓存 → 统计被覆盖字数 → 读回 DMASR 错误位。
+判定：覆盖字数必须 > 0（否则是"传输完成但数据没来"），错误位必须为 0。
+
+===== 综合/实现指标 [PASS] =====
+$ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\vivado_report.py --utilization D:\嵌赛\pitta_bird_monitor\build/utilization.rpt --timing D:\嵌赛\pitta_bird_monitor\build/timing.rpt --quiet --no-fail --md D:\嵌赛\pitta_bird_monitor\skill\verification\vivado_summary.md --json D:\嵌赛\pitta_bird_monitor\skill\verification\vivado_summary.json
+退出码 0，耗时 0.19s
+已写出 D:\嵌赛\pitta_bird_monitor\skill\verification\vivado_summary.md
+已写出 D:\嵌赛\pitta_bird_monitor\skill\verification\vivado_summary.json
+
+===== 构建脚本可复现 [PASS] =====
+2 个 add_files 引用全部存在（另有 1 个含 tcl 变量的路径未静态核对）
+
+===== 命名规范（纯英文） [PASS] =====
+所有目录与文件名均符合英文命名要求

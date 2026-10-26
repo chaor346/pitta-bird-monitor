@@ -1,0 +1,6 @@
+# PC 端依赖（Windows 上建议 Python 3.9 ~ 3.11）
+ultralytics>=8.1.0
+opencv-python
+numpy
+# 标注工具（单独装一次即可）
+labelImg

@@ -1,0 +1,9 @@
+# YOLOv8 数据集配置
+# 路径相对于本文件所在目录
+path: ./data
+train: images/train
+val: images/val
+
+# 类别：目前只有仙八色鸫一类
+names:
+  0: fairy_pitta

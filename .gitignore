@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Jupyter 运行态（注意：带 token 的页面存档和运行结果不要提交）
+.ipynb_checkpoints/
+*_files/
+
+# 板端运行时产物（属于运行结果，不进仓库）
+/runtime/
+/results_*/
+*.mp4
+*.avi
+
+# 临时文件
+*.tmp
+*.bak
+*.orig

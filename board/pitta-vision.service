@@ -1,0 +1,32 @@
+[Unit]
+Description=Pitta visual detection and recording
+Requires=pl_server.service
+After=local-fs.target pl_server.service boot_leds.service
+# 2 分钟内失败 3 次即放弃，不再反复开机/重载（防止拖死板子）
+StartLimitIntervalSec=120
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/xilinx
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONIOENCODING=utf-8
+Environment=LANG=C.UTF-8
+Environment=LC_ALL=C.UTF-8
+Environment=OPENBLAS_NUM_THREADS=1
+Environment=OMP_NUM_THREADS=1
+# 开机后等系统/USB/PL 稳定（摄像头枚举由脚本内就绪门再兜底）
+ExecStartPre=/bin/sleep 20
+ExecStart=/bin/bash /home/xilinx/start_pitta_vision.sh
+# 异常退出会自动拉起；上面的 StartLimit 负责兜住崩溃循环，避免反复重配 FPGA
+Restart=always
+RestartSec=15
+KillSignal=SIGINT
+KillMode=mixed
+TimeoutStopSec=90
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,155 @@
+{
+ "description": "其他鸟类难负样本（均含鸟），模型正确拒绝（maxconf<0.52），无框",
+ "items": [
+  {
+   "file": "neg_bird_01.jpg",
+   "species": "麻雀",
+   "model_maxconf": 0.399
+  },
+  {
+   "file": "neg_bird_02.jpg",
+   "species": "麻雀",
+   "model_maxconf": 0.115
+  },
+  {
+   "file": "neg_bird_03.jpg",
+   "species": "麻雀",
+   "model_maxconf": 0.0
+  },
+  {
+   "file": "neg_bird_04.jpg",
+   "species": "麻雀",
+   "model_maxconf": 0.012
+  },
+  {
+   "file": "neg_bird_05.jpg",
+   "species": "麻雀",
+   "model_maxconf": 0.002
+  },
+  {
+   "file": "neg_bird_06.jpg",
+   "species": "白头鹎",
+   "model_maxconf": 0.317
+  },
+  {
+   "file": "neg_bird_07.jpg",
+   "species": "白头鹎",
+   "model_maxconf": 0.002
+  },
+  {
+   "file": "neg_bird_08.jpg",
+   "species": "白头鹎",
+   "model_maxconf": 0.0
+  },
+  {
+   "file": "neg_bird_09.jpg",
+   "species": "鹎(幼)",
+   "model_maxconf": 0.002
+  },
+  {
+   "file": "neg_bird_10.jpg",
+   "species": "大山雀",
+   "model_maxconf": 0.297
+  },
+  {
+   "file": "neg_bird_11.jpg",
+   "species": "大山雀",
+   "model_maxconf": 0.001
+  },
+  {
+   "file": "neg_bird_12.jpg",
+   "species": "乌鸫",
+   "model_maxconf": 0.286
+  },
+  {
+   "file": "neg_bird_13.jpg",
+   "species": "乌鸫",
+   "model_maxconf": 0.183
+  },
+  {
+   "file": "neg_bird_14.jpg",
+   "species": "乌鸫",
+   "model_maxconf": 0.002
+  },
+  {
+   "file": "neg_bird_15.jpg",
+   "species": "绣眼鸟",
+   "model_maxconf": 0.226
+  },
+  {
+   "file": "neg_bird_16.jpg",
+   "species": "绣眼鸟",
+   "model_maxconf": 0.137
+  },
+  {
+   "file": "neg_bird_17.jpg",
+   "species": "鹊鸲",
+   "model_maxconf": 0.121
+  },
+  {
+   "file": "neg_bird_18.jpg",
+   "species": "鹊鸲",
+   "model_maxconf": 0.246
+  },
+  {
+   "file": "neg_bird_19.jpg",
+   "species": "红耳鹎",
+   "model_maxconf": 0.16
+  },
+  {
+   "file": "neg_bird_20.jpg",
+   "species": "红耳鹎",
+   "model_maxconf": 0.005
+  },
+  {
+   "file": "neg_bird_21.jpg",
+   "species": "红耳鹎",
+   "model_maxconf": 0.004
+  },
+  {
+   "file": "neg_bird_22.jpg",
+   "species": "斑胸钩嘴鹛",
+   "model_maxconf": 0.016
+  },
+  {
+   "file": "neg_bird_23.jpg",
+   "species": "斑胸钩嘴鹛",
+   "model_maxconf": 0.004
+  },
+  {
+   "file": "neg_bird_24.jpg",
+   "species": "钩嘴鹛",
+   "model_maxconf": 0.009
+  },
+  {
+   "file": "neg_bird_25.jpg",
+   "species": "北红尾鸲",
+   "model_maxconf": 0.003
+  },
+  {
+   "file": "neg_bird_26.jpg",
+   "species": "北红尾鸲",
+   "model_maxconf": 0.001
+  },
+  {
+   "file": "neg_bird_27.jpg",
+   "species": "蜡嘴雀",
+   "model_maxconf": 0.026
+  },
+  {
+   "file": "neg_bird_28.jpg",
+   "species": "蜡嘴雀",
+   "model_maxconf": 0.0
+  },
+  {
+   "file": "neg_bird_29.jpg",
+   "species": "鹎",
+   "model_maxconf": 0.004
+  },
+  {
+   "file": "neg_bird_30.jpg",
+   "species": "北红尾鸲",
+   "model_maxconf": 0.185
+  }
+ ]
+}

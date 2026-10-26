@@ -1,0 +1,44 @@
+{
+  "sources": [
+    "D:\\嵌赛\\pitta_bird_monitor\\build/build.tcl",
+    "D:\\嵌赛\\pitta_bird_monitor\\build\\inmp441.hwh",
+    "D:\\嵌赛\\pitta_bird_monitor\\src/fpga\\inmp441_pmodb.xdc"
+  ],
+  "problems": [
+    {
+      "severity": "info",
+      "rule": "T008",
+      "message": "自定义模块引用：i2s_mems_rx_0（需确认综合时能找到源码，且端口名与 XDC/顶层一致）"
+    },
+    {
+      "severity": "info",
+      "rule": "H005",
+      "message": "processing_system7_0.S_AXI_HP0_RDISSUECAP1_EN 未接（该 IP 的可选/调试口，通常可以不接）"
+    },
+    {
+      "severity": "info",
+      "rule": "H005",
+      "message": "processing_system7_0.S_AXI_HP0_WRISSUECAP1_EN 未接（该 IP 的可选/调试口，通常可以不接）"
+    },
+    {
+      "severity": "info",
+      "rule": "H005",
+      "message": "rst_ps7_0_100M.aux_reset_in 未接（该 IP 的可选/调试口，通常可以不接）"
+    },
+    {
+      "severity": "info",
+      "rule": "H005",
+      "message": "rst_ps7_0_100M.dcm_locked 未接（该 IP 的可选/调试口，通常可以不接）"
+    },
+    {
+      "severity": "info",
+      "rule": "H005",
+      "message": "rst_ps7_0_100M.mb_debug_sys_rst 未接（该 IP 的可选/调试口，通常可以不接）"
+    },
+    {
+      "severity": "warn",
+      "rule": "H004",
+      "message": "axi_dma_0：参数 C_INCLUDE_MM2S=0，说明 MM2S 通道未实现，但寄存器表把 MM2S_DMACR, MM2S_DMASR, MM2S_SA, MM2S_SA_MSB 等 标为启用。读写这些寄存器不会有任何效果（读回复位值），不要据此判断通道是否工作。"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "model": "best.onnx",
+  "conf": 0.52,
+  "iou": 0.45,
+  "imgsz": 320,
+  "images_total": 260,
+  "images_with_gt": 220,
+  "gt_boxes": 251,
+  "detected_images": 209,
+  "image_level_recall": 0.95,
+  "detections_total": 242,
+  "mAP50": 0.8668,
+  "images_without_gt": 40,
+  "images_without_gt_detected": 14,
+  "images_without_gt_note": "这些图没有标注文件、但目视含鸟，不能当负样本，故不计入误报率",
+  "seen_positive_images": 90,
+  "seen_positive_detected": 89,
+  "seen_positive_rate": 0.9889,
+  "seen_negative_images": 50,
+  "seen_negative_detected": 0,
+  "seen_negative_fp_rate": 0.0
+}

@@ -1,0 +1,176 @@
+# 板端文件清单（PYNQ-Z2，/home/xilinx）
+# 来源：用户提供的网页存档（Downloads\日志.html），保存自 http://192.168.2.99:9001/tree
+# 整理：2026-10-25，解析 HTML 后仅保留条目名与修改时间；原始网页内嵌 Jupyter 访问 token，未收录
+# 用途：证明板端存在哪些可执行文件与运行产物（results_* 目录、runtime、模型、二进制）
+# 局限：这不是推理耗时/串口日志，不能作为延迟、端到端 P50/P99、连续无崩溃的证据
+#
+# 条目：共 160 项（目录 94 / 文件 66）
+# 汇总：results_av* 目录 76 个；results_av_manual_* 10 个，最近一次 2026-10-24 21:14
+#   runtime 最后修改 2026-10-25 01:55（当晚有持续运行，是否无中断需内部日志确认）
+#   infer_ncnn / best_ncnn.param / best_ncnn.bin / audio_model.npz / inmp441.bit / inmp441.hwh 均在位
+#
+# 格式：类型	名称	最后修改	页面显示
+
+[目录] 按最后修改倒序
+folder	results_av_manual_20261024_175636	2026-10-25 02:01	7 小时前
+folder	runtime	2026-10-25 01:55	8 小时前
+folder	board	2026-10-24 21:25	12 小时前
+folder	results_av_manual_20261024_211413	2026-10-24 21:14	12 小时前
+folder	results_av_manual_20261024_211257	2026-10-24 21:13	12 小时前
+folder	results_av_manual_20261024_210430	2026-10-24 21:05	12 小时前
+folder	results_av_manual_20261024_210232	2026-10-24 21:02	12 小时前
+folder	results_av_manual_20261024_205355	2026-10-24 20:55	13 小时前
+folder	results_av_manual_20261024_195129	2026-10-24 19:52	14 小时前
+folder	results_av_manual_20261024_194903	2026-10-24 19:49	14 小时前
+folder	results_audio_time_01	2026-10-24 19:46	14 小时前
+folder	results_av_manual_20261018_072100	2026-10-18 15:22	7 天前
+folder	results_av_manual	2026-10-18 15:11	7 天前
+folder	results_av_20261018_070739	2026-10-18 15:07	7 天前
+folder	results_av_20261018_070739_2	2026-10-18 15:07	7 天前
+folder	results_av_20261018_070739_3	2026-10-18 15:07	7 天前
+folder	results_av_20261018_070739_4	2026-10-18 15:07	7 天前
+folder	results_av_20261018_070739_5	2026-10-18 15:07	7 天前
+folder	results_av_20261018_070740	2026-10-18 15:07	7 天前
+folder	results_av_20261018_070740_2	2026-10-18 15:07	7 天前
+folder	results_av_20261018_070740_3	2026-10-18 15:07	7 天前
+folder	results_av_20261018_070740_4	2026-10-18 15:07	7 天前
+folder	results_av_20261018_070740_5	2026-10-18 15:07	7 天前
+folder	results_av_20261018_070741	2026-10-18 15:07	7 天前
+folder	results_av_20261018_064502	2026-10-18 14:45	7 天前
+folder	results_av_20261018_064525	2026-10-18 14:45	7 天前
+folder	results_av_20261018_064531	2026-10-18 14:45	7 天前
+folder	results_av_20261018_064416	2026-10-18 14:44	7 天前
+folder	results_av_20261018_064439	2026-10-18 14:44	7 天前
+folder	results_av_20261018_064307	2026-10-18 14:43	7 天前
+folder	results_av_20261018_064330	2026-10-18 14:43	7 天前
+folder	results_av_20261018_064353	2026-10-18 14:43	7 天前
+folder	results_av_20261018_064221	2026-10-18 14:42	7 天前
+folder	results_av_20261018_064244	2026-10-18 14:42	7 天前
+folder	results_av_20261018_064112	2026-10-18 14:41	7 天前
+folder	results_av_20261018_064135	2026-10-18 14:41	7 天前
+folder	results_av_20261018_064158	2026-10-18 14:41	7 天前
+folder	results_av_20261018_064003	2026-10-18 14:40	7 天前
+folder	results_av_20261018_064026	2026-10-18 14:40	7 天前
+folder	results_av_20261018_064049	2026-10-18 14:40	7 天前
+folder	results_av_20261018_063917	2026-10-18 14:39	7 天前
+folder	results_av_20261018_063940	2026-10-18 14:39	7 天前
+folder	results_av_20261018_063807	2026-10-18 14:38	7 天前
+folder	results_av_20261018_063830	2026-10-18 14:38	7 天前
+folder	results_av_20261018_063853	2026-10-18 14:38	7 天前
+folder	results_av_20261018_063721	2026-10-18 14:37	7 天前
+folder	results_av_20261018_063744	2026-10-18 14:37	7 天前
+folder	results_av_20261018_063613	2026-10-18 14:36	7 天前
+folder	results_av_20261018_063635	2026-10-18 14:36	7 天前
+folder	results_av_20261018_063658	2026-10-18 14:36	7 天前
+folder	results_av_20261018_063503	2026-10-18 14:35	7 天前
+folder	results_av_20261018_063526	2026-10-18 14:35	7 天前
+folder	results_av_20261018_063549	2026-10-18 14:35	7 天前
+folder	results_av_20261018_063417	2026-10-18 14:34	7 天前
+folder	results_av_20261018_063440	2026-10-18 14:34	7 天前
+folder	results_av_20261018_063308	2026-10-18 14:33	7 天前
+folder	results_av_20261018_063331	2026-10-18 14:33	7 天前
+folder	results_av_20261018_063354	2026-10-18 14:33	7 天前
+folder	results_av_20261018_063219	2026-10-18 14:32	7 天前
+folder	results_av_20261018_063229	2026-10-18 14:32	7 天前
+folder	results_av_20261018_063246	2026-10-18 14:32	7 天前
+folder	results_av_20261018_054534	2026-10-18 13:45	7 天前
+folder	results_av	2026-10-18 13:43	7 天前
+folder	results_av_presence_05	2026-10-18 13:24	7 天前
+folder	results_av_presence_04	2026-10-18 13:20	7 天前
+folder	results_av_presence_03	2026-10-18 13:10	7 天前
+folder	results_av_presence_02	2026-10-18 13:06	7 天前
+folder	results_av_presence_01	2026-10-18 12:53	7 天前
+folder	results_av_06	2026-10-18 12:51	7 天前
+folder	results_av_05	2026-10-18 12:45	7 天前
+folder	results_av_04	2026-10-18 12:43	7 天前
+folder	results_av_03	2026-10-18 12:39	7 天前
+folder	results_av_02	2026-10-18 12:36	7 天前
+folder	results_av_latest_02	2026-10-18 12:36	7 天前
+folder	results_av_latest_01	2026-10-18 12:34	7 天前
+folder	results_av_01	2026-10-18 12:28	7 天前
+folder	results_av_fast_01	2026-10-18 12:26	7 天前
+folder	results_av_pause_02	2026-10-18 12:25	7 天前
+folder	results_av_pause_01	2026-10-18 12:21	7 天前
+folder	results_live_05	2026-10-18 12:15	7 天前
+folder	results_lw_hop1	2026-10-18 12:09	7 天前
+folder	results_lw_hop2	2026-10-18 12:09	7 天前
+folder	results_live_06	2026-10-18 12:05	7 天前
+folder	results_wav_test2	2026-10-18 11:58	7 天前
+folder	results_wav_test1	2026-10-18 11:50	7 天前
+folder	results_wav_test	2026-10-18 11:48	7 天前
+folder	results_live_04	2026-10-18 11:39	7 天前
+folder	results_live_03	2026-10-18 11:38	7 天前
+folder	results_live_02	2026-10-18 11:32	7 天前
+folder	results_live_01	2026-10-18 11:29	7 天前
+folder	results_wav_01	2026-10-18 11:15	7 天前
+folder	jupyter_notebooks	2019-10-04 01:34	7 年前
+folder	pynq	2019-09-30 20:04	7 年前
+folder	ncnn-20240410	2019-09-30 19:19	7 年前
+
+[文件] 按最后修改倒序
+file	sds_trace_data.dat	2026-10-24 21:28	12 小时前
+file	inmp441_predict_time.py	2026-10-24 19:43	14 小时前
+file	trigger_board_presence.py.bak	2026-10-18 15:29	7 天前
+file	trigger_board_presence.py	2026-10-18 15:19	7 天前
+file	inmp441_predict_pause.py	2026-10-18 13:40	7 天前
+file	trigger_board.py	2026-10-18 12:51	7 天前
+file	av_recording_lock.py	2026-10-18 12:50	7 天前
+file	av_recording_pause.zip	2026-10-18 12:47	7 天前
+file	inmp441_predict_latest.py	2026-10-18 12:33	7 天前
+file	inmp441_predict_bridge.py	2026-10-18 12:26	7 天前
+file	inmp441_predict.py	2026-10-18 12:24	7 天前
+file	inmp441_predict_fast.py	2026-10-18 12:21	7 天前
+file	trigger_board_pause.py	2026-10-18 12:18	7 天前
+file	bird_test.wav	2026-10-18 11:48	7 天前
+file	bird_test_left.wav	2026-10-18 11:48	7 天前
+file	bird_test_right.wav	2026-10-18 11:48	7 天前
+file	bird_fusion_trigger_mp4.py	2026-10-18 11:39	7 天前
+file	audio_trigger.py	2026-10-18 11:22	7 天前
+file	audio_numpy.py	2026-10-18 11:14	7 天前
+file	audio_model.npz	2026-10-18 11:06	7 天前
+file	test2.wav】】	2026-10-18 10:44	7 天前
+file	test2_left.wav	2026-10-18 10:44	7 天前
+file	test2_right.wav	2026-10-18 10:44	7 天前
+file	inmp441_record.py	2026-10-18 10:43	7 天前
+file	test.wav	2026-10-18 10:39	7 天前
+file	test_left.wav	2026-10-18 10:39	7 天前
+file	test_right.wav	2026-10-18 10:39	7 天前
+file	cont3.wav	2026-10-18 10:27	7 天前
+file	inmp441_continuous.py	2026-10-18 10:26	7 天前
+file	test3.wav	2026-10-18 10:19	7 天前
+file	test3_left.wav	2026-10-18 10:19	7 天前
+file	test3_raw.npy	2026-10-18 10:19	7 天前
+file	test3_right.wav	2026-10-18 10:19	7 天前
+file	test3_stats.json	2026-10-18 10:19	7 天前
+file	diag_tlast.py	2026-10-18 09:47	7 天前
+file	diag_hp.py	2026-10-18 09:27	7 天前
+file	inmp441.bit	2026-10-18 09:27	7 天前
+file	inmp441_capture.py	2026-10-18 09:26	7 天前
+file	inmp441.hwh	2026-10-18 09:25	7 天前
+file	inmp441.wav	2026-10-17 13:51	8 天前
+file	diag_flow.py	2026-10-17 13:18	8 天前
+file	diag_dma.py	2026-10-17 13:09	8 天前
+file	dma_debug.py	2026-10-17 13:06	8 天前
+file	servo.py	2026-10-17 12:22	8 天前
+file	build_board.sh	2026-10-17 03:21	8 天前
+file	mel_basis.npy	2026-10-17 03:19	8 天前
+file	sound_infer_ncnn.cpp	2026-10-17 03:18	8 天前
+file	sound_config.json	2026-10-17 03:16	8 天前
+file	sound_ncnn.bin	2026-10-17 03:16	8 天前
+file	sound_ncnn.param	2026-10-17 03:16	8 天前
+file	ncnn_src.tar.gz	2026-10-16 05:46	9 天前
+file	best_ncnn.bin	2026-10-16 05:45	9 天前
+file	best_ncnn.param	2026-10-16 05:45	9 天前
+file	REVISION	2019-10-04 01:35	7 年前
+file	benchmark.jsonl	2019-09-30 21:57	7 年前
+file	infer_ncnn	2019-09-30 21:54	7 年前
+file	infer_ncnn.cpp	2019-09-30 21:53	7 年前
+file	snap.jpg	2019-09-30 21:23	7 年前
+file	sound_board.py	2019-09-30 21:00	7 年前
+file	sound_infer_ncnn	2019-09-30 19:42	7 年前
+file	board_deploy.zip	2019-09-30 19:27	7 年前
+file	bird.jpg	2019-09-30 18:53	7 年前
+file	infer_board.py	2019-09-30 18:52	7 年前
+file	best_float32.tflite	2019-09-30 18:51	7 年前
+file	tflite_runtime-2.5.0-cp36-cp36m-linux_armv7l.whl	2019-09-30 18:51	7 年前
+file	Untitled.ipynb	2019-09-30 18:32	7 年前
