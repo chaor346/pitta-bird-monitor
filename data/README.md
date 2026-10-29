@@ -73,7 +73,4 @@
 | `test_audio/positive/` 9 段 | Xeno-canto（文件名 `xc*`）与 Macaulay Library（文件名 `ml*`）原始录音 | 按各录音条目页的许可使用；XC 多为 CC BY-NC-SA 系列，ML 逐条不同 |
 | `test_audio/negative/other_birds/` 8 段 | 同上（XC / ML 记录的**其他鸟种**） | 同上 |
 | `test_audio/negative/ambient/` 10 段 | 公共音效素材与自录，导入时的压缩包内未逐条标注来源页 | **待补来源链接与许可**，公开发布前需补齐 |
-| `src/ps/best_ncnn.*`、`audio_model.npz` | 本项目训练产物（YOLOv8n / 三层 CNN） | 随本仓库 MIT 发布；YOLOv8 训练框架本身为 AGPL-3.0（Ultralytics），仅作依赖使用、未重新分发其代码 |
-
-> 交付前建议：在仓库 README 或 `data/README.md` 里补一张"录音编号 → 原始页面链接"的对照表
-> （27 段音频共 27 行即可），这是开源合规最容易被打回的一点，也是评委核对数据来源最直接的入口。
+| `src/ps/best_ncnn.*`、`audio_model.npz` | 本项目训练产物（YOLOv8n / 三层 CNN） | 随本仓库 MIT 发布；Ultralytics YOLOv8 框架为 AGPL-3.0，仅作依赖使用 |
