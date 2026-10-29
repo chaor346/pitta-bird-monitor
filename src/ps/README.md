@@ -59,17 +59,4 @@
 | `build_truth_review.py` | **PC** 生成真值核对页面 `data/test_audio/positive/truth_draft/review_events.html`（听音 → 保留/删除/补漏 → 导出 `events_truth.csv`） |
 | `eval_recall.py` | **PC** 事件级召回率评估（读人工真值 + 逐窗分数） |
 
-## D. 历史 / 替代版本（未在最终部署使用，可删）
-
-| 文件 | 说明 |
-|------|------|
-| `inmp441_predict.py` / `_bridge.py` / `_fast.py` / `_latest.py` | 音频主程序的早期版本，最终定为 `_time.py`（正式部署）/ `_pause.py`（调试） |
-| `audio_listener_board.py` | sounddevice 采集方案（替代，未采用） |
-| `audio_trigger.py` | 早期鸟鸣触发器 |
-| `sound_board.py` | arecord 采集方案（替代，未采用） |
-| `infer_board.py` | TFLite 推理方案（旧，未采用） |
-| `train_binary.py` | 音频训练旧版，已被 `_fixed` 取代 |
-| `debug_miss.py` | 调试辅助脚本 |
-| `sound_config.json` | 旧声音配置 |
-
-> D 类仅为开发过程留痕，不影响 A 类部署；如追求提交包精简可整体删除（均为文本，体积很小）。
+> 历史版本已删除，板端部署只依赖 A 类。
