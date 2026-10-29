@@ -43,14 +43,14 @@ pitta_bird_monitor/
 │       │            e2e_board.py（GEMM 端到端）、gemm_board.py（裸 GEMM 对拍）、
 │       │            infer_ncnn（二进制）+ infer_ncnn.cpp
 │       ├── 模型: audio_model.npz、best_ncnn.param/bin、best.pt、
-│       │         mel_basis.npy、sound_config.json
+│       │         mel_basis.npy
 │       ├── PC训练: 03_train.py（YOLO训练）、04_export.py（模型导出）、
 │       │          train_binary_fixed.py（音频训练）、make_board_data.py（GEMM 测试数据生成）、
 │       │          pitta.yaml、requirements.txt
 │       ├── 数据准备: 01*.py（采集/标注）、02b_split.py、annotate.py、
 │       │            check_dataset.py
 │       └── 评估工具: eval_other_birds.py、predict_full_recordings.py、
-│                     split_recordings.py、infer_pc.py、infer_board.py
+│                     split_recordings.py、infer_pc.py
 ├── sim/                   # 仿真脚本与结果
 │   ├── i2s_mems_rx_tb.v   # I2S 接收核 testbench（已验证 PASS，0 错误）
 │   ├── sim_result.log     # 仿真结果日志
@@ -60,7 +60,6 @@ pitta_bird_monitor/
 │   ├── inmp441.bit / .hwh
 │   ├── utilization.rpt / timing.rpt / power.rpt  # 音频 overlay 资源/时序/功耗报告
 │   ├── drc_routed.rpt                            # DRC 检查报告（0 Error）
-│   ├── system.bda                                # 块图定义
 │   ├── vivado_project.zip  # 完整 Vivado 工程（解压后用 .xpr 打开）
 │   └── gemm/              #   GEMM 构建产物：gemm_soc.bit/.hwh + gemm_utilization/timing/power.rpt + README
 ├── board/                 # 上板运行脚本与实测输出
@@ -76,7 +75,7 @@ pitta_bird_monitor/
 │   ├── test_images/       # 图像测试集（145 张：正样本 90 + 负样本 50 + 板端画面 5；均取自训练池）
 │   │   └── eval_val/      # 图像指标重算结果（metrics.json / per_image.csv / 控制台日志）
 │   ├── test_audio/        # 音频测试集（9 段仙八色鸫 + 10 段环境音 + 8 段其他鸟，含逐窗推理结果）
-│   │   ├── positive/truth_draft/  # 召回真值：events_truth.csv（人耳核对 155 事件）+ 草稿/听音页
+│   │   ├── positive/truth_draft/  # 召回真值：events_truth.csv（人耳核对 155 事件）+ 草稿
 │   │   └── positive/recall_results/ # 事件级召回 97.4%/98.1%（含口径限制说明）
 │   ├── gemm/              #   GEMM 测试数据（bird_sample.wav + a/b/c_ref.bin，全量与 small 两档）
 │   └── README.md          # 数据来源与复现说明
@@ -91,7 +90,7 @@ pitta_bird_monitor/
     ├── design_report.md   # 设计报告源文件
     ├── design_report.pdf  # 设计报告 PDF（A4 排版）
     ├── abstract_zh.md     # 作品简介定稿 + 评委追问口径表
-    └── final_poster_en.pptx # 决赛英文一页海报（16:9 单页）
+    └── pitta_poster.pptx   # 中英两页海报（中文一页 + 英文一页）
 ```
 
 ## 复现步骤
