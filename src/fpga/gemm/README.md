@@ -1,8 +1,7 @@
-# GEMM 加速器 HLS IP（Vitis HLS 自动生成）
+# GEMM 加速器 HLS IP（Vitis HLS 生成）
 
-conv1 卷积加速器的 PL 侧实现，是一个**完整、可直接被 Vivado 识别的 HLS IP 打包目录**
-（目录结构与 `component.xml` 引用完全自洽）。所有 Verilog/VHDL 均由 **Vitis HLS
-综合生成**，不是手写 RTL；HLS C++ 源文件不在本仓库（在开发机上，如需复现需另行提供）。
+conv1 卷积加速器的 PL 侧实现，HLS IP 打包目录（`component.xml` 自洽）。
+Verilog/VHDL 均由 Vitis HLS 综合生成，不是手写 RTL；HLS C++ 源文件不在本仓库。
 
 > **命名说明**：HLS 自动生成的文件名含大写字母（`RAM_AUTO_1R1W`、
 > `Pipeline_VITIS_LOOP` 等）。这些文件名是 Vivado IP 打包时固定的，重命名会导致

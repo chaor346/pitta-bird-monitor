@@ -1,6 +1,6 @@
 # eval_val/ 图像检测指标重算（2026-10-25）
 
-本目录是 `方案 C` 的第一支产物：用 PC 端 onnxruntime 重算图像指标，替代此前写进 README / 报告 / `comparison.csv` 的 **49.8% / 99.5%**。
+用 PC 端 onnxruntime 重算图像指标，替代此前写进 README / 报告 / `comparison.csv` 的 **49.8% / 99.5%**。
 
 ## 一、结论（可直接引用）
 
