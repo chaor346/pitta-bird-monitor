@@ -26,16 +26,29 @@ pitta_bird_monitor/
 ├── LICENSE
 ├── .gitignore
 ├── docs/                  # 架构、接口、硬件接线
+│   ├── architecture.md
+│   ├── interface.md
+│   └── hardware_setup.md
 ├── src/
 │   ├── fpga/              # I2S 接收核 RTL + GEMM HLS IP
-│   └── ps/                # 板端 Python + 模型 + PC 训练脚本（见 src/ps/README.md）
-├── sim/                   # I2S 接收核 testbench（PASS）
+│   │   ├── i2s_mems_rx.v
+│   │   ├── inmp441_pmodb.xdc
+│   │   ├── system_wrapper.v
+│   │   └── gemm/          # HLS 生成的 IP 核
+│   └── ps/                # 板端 Python + 模型 + PC 训练脚本
+├── sim/                   # I2S 接收核 testbench
 ├── build/                 # Vivado 构建脚本 + bit/hwh + 报告
-│   └── gemm/              # GEMM overlay 构建产物
-├── board/                 # 上板脚本（systemd 服务 + 手动调试）+ 实测日志
+│   ├── build.tcl
+│   ├── build_gemm.tcl
+│   ├── inmp441.bit / .hwh
+│   ├── utilization/timing/power.rpt
+│   ├── drc_routed.rpt
+│   ├── vivado_project.zip
+│   └── gemm/              # GEMM overlay
+├── board/                 # 上板脚本 + 实测日志
 ├── data/                  # 测试数据 + 指标汇总
-├── skill/                 # 可复用 PYNQ 验证技能包
-└── report/                # 设计报告 + 海报 + 大模型协作记录
+├── skill/                 # PYNQ 验证技能包
+└── report/                # 设计报告 + 海报
 ```
 
 ## 复现步骤
