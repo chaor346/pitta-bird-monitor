@@ -1,9 +1,9 @@
 # 技能包自检日志
-# 生成时间：2026-10-26 20:12:19
+# 生成时间：2026-10-29 18:29:19
 
 ===== hwh_probe.py --self-test [PASS] =====
 $ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\hwh_probe.py --self-test
-退出码 0，耗时 0.17s
+退出码 0，耗时 0.24s
 hwh_probe self-test: OK（解析/基址/寄存器/禁用通道/驱动骨架/偏移对账）
 
 ===== bd_lint.py --self-test [PASS] =====
@@ -13,12 +13,12 @@ bd_lint self-test: OK（续行解析/多 pin 捕获/5 类结构规则/XDC 约束
 
 ===== vivado_report.py --self-test [PASS] =====
 $ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\vivado_report.py --self-test
-退出码 0，耗时 0.19s
+退出码 0，耗时 0.13s
 vivado_report self-test: OK（资源行/时序摘要/时钟/基线对比/回归判定）
 
 ===== golden_compare.py --self-test [PASS] =====
 $ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\golden_compare.py --self-test
-退出码 0，耗时 0.57s
+退出码 0，耗时 1.00s
 比对 ref.csv vs ok.csv（csv 模式，atol=1e-05 rtol=0）
   行数：3  列数：3
   比对单元：9  超差：0
@@ -47,7 +47,7 @@ $ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\hwh_probe.py D:\嵌赛\pit
 
 ===== 块图检查 [PASS] =====
 $ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\bd_lint.py --tcl D:\嵌赛\pitta_bird_monitor\build/build.tcl --hwh D:\嵌赛\pitta_bird_monitor\build\inmp441.hwh --xdc D:\嵌赛\pitta_bird_monitor\src/fpga\inmp441_pmodb.xdc --json D:\嵌赛\pitta_bird_monitor\skill\verification\bd_lint.json
-退出码 0，耗时 0.17s
+退出码 0，耗时 0.14s
 [WARN ] H004  axi_dma_0：参数 C_INCLUDE_MM2S=0，说明 MM2S 通道未实现，但寄存器表把 MM2S_DMACR, MM2S_DMASR, MM2S_SA, MM2S_SA_MSB 等 标为启用。读写这些寄存器不会有任何效果（读回复位值），不要据此判断通道是否工作。
 [INFO ] H005  processing_system7_0.S_AXI_HP0_RDISSUECAP1_EN 未接（该 IP 的可选/调试口，通常可以不接）
 [INFO ] H005  processing_system7_0.S_AXI_HP0_WRISSUECAP1_EN 未接（该 IP 的可选/调试口，通常可以不接）
@@ -63,7 +63,7 @@ $ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\bd_lint.py --tcl D:\嵌赛
 
 ===== DMA 测试计划 [PASS] =====
 $ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\dma_selftest.py --hwh D:\嵌赛\pitta_bird_monitor\build\inmp441.hwh --dry-run
-退出码 0，耗时 0.20s
+退出码 0，耗时 0.13s
 Overlay 硬件信息：zynq 7z020clg400-1
 
 DMA 实例：axi_dma_0 (xilinx.com:ip:axi_dma:7.1)
@@ -82,7 +82,7 @@ DMA 实例：axi_dma_0 (xilinx.com:ip:axi_dma:7.1)
 
 ===== 综合/实现指标 [PASS] =====
 $ python.exe D:\嵌赛\pitta_bird_monitor\skill\tools\vivado_report.py --utilization D:\嵌赛\pitta_bird_monitor\build/utilization.rpt --timing D:\嵌赛\pitta_bird_monitor\build/timing.rpt --quiet --no-fail --md D:\嵌赛\pitta_bird_monitor\skill\verification\vivado_summary.md --json D:\嵌赛\pitta_bird_monitor\skill\verification\vivado_summary.json
-退出码 0，耗时 0.19s
+退出码 0，耗时 0.14s
 已写出 D:\嵌赛\pitta_bird_monitor\skill\verification\vivado_summary.md
 已写出 D:\嵌赛\pitta_bird_monitor\skill\verification\vivado_summary.json
 
