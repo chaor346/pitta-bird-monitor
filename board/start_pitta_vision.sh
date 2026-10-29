@@ -3,16 +3,16 @@ set -e
 cd /home/xilinx
 mkdir -p /home/xilinx/runtime/trigger
 
-# 就绪门：等待 USB 摄像头枚举完成（最多 60s），避免开机早期设备未就绪导致反复失败。
+# 等 USB 摄像头枚举完成
 for i in $(seq 1 60); do
   if [ -e /dev/video0 ]; then
-    echo "[BOOT] 已找到 /dev/video0（第 ${i} 次检查）"
+    echo "[BOOT] /dev/video0 ready (check ${i})"
     break
   fi
   sleep 1
 done
 if [ ! -e /dev/video0 ]; then
-  echo "[BOOT] 启动后 60s 内未找到 /dev/video0，放弃启动" >&2
+  echo "[BOOT] /dev/video0 not found within 60s, abort" >&2
   exit 1
 fi
 
