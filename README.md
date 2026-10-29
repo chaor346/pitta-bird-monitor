@@ -22,75 +22,20 @@
 
 ```
 pitta_bird_monitor/
-├── README.md              # 本文件
-├── LICENSE                # MIT 许可证全文
-├── .gitignore             # 忽略运行态/临时文件
-├── docs/                  # 设计文档
-│   ├── architecture.md    # 系统架构与数据流
-│   ├── interface.md       # 接口定义（DMA寄存器/I2S时序/触发协议）
-│   └── hardware_setup.md  # 硬件接线与器件清单
+├── README.md
+├── LICENSE
+├── .gitignore
+├── docs/                  # 架构、接口、硬件接线
 ├── src/
-│   ├── fpga/              # RTL 源码 + 约束
-│   │   ├── i2s_mems_rx.v     # 手写：I2S 接收核
-│   │   ├── inmp441_pmodb.xdc # 手写：PMOD B 引脚约束
-│   │   ├── system_wrapper.v   # Vivado 自动生成的顶层封装
-│   │   └── gemm/             # conv1 GEMM 完整 HLS IP 打包目录（hdl/verilog + drivers + xgui + constraints + component.xml）
-│   └── ps/                # PS 侧软件（分类见 src/ps/README.md）
-│       ├── 板端运行: inmp441_predict_pause.py（音频调试版）、
-│       │            inmp441_predict_time.py（音频正式版，含北京时间记录）、
-│       │            trigger_board_presence.py（图像+录像主程序）、
-│       │            inmp441_record.py（DMA驱动）、av_recording_lock.py、
-│       │            e2e_board.py（GEMM 端到端）、gemm_board.py（裸 GEMM 对拍）、
-│       │            infer_ncnn（二进制）+ infer_ncnn.cpp
-│       ├── 模型: audio_model.npz、best_ncnn.param/bin、best.pt、
-│       │         mel_basis.npy
-│       ├── PC训练: 03_train.py（YOLO训练）、04_export.py（模型导出）、
-│       │          train_binary_fixed.py（音频训练）、make_board_data.py（GEMM 测试数据生成）、
-│       │          pitta.yaml、requirements.txt
-│       ├── 数据准备: 01*.py（采集/标注）、02b_split.py、annotate.py、
-│       │            check_dataset.py
-│       └── 评估工具: eval_other_birds.py、predict_full_recordings.py、
-│                     split_recordings.py、infer_pc.py
-├── sim/                   # 仿真脚本与结果
-│   ├── i2s_mems_rx_tb.v   # I2S 接收核 testbench（已验证 PASS，0 错误）
-│   ├── sim_result.log     # 仿真结果日志
-│   └── README.md          # 仿真复现步骤
-├── build/                 # 构建脚本 + bit/hwh + 综合实现报告
-│   ├── build.tcl / build_gemm.tcl                # 一键重建音频 / GEMM 工程
-│   ├── inmp441.bit / .hwh
-│   ├── utilization.rpt / timing.rpt / power.rpt  # 音频 overlay 资源/时序/功耗报告
-│   ├── drc_routed.rpt                            # DRC 检查报告（0 Error）
-│   ├── vivado_project.zip  # 完整 Vivado 工程（解压后用 .xpr 打开）
-│   └── gemm/              #   GEMM 构建产物：gemm_soc.bit/.hwh + gemm_utilization/timing/power.rpt + README
-├── board/                 # 上板运行脚本与实测输出
-│   ├── board/README.md    #   哪些是正式部署(systemd)、哪些是旧调试脚本（务必先看）
-│   ├── setup.sh / start_audio.sh / start_vision.sh  # 手动调试版
-│   ├── start_pitta_audio.sh / start_pitta_vision.sh # systemd 正式版（带就绪门/会话目录）
-│   ├── pitta-audio.service / pitta-vision.service   # systemd 开机自启
-│   ├── verify_gemm.sh     #   GEMM overlay 板端文件版本自检
-│   ├── stability_monitor.sh # 连续运行时长监控（记录服务状态/重启/内存/负载）
-│   └── test_output/       # 板端实测证据（含端到端联动日志 end_to_end_20261024.md）
-├── data/                  # 测试数据与参考结果
-│   ├── comparison.csv     # 指标汇总表
-│   ├── test_images/       # 图像测试集（145 张：正样本 90 + 负样本 50 + 板端画面 5；均取自训练池）
-│   │   └── eval_val/      # 图像指标重算结果（metrics.json / per_image.csv / 控制台日志）
-│   ├── test_audio/        # 音频测试集（9 段仙八色鸫 + 10 段环境音 + 8 段其他鸟，含逐窗推理结果）
-│   │   ├── positive/truth_draft/  # 召回真值：events_truth.csv（人耳核对 155 事件）+ 草稿
-│   │   └── positive/recall_results/ # 事件级召回 97.4%/98.1%（含口径限制说明）
-│   ├── gemm/              #   GEMM 测试数据（bird_sample.wav + a/b/c_ref.bin，全量与 small 两档）
-│   └── README.md          # 数据来源与复现说明
-├── skill/                 # 可复用技能包（加分项，与题目解耦）
-│   ├── SKILL.md / README.md
-│   ├── tools/             #   6个验证工具（hwh_probe/bd_lint/dma_selftest/vivado_report/golden_compare/verify_pack）
-│   ├── templates/         #   3个模板（软硬件划分/触发FSM/存在性录像）
-│   ├── pitfalls/          #   PYNQ踩坑记录
-│   └── verification/      #   离线自检报告（10项PASS）+ 板端实测清单（待执行）
-└── report/                # 设计报告 + 大模型协作记录
-    ├── llm_collaboration.md
-    ├── design_report.md   # 设计报告源文件
-    ├── design_report.pdf  # 设计报告 PDF（A4 排版）
-    ├── abstract_zh.md     # 作品简介定稿 + 评委追问口径表
-    └── pitta_poster.pptx   # 中英两页海报（中文一页 + 英文一页）
+│   ├── fpga/              # I2S 接收核 RTL + GEMM HLS IP
+│   └── ps/                # 板端 Python + 模型 + PC 训练脚本（见 src/ps/README.md）
+├── sim/                   # I2S 接收核 testbench（PASS）
+├── build/                 # Vivado 构建脚本 + bit/hwh + 报告
+│   └── gemm/              # GEMM overlay 构建产物
+├── board/                 # 上板脚本（systemd 服务 + 手动调试）+ 实测日志
+├── data/                  # 测试数据 + 指标汇总
+├── skill/                 # 可复用 PYNQ 验证技能包
+└── report/                # 设计报告 + 海报 + 大模型协作记录
 ```
 
 ## 复现步骤
