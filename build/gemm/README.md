@@ -29,19 +29,23 @@ sudo python3 e2e_board.py
 sudo python3 e2e_board.py --bench 20   # 公平加速比，待跑
 ```
 
-## 已实测（2026-10-25，旧版 bit）
+## 已实测（2026-10-26，`--bench 20` 中位数）
 
 ```
 numpy 全浮点  分数 = 0.997876
 硬件 conv1    分数 = 0.997878
 conv1 最大误差 = 0.001838（容差 0.02，0/205824 点超差）
-GEMM 核 ap_done = 6.7 ms（旧口径，仅核完成时间下界，不含 DMA/量化）
-numpy 整网(含conv1) = 0.497 s
+
+公平加速比（--bench 20）：
+  硬件端到端（DMA搬运+GEMM+反量化）= 52.7 ms
+  纯核 ap_start→ap_done           = 6.7 ms
+  numpy conv1 单独                = 31.0 ms
+  端到端加速比 = 0.59x（搬运开销吃掉收益）
+  纯核加速比   = 4.64x
 ```
 
-> 当前仓库 bit 是 2026-10-26 重建版（MD5 `8240f2dc…`），功能等价但尚未在板上重跑对拍，
-> 引用数字前先跑一次 `e2e_board.py` 确认分数仍为 0.9979 左右。
-> 公平加速比（硬件含搬运 vs numpy conv1 单独）用 `--bench 20`，待补。
+> 结论：conv1 计算量太小（numpy 31ms），DMA 搬运 A/B/C 开销占端到端 87%，
+> 故正式音频主程序仍走 numpy，GEMM overlay 仅作硬件加速能力验证。
 
 ## 设计要点
 

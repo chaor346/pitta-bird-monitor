@@ -200,7 +200,8 @@ LUT 5376 (10.11%) / FF 7505 (7.05%) / BRAM 11 (7.86%) / DSP 67 (30.45%)，WNS +1
 | 图像板端推理延迟 | 5.65~6.72 s | ncnn YOLOv8n 320×320 双核；端到端联动日志 6 次 RECORD-INFER 抽样（均值 6.17 s），见 `board/test_output/end_to_end_20261024.md` |
 | 音频板端推理延迟 | 2.075 s | 单次窗口推理（含 STFT/mel/conv/numpy），同一份联动日志 |
 | 端到端触发延迟 | 约 10.5 s | 鸟鸣 TRIGGER → 检测到鸟开始录像（22:18:26.9 → 22:18:37，秒级时间戳） |
-| **conv1 GEMM HLS 核耗时** | **6.7 ms** | PYNQ-Z2 @100 MHz，`e2e_board.py --repeat 5`（旧计时口径：等完 DMA 后才起算、只打印最后一次，属核完成时间下界；脚本已改为从 `ap_start` 起算）。不含 im2col/Q12/DMA/反量化 |
+| **conv1 GEMM HLS 核耗时** | **6.7 ms** | PYNQ-Z2 @100 MHz，纯核 ap_start→ap_done；`--bench 20` 中位数 |
+| **conv1 公平加速比** | **0.59x（端到端）/ 4.64x（纯核）** | 端到端 52.7ms（DMA搬运+GEMM+反量化）vs numpy conv1 31.0ms；搬运开销吃掉收益，故正式音频主程序仍走 numpy |
 | **conv1 硬件 vs numpy 最大误差** | **0.001838** | 205824 点逐点，容差 0.02 下 0 点超差；端到端分数 0.997878 vs 0.997876 |
 | 音频 overlay 资源 LUT/FF/BRAM/DSP | 3.15% / 2.14% / 0.71% / 0% | inmp441.bit，WNS +2.029ns，功耗 1.684 W（confidence Low） |
 | GEMM overlay 资源 LUT/FF/BRAM/DSP | 10.11% / 7.05% / 7.86% / 30.45% | gemm_soc.bit，WNS +1.520ns，功耗 1.741 W（confidence Medium） |
@@ -209,7 +210,7 @@ LUT 5376 (10.11%) / FF 7505 (7.05%) / BRAM 11 (7.86%) / DSP 67 (30.45%)，WNS +1
 > 的 266 张网络公开测试图上，板端阈值 conf 0.52 下图像级召回 **256/266 = 96.2%**，
 > 检出置信度均值 0.91。详见 `data/test_images/independent/README.md`。
 
-**待板端实测（见 `skill/verification/board_checklist.md`）：** 连续运行时长、GEMM 公平加速比（`e2e_board.py --bench 20`）、图像推理基准延迟。详见 `data/comparison.csv`（已标注每项的实测/待实测状态与证据文件）。
+**待板端实测（见 `skill/verification/board_checklist.md`）：** 连续运行时长（`stability_monitor.sh --interval 300` 挂 ≥8h）、图像推理 P50/P99（≥8 次干净采样）。GEMM 公平加速比已测（0.59x 端到端 / 4.64x 纯核）。详见 `data/comparison.csv`。
 
 ## 许可证
 
