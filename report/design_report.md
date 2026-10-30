@@ -183,21 +183,20 @@ PL 侧现在有两个独立 Overlay：音频采集用的 `inmp441.bit`（I2S+DMA
 | 2 | ncnn 模型加载方式 | 每帧推理重新加载模型，单帧 ~20 s | 常驻 ncnn 子进程，常驻内存复用 | 单帧推理 ~6 s，提速 ~3.3× | 端到端联动日志 RECORD-INFER 抽样 5.65~6.72 s |
 | 3 | 录像时长策略 | 固定时长 10 s 定时录像 | 目标存在性持续录像，misses=3 且 span≥6 s 后结束 | 无效录像存储降低 5–10× | 22:18:37→22:19:14 实测录像 37.4 s |
 | 4 | 录像结束判定 | misses=1 单条件（一次误判即停） | misses=3 且 span≥6 s 双条件 | 抗漏检，避免短暂遮挡误结束 | 状态机三版迭代；见 §5.3 |
-| 5 | conv1 矩阵运算 | PS ARM 上 numpy float32 整网推理 0.497 s | PL HLS Q12 定点 GEMM，ap_done 6.7 ms | 核运算加速（端到端含量化/DMA 公平加速比待测） | 205,824 点逐点最大误差 0.00184，0 点超差 |
+| 5 | conv1 矩阵运算 | PS ARM 上 numpy float32 整网推理 0.497 s | PL HLS Q12 定点 GEMM，ap_done 6.7 ms | 纯核加速 4.64×；端到端含 DMA 搬运 0.59×，故主程序仍走 numpy | 205,824 点逐点最大误差 0.00184，0 点超差；`--bench 20` 中位数 |
 | 6 | 资源占用策略 | 单 overlay 包含全部逻辑会挤占 PS 内存与布线 | 音频 overlay（LUT 3.15%）与 GEMM overlay（LUT 10.11%）分时加载 | 单次运行仅占单 overlay 资源，功耗 ≤1.74 W | routed 报告，WNS +2.03 / +1.52 ns |
 
-> 说明：第 5 行"核运算加速"是 HLS `ap_start→ap_done` 的纯计算时间；
-> 含 im2col / Q12 量化 / DMA 搬运 / cache invalidate / 反量化的**端到端公平加速比**
-> 已由 `e2e_board.py --bench` 实现，待上板跑一次后填入本表。
+> 说明：第 5 行纯核加速 4.64× 是 HLS `ap_start→ap_done` 时间；
+> 含 im2col / Q12 量化 / DMA 搬运 / cache invalidate / 反量化的端到端公平加速比为 0.59×
+> （硬件 52.7ms vs numpy conv1 单独 31.0ms），搬运开销占 87%，故主程序走 numpy。
 
 ### 5.5 已知限制与未来优化
 
 - 图像推理 5–7 s（ARM A9 上 ncnn YOLOv8n 320×320 双核），导致录像结束延迟
   - 未来：模型输入降为 256 或 int8 量化，可提速 2–3 倍。
-- **conv1 已做 PL HLS GEMM 加速验证**（板端观测 ap_done 6.7 ms，端到端分数与 numpy 浮点一致）；
-  但**正式运行的音频主程序仍是 numpy conv1**——硬件版是独立 overlay `gemm_soc.bit`，
-  与音频 overlay 分时加载；完整"硬件 conv1 端到端（含 im2col/Q12/DMA/cache/反量化）vs numpy conv1 单独"
-  的公平加速比尚未单独计时（`e2e_board.py --bench` 已实现，待上板跑）。
+- **conv1 已做 PL HLS GEMM 加速验证**（板端 `--bench 20` 纯核 6.7ms，端到端 52.7ms）；
+  实测端到端公平加速比 0.59×（DMA 搬运占 87%），故**正式运行的音频主程序仍是 numpy conv1**——
+  硬件版是独立 overlay `gemm_soc.bit`，与音频 overlay 分时加载；这是基于实测数据的工程取舍。
 - STFT/mel 仍在 PS numpy，约占整网耗时大头
   - 未来：评估 FFT+mel 是否搬 PL（参考 `skill/templates/hw_sw_partition_prompt.md`，
     必须先算清 AXI-Stream 乒乓缓冲 + 定点验证的工程量，不要只看"20× 分析估算"）。
