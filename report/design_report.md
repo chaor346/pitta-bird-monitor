@@ -99,6 +99,8 @@ PL 侧现在有两个独立 Overlay：音频采集用的 `inmp441.bit`（I2S+DMA
 - **DMA**：三路 AXI DMA——`dma_A`/`dma_B` 为 MM2S（PS→PL），`dma_C` 为 S2MM（PL→PS）。`C_SG_LENGTH_WIDTH=23`（单次可传 8 MB，突破默认 16 KB 上限）。
 - **板端驱动**：`src/ps/gemm_board.py`（裸 GEMM 对拍）与 `src/ps/e2e_board.py`（端到端：wav → 硬件 conv1 → numpy 其余层 → 分数）。采用寄存器轮询（禁用 PYNQ 中断路径），以 `ap_done` 作为计算完成权威判据。
 
+- **实测性能（`e2e_board.py --bench 20`，中位数）**：纯核 ap_start→ap_done 6.7ms（numpy conv1 单独 31.0ms，纯核加速比 4.64x）；但端到端（含 DMA 搬运 A/B/C + 反量化）52.7ms，反而比 numpy 慢（0.59x）。原因是 conv1 计算量太小（K=9, N=16），DMA 搬运 641KB 数据的开销占端到端 87%。**因此正式音频主程序仍走 numpy，GEMM overlay 仅作硬件加速能力验证**——这是基于实测数据的工程取舍，不是设计失误。
+
 ### 3.4 资源占用（实测，来自综合实现报告，routed）
 
 两个 overlay 分时加载，分别占用不同资源。

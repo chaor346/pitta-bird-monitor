@@ -1,6 +1,6 @@
 指标名称,类别,数值,单位,测量条件,测试次数,证据文件
 音频采样率,核心,32000,Hz,INMP441+I2S核+AXI DMA；FPGA设计值,100MHz FCLK0,build/utilization.rpt
-音频采集吞吐,核心,256000,bytes/s,32000Hz*2声道*4字节=256000；理论值,连续,build/system.bda
+音频采集吞吐,核心,256000,bytes/s,32000Hz*2声道*4字节=256000；理论值,连续,build/build.tcl
 音频窗口级特异性,AI,100,%,PC numpy实测；18段负样本2063个2s窗口无一≥0.5,2063,data/test_audio/
 音频负样本最高分,AI,0.0329,score,PC numpy实测；距0.5阈值约15倍余量,2063,data/test_audio/negative/other_birds/neg_bird_carpodacus_sibiricus_ussuriensis_predictions.csv
 音频正样本检出窗口,AI,724,个,PC numpy实测；9段正样本1474窗口中score≥0.5（板端阈值0.985下500个）,1474,data/test_audio/manifest.csv
@@ -12,9 +12,9 @@
 音频单窗口推理延迟,核心,2075,ms,板端单窗口实测（2s音频，含STFT/mel/conv/numpy）；检测总延迟=窗口填充+推理+hop，未单独计时,1,board/test_output/end_to_end_20261024.md
 端到端响应延迟,核心,约10.5,s,单次实测：鸟鸣TRIGGER 22:18:26.9→开始录像22:18:37（日志为秒级时间戳，误差±0.5s）；P50/P99需多次重复,1,board/test_output/end_to_end_20261024.md
 录像后滚时间,核心,约11.9,s,单次实测：无鸟帧跨度span=11.90s（misses=3后停止）；absence-hits=3叠加每次约6s推理,1,board/test_output/end_to_end_20261024.md
-conv1 GEMM核纯计算耗时,FPGA,6.7,ms,板端e2e_board.py --repeat 5（旧计时口径：等完DMA后才起算、只打印最后一次，属核完成时间下界；脚本已改为从ap_start起算，重跑以新值为准）,1,build/gemm/README.md
+conv1 GEMM核纯计算耗时,FPGA,6.7,ms,板端e2e_board.py --bench 20中位数；纯核ap_start→ap_done,20,build/gemm/README.md
 conv1硬件vs浮点最大误差,FPGA,0.001838,误差,205824点逐点|hw-fp|，容差0.02下0点超差；端到端分数0.997878 vs 0.997876,205824,build/gemm/README.md
-GEMM公平加速比,FPGA,待实测,—,硬件conv1端到端(含数据搬运) vs numpy conv1单独，需补测,—,build/gemm/README.md
+GEMM公平加速比,FPGA,0.59,倍,板端e2e_board.py --bench 20中位数；硬件端到端52.7ms(DMA搬运+GEMM+反量化) vs numpy conv1单独31.0ms；纯核4.64x但搬运开销吃掉收益，故主程序走numpy,20,build/gemm/README.md
 GEMM overlay LUT占用,FPGA,10.11,%,GEMM块图(HLS核+3DMA+互联)；Vivado 2026.1 routed实测 5376/53200,综合实现,build/gemm/gemm_utilization.rpt
 GEMM overlay FF占用,FPGA,7.05,%,GEMM块图 routed实测 7505/106400,综合实现,build/gemm/gemm_utilization.rpt
 GEMM overlay BRAM占用,FPGA,7.86,%,GEMM块图 routed实测 11/140 tile(3 RAMB36+16 RAMB18),综合实现,build/gemm/gemm_utilization.rpt
