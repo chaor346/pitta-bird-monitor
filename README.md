@@ -210,7 +210,7 @@ LUT 5376 (10.11%) / FF 7505 (7.05%) / BRAM 11 (7.86%) / DSP 67 (30.45%)，WNS +1
 > 的 266 张网络公开测试图上，板端阈值 conf 0.52 下图像级召回 **256/266 = 96.2%**，
 > 检出置信度均值 0.91。详见 `data/test_images/independent/README.md`。
 
-**待板端实测（见 `skill/verification/board_checklist.md`）：** 连续运行时长（`stability_monitor.sh --interval 300` 挂 ≥8h）、图像推理 P50/P99（≥8 次干净采样）。GEMM 公平加速比已测（0.59x 端到端 / 4.64x 纯核）。详见 `data/comparison.csv`。
+**待板端实测：** 连续运行时长（`stability_monitor.sh --interval 300` 挂 ≥8h）。GEMM 公平加速比已测（0.59x 端到端 / 4.64x 纯核），图像推理延迟已有 6 次抽样（均值 6.2s）。详见 `data/comparison.csv`。
 
 ## 许可证
 
