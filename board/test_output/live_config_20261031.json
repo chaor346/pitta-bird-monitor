@@ -1,0 +1,18 @@
+{
+  "model": "/home/xilinx/audio_model.npz",
+  "wav": null,
+  "overlay": "/home/xilinx/inmp441.bit",
+  "dma_name": "axi_dma_0",
+  "channel": 0,
+  "seconds": 1800.0,
+  "hop": 1.5,
+  "threshold": 0.85,
+  "min_hits": 1,
+  "cooldown": 5.0,
+  "release_threshold": 0.3,
+  "release_hits": 2,
+  "out": "/home/xilinx/runtime/audio_sessions/session_z9328eP5/results",
+  "vision_trigger": "/home/xilinx/runtime/trigger/pitta.trigger",
+  "trigger_from_wav": false,
+  "audio_pause_file": "/home/xilinx/runtime/trigger/vision_recording.lock"
+}
