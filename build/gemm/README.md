@@ -26,7 +26,7 @@ scp ../../board/verify_gemm.sh xilinx@<board>:/home/xilinx/gemm/
 cd /home/xilinx/gemm
 bash verify_gemm.sh
 sudo python3 e2e_board.py
-sudo python3 e2e_board.py --bench 20   # 公平加速比，待跑
+sudo python3 e2e_board.py --bench 20   # 公平加速比，已测见下表
 ```
 
 ## 已实测（2026-10-26，`--bench 20` 中位数）
