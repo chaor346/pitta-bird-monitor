@@ -1,367 +1,261 @@
-# 仙八色鸫鸣声与图像协同监测系统设计报告
-
-**参赛组别**：初级组
-**平台**：PYNQ-Z2 (Xilinx Zynq-7000 XC7Z020)
+# 浠欏叓鑹查斧楦ｅ０涓庡浘鍍忓崗鍚岀洃娴嬬郴缁熻璁℃姤鍛?
+**鍙傝禌缁勫埆**锛氬垵绾х粍
+**骞冲彴**锛歅YNQ-Z2 (Xilinx Zynq-7000 XC7Z020)
 
 ---
 
-## 1. 选题背景与创新性
+## 1. 閫夐鑳屾櫙涓庡垱鏂版€?
+### 1.1 鑳屾櫙
 
-### 1.1 背景
+浠欏叓鑹查斧锛圥itta nympha锛夋槸涓浗鍥藉浜岀骇閲嶇偣淇濇姢閲庣敓鍔ㄧ墿锛?021 鍚嶅綍锛夈€両UCN 绾㈣壊鍚嶅綍鏄撳嵄锛圴U锛夌墿绉嶏紝鍒楀叆 CITES 闄勫綍鈪★紝鍏ㄧ悆绉嶇兢鏁伴噺绋€灏戯紝绻佹畺浜庝腑鍥藉崡鏂瑰強涓滃寳鏋楀尯銆備汉宸ラ噹澶栫洃娴嬮渶瑕侀暱鏃堕棿韫插畧锛屾晥鐜囦綆銆佹垚鏈珮銆侀毦浠ヨ鐩栧ぇ鑼冨洿銆傝嚜鍔ㄥ寲鐨勫０瀛?瑙嗚鍗忓悓鐩戞祴绯荤粺锛屽彲浠ュ湪鏃犱汉鍊煎畧鎯呭喌涓嬫寔缁褰曞叾楦ｅ０涓庡奖鍍忥紝涓虹缇よ皟鏌ュ拰淇濇姢鎻愪緵鏁版嵁鏀寔銆?
+### 1.2 鍒涙柊鐐?
+1. **FPGA 纭欢闊抽閲囬泦**锛氬埄鐢?Zynq PL 渚х殑 I2S 鎺ユ敹鏍?+ AXI DMA锛屽疄鐜?32kHz/24bit 楹﹀厠椋庢暟鎹殑瀹炴椂閲囬泦锛屼笉鍗犵敤 ARM CPU 璧勬簮锛屼繚璇侀噰鏍风殑鏃跺簭纭畾鎬с€?2. **楦ｅ０瑙﹀彂鍥惧儚璇嗗埆**锛氬０闊虫娴嬪埌楦熼福鍚庢墠鍚姩鍥惧儚璇嗗埆锛岄伩鍏嶆憚鍍忓ご闀挎湡绌鸿浆锛岄檷浣庡姛鑰椾笌瀛樺偍娑堣€楋紝鍚屾椂鎻愰珮鐩爣鍑虹幇鐨勬崟鑾风巼銆?3. **澶氭ā鎬佽瀺鍚堥檷浣庤妫€**锛氬０闊宠Е鍙戯紙鏂瑰悜鎬ц繃婊わ級+ 鍥惧儚纭锛堢┖闂翠綅缃‘璁わ級锛屾瘮鍗曚竴妯℃€佹洿鍙潬銆?4. **鐩爣瀛樺湪鎬ф寔缁綍鍍?*锛氭娴嬪埌鐩爣鎵嶅綍鍍忥紝鐩爣娑堝け鍚庡欢杩熺粨鏉燂紝褰曞儚鍙惈鏈夋晥鍐呭锛屽瓨鍌ㄦ晥鐜囨瘮鍥哄畾鏃堕暱褰曞儚楂?5-10 鍊嶃€?
+### 1.3 鐩稿叧宸ヤ綔涓庢湰宸ヤ綔瀹氫綅
 
-仙八色鸫（Pitta nympha）是中国国家二级重点保护野生动物（2021 名录）、IUCN 红色名录易危（VU）物种，列入 CITES 附录Ⅱ，全球种群数量稀少，繁殖于中国南方及东北林区。人工野外监测需要长时间蹲守，效率低、成本高、难以覆盖大范围。自动化的声学+视觉协同监测系统，可以在无人值守情况下持续记录其鸣声与影像，为种群调查和保护提供数据支持。
+- **楦熺被澹板鑷姩璇嗗埆**锛欱irdNET锛圞ahl et al., 2021锛夌敤澶ц妯?ResNet 璇佹槑浜?CNN 鍦ㄦ暟鐧剧楦熺被楦ｅ０璇嗗埆涓婄殑鏈夋晥鎬э紝浣嗗叾妯″瀷渚濊禆鑱旂綉涓庢湇鍔″櫒绠楀姏锛屼笉婊¤冻鏋楀尯鏃犱汉鍊煎畧銆佺數姹犱緵鐢靛紡閮ㄧ讲銆?- **璧勬簮鍙楅檺 FPGA 涓婄殑瑙嗚鍔犻€?*锛欿im & Kim锛?025锛夊湪 Zynq-7000锛圶C7Z020锛変笂瀹炵幇 YOLOv2 鍔犻€熷櫒锛屼互瀹氱偣閲忓寲銆佹暟鎹鐢ㄤ笌鍒嗗潡鍦ㄥ皬璧勬簮鍣ㄤ欢涓婅窇閫氬嵎绉帹鐞嗭紱浣嗗叾鍙仛妫€娴嬬綉缁滅‖浠跺寲锛屾湭涓庡妯℃€佽Е鍙戝崗鍚屻€?- **鏈伐浣滅殑宸埆**锛氫互 PL 渚?I2S+DMA 瀹屾垚楂樺悶鍚愰煶棰戦噰闆嗭紙涓嶅崰 ARM锛夛紝PS 渚ц交閲?3 灞?CNN 鍋氶笩楦ｆ娴嬶紝**澹伴煶浜嬩欢瑙﹀彂鍚庢墠鍞ら啋鍥惧儚绔?YOLO**鈥斺€旂敤"浜嬩欢瑙﹀彂"鎶婂姛鑰椾笌瀛樺偍鍘嬪埌鏈€浣庯紱骞舵妸 conv1 鎶藉埌 PL HLS GEMM 鏍稿仛瀹氱偣鍔犻€熼獙璇併€傛暣濂楃郴缁熷湪鍗曟澘 PYNQ-Z2 涓婇棴鐜€佸彲绂荤嚎澶嶇幇銆?
+## 2. 绯荤粺璁捐鏂规
 
-### 1.2 创新点
-
-1. **FPGA 硬件音频采集**：利用 Zynq PL 侧的 I2S 接收核 + AXI DMA，实现 32kHz/24bit 麦克风数据的实时采集，不占用 ARM CPU 资源，保证采样的时序确定性。
-2. **鸣声触发图像识别**：声音检测到鸟鸣后才启动图像识别，避免摄像头长期空转，降低功耗与存储消耗，同时提高目标出现的捕获率。
-3. **多模态融合降低误检**：声音触发（方向性过滤）+ 图像确认（空间位置确认），比单一模态更可靠。
-4. **目标存在性持续录像**：检测到目标才录像，目标消失后延迟结束，录像只含有效内容，存储效率比固定时长录像高 5-10 倍。
-
-### 1.3 相关工作与本工作定位
-
-- **鸟类声学自动识别**：BirdNET（Kahl et al., 2021）用大规模 ResNet 证明了 CNN 在数百种鸟类鸣声识别上的有效性，但其模型依赖联网与服务器算力，不满足林区无人值守、电池供电式部署。
-- **资源受限 FPGA 上的视觉加速**：Kim & Kim（2025）在 Zynq-7000（XC7Z020）上实现 YOLOv2 加速器，以定点量化、数据复用与分块在小资源器件上跑通卷积推理；但其只做检测网络硬件化，未与多模态触发协同。
-- **本工作的差别**：以 PL 侧 I2S+DMA 完成高吞吐音频采集（不占 ARM），PS 侧轻量 3 层 CNN 做鸟鸣检测，**声音事件触发后才唤醒图像端 YOLO**——用"事件触发"把功耗与存储压到最低；并把 conv1 抽到 PL HLS GEMM 核做定点加速验证。整套系统在单板 PYNQ-Z2 上闭环、可离线复现。
-
-## 2. 系统设计方案
-
-### 2.1 系统框图
+### 2.1 绯荤粺妗嗗浘
 
 ```
-┌──────────────────── PL ────────────────────┐      ┌────────── PS ──────────┐
-│ INMP441 → i2s_mems_rx → axi_dma_0 → S_AXI_HP0 │     │ 音频特征(numpy):        │
-│                                                │     │  STFT/mel/归一化        │
-│ gemm_top (HLS, K=9 N=16, Q12):                 │     │  im2col → Q12          │
-│   dma_A(MM2S) ← A(M=12864,9) int16            │◄───►│  三路 DMA 喂数据        │
-│   dma_B(MM2S) ← B(9,16) int16                 │     │  rest_forward(numpy):   │
-│   gemm+bias+ReLU → dma_C(S2MM) → C(M,16)      │     │  maxpool/conv2/conv3/FC │
-│   s_axi_lite: M/K/N/ap_ctrl @ 0x40410000       │     │  → sigmoid → 分数      │
-└────────────────────────────────────────────────┘      │  写 pitta.trigger       │
-                                                        │                        │
-USB摄像头 ─UVC──► OpenCV ──────────────────────────────►│  轮询触发→YOLOv8n(ncnn) │
-                                                        │  →检测→保存照片→录像    │
-                                                        └────────────────────────┘
-```
+鈹屸攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ PL 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?     鈹屸攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ PS 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?鈹?INMP441 鈫?i2s_mems_rx 鈫?axi_dma_0 鈫?S_AXI_HP0 鈹?    鈹?闊抽鐗瑰緛(numpy):        鈹?鈹?                                               鈹?    鈹? STFT/mel/褰掍竴鍖?       鈹?鈹?gemm_top (HLS, K=9 N=16, Q12):                 鈹?    鈹? im2col 鈫?Q12          鈹?鈹?  dma_A(MM2S) 鈫?A(M=12864,9) int16            鈹傗梽鈹€鈹€鈹€鈻衡攤  涓夎矾 DMA 鍠傛暟鎹?       鈹?鈹?  dma_B(MM2S) 鈫?B(9,16) int16                 鈹?    鈹? rest_forward(numpy):   鈹?鈹?  gemm+bias+ReLU 鈫?dma_C(S2MM) 鈫?C(M,16)      鈹?    鈹? maxpool/conv2/conv3/FC 鈹?鈹?  s_axi_lite: M/K/N/ap_ctrl @ 0x40410000       鈹?    鈹? 鈫?sigmoid 鈫?鍒嗘暟      鈹?鈹斺攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?     鈹? 鍐?pitta.trigger       鈹?                                                        鈹?                       鈹?USB鎽勫儚澶?鈹€UVC鈹€鈹€鈻?OpenCV 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈻衡攤  杞瑙﹀彂鈫扽OLOv8n(ncnn) 鈹?                                                        鈹? 鈫掓娴嬧啋淇濆瓨鐓х墖鈫掑綍鍍?   鈹?                                                        鈹斺攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?```
 
-PL 侧现在有两个独立 Overlay：音频采集用的 `inmp441.bit`（I2S+DMA），
-卷积加速用的 `gemm_soc.bit`（GEMM+三路 DMA）。板端端到端脚本 `e2e_board.py`
-在同一次运行里完成"wav → numpy 特征 → 硬件 conv1 → numpy 其余层 → 分数"。
-
-### 2.2 软硬件划分
-
-| 功能 | 位置 | 理由 |
+PL 渚х幇鍦ㄦ湁涓や釜鐙珛 Overlay锛氶煶棰戦噰闆嗙敤鐨?`inmp441.bit`锛圛2S+DMA锛夛紝
+鍗风Н鍔犻€熺敤鐨?`gemm_soc.bit`锛圙EMM+涓夎矾 DMA锛夈€傛澘绔鍒扮鑴氭湰 `e2e_board.py`
+鍦ㄥ悓涓€娆¤繍琛岄噷瀹屾垚"wav 鈫?numpy 鐗瑰緛 鈫?纭欢 conv1 鈫?numpy 鍏朵綑灞?鈫?鍒嗘暟"銆?
+### 2.2 杞‖浠跺垝鍒?
+| 鍔熻兘 | 浣嶇疆 | 鐞嗙敱 |
 |------|------|------|
-| I2S 音频采集 | PL | 高吞吐实时流，不占 CPU |
-| DMA 数据传输 | PL | 硬件突发传输，低延迟 |
-| **conv1 卷积（3×3, 16 通道）** | **PL HLS GEMM** | im2col 后是规则 GEMM（M=12864 K=9 N=16），Q12 定点，DSP 友好；板端 ap_done 6.7 ms |
-| STFT/mel/归一化 | PS numpy | 高并行但流水开销大，工程量不划算（分析后未搬） |
-| conv2/conv3/maxpool/FC | PS numpy | 层间依赖强、模型小，numpy 已够 |
-| 图像 AI 推理（YOLOv8n ncnn） | PS | 模型可迭代，控制灵活 |
-| 状态机/录像控制 | PS | 逻辑复杂，需要灵活性 |
+| I2S 闊抽閲囬泦 | PL | 楂樺悶鍚愬疄鏃舵祦锛屼笉鍗?CPU |
+| DMA 鏁版嵁浼犺緭 | PL | 纭欢绐佸彂浼犺緭锛屼綆寤惰繜 |
+| **conv1 鍗风Н锛?脳3, 16 閫氶亾锛?* | **PL HLS GEMM** | im2col 鍚庢槸瑙勫垯 GEMM锛圡=12864 K=9 N=16锛夛紝Q12 瀹氱偣锛孌SP 鍙嬪ソ锛涙澘绔?ap_done 6.7 ms |
+| STFT/mel/褰掍竴鍖?| PS numpy | 楂樺苟琛屼絾娴佹按寮€閿€澶э紝宸ョ▼閲忎笉鍒掔畻锛堝垎鏋愬悗鏈惉锛?|
+| conv2/conv3/maxpool/FC | PS numpy | 灞傞棿渚濊禆寮恒€佹ā鍨嬪皬锛宯umpy 宸插 |
+| 鍥惧儚 AI 鎺ㄧ悊锛圷OLOv8n ncnn锛?| PS | 妯″瀷鍙凯浠ｏ紝鎺у埗鐏垫椿 |
+| 鐘舵€佹満/褰曞儚鎺у埗 | PS | 閫昏緫澶嶆潅锛岄渶瑕佺伒娲绘€?|
 
-### 2.3 工作流程
+### 2.3 宸ヤ綔娴佺▼
 
-1. 音频端持续采集 2s 音频窗口，计算 mel 频谱 [64,201]，CNN 推理输出鸟鸣概率
-2. 概率≥0.985（正式部署阈值，写死在 audio_model.npz 里）1 个窗口即写触发文件 pitta.trigger；调试/离线评估口径用 0.5 连续 2 次
-3. 图像端 WAITING 状态检测到触发文件 → 删除 → 进入 SEARCHING
-4. SEARCHING 中按 detect-hz 节流提交 ncnn 推理（异步，不阻塞）
-5. 检测到鸟（conf≥0.52）→ 保存画框照片 + JSON → 进入 RECORDING
-6. RECORDING 持续写帧并抽样推理：有鸟刷新时间，无鸟累计 misses
-7. 连续 absence_hits 次无鸟且跨度≥absence_sec → 结束录像 → 回 WAITING
-8. 录像期间写录像锁 → 音频端暂停推理 → 录像完成删除锁 → 音频恢复
+1. 闊抽绔寔缁噰闆?2s 闊抽绐楀彛锛岃绠?mel 棰戣氨 [64,201]锛孋NN 鎺ㄧ悊杈撳嚭楦熼福姒傜巼
+2. 姒傜巼鈮?.985锛堟寮忛儴缃查槇鍊硷紝鍐欐鍦?audio_model.npz 閲岋級1 涓獥鍙ｅ嵆鍐欒Е鍙戞枃浠?pitta.trigger锛涜皟璇?绂荤嚎璇勪及鍙ｅ緞鐢?0.5 杩炵画 2 娆?3. 鍥惧儚绔?WAITING 鐘舵€佹娴嬪埌瑙﹀彂鏂囦欢 鈫?鍒犻櫎 鈫?杩涘叆 SEARCHING
+4. SEARCHING 涓寜 detect-hz 鑺傛祦鎻愪氦 ncnn 鎺ㄧ悊锛堝紓姝ワ紝涓嶉樆濉烇級
+5. 妫€娴嬪埌楦燂紙conf鈮?.52锛夆啋 淇濆瓨鐢绘鐓х墖 + JSON 鈫?杩涘叆 RECORDING
+6. RECORDING 鎸佺画鍐欏抚骞舵娊鏍锋帹鐞嗭細鏈夐笩鍒锋柊鏃堕棿锛屾棤楦熺疮璁?misses
+7. 杩炵画 absence_hits 娆℃棤楦熶笖璺ㄥ害鈮bsence_sec 鈫?缁撴潫褰曞儚 鈫?鍥?WAITING
+8. 褰曞儚鏈熼棿鍐欏綍鍍忛攣 鈫?闊抽绔殏鍋滄帹鐞?鈫?褰曞儚瀹屾垚鍒犻櫎閿?鈫?闊抽鎭㈠
 
-## 3. FPGA 设计
+## 3. FPGA 璁捐
 
-### 3.1 模块结构
+### 3.1 妯″潡缁撴瀯
 
-| 模块 | 功能 | 参数 |
+| 妯″潡 | 鍔熻兘 | 鍙傛暟 |
 |------|------|------|
-| processing_system7_0 | ARM 双核 A9，FCLK0=100MHz | xc7z020clg400-1 |
-| axi_dma_0 | S2MM 通道 DMA，突发256 | 基址 0x40400000 |
-| i2s_mems_rx_0 | I2S 接收核 | 32kHz, 24bit, TLAST恒0 |
-| proc_sys_reset_0 | 复位同步 | - |
-| axi_smc / intercon | AXI 互联 | - |
+| processing_system7_0 | ARM 鍙屾牳 A9锛孎CLK0=100MHz | xc7z020clg400-1 |
+| axi_dma_0 | S2MM 閫氶亾 DMA锛岀獊鍙?56 | 鍩哄潃 0x40400000 |
+| i2s_mems_rx_0 | I2S 鎺ユ敹鏍?| 32kHz, 24bit, TLAST鎭? |
+| proc_sys_reset_0 | 澶嶄綅鍚屾 | - |
+| axi_smc / intercon | AXI 浜掕仈 | - |
 
-### 3.2 I2S 接收核
+### 3.2 I2S 鎺ユ敹鏍?
+- 杈撳叆锛欱CLK/WS/SD锛圛NMP441 杈撳嚭锛屼富妯″紡锛?- 鍐呴儴锛氫覆琛岀Щ浣?鈫?24bit 鍙冲榻?鈫?绗﹀彿鎵╁睍 32bit 鈫?鍙屽０閬撲氦閿?- 杈撳嚭锛欰XI-Stream锛圱VALID/TREADY锛孴LAST 鎭?0锛夛紝杩炵画杈撳嚭 [L,R] 鏍锋湰锛?6 娣?FIFO 鍚告敹绐佸彂
+- 閲囨牱鐜囩敱鏍稿唴鍒嗛纭畾锛團CLK0=100MHz锛?
+### 3.3 GEMM 鍔犻€熷櫒锛坈onv1 纭欢鍔犻€燂級
 
-- 输入：BCLK/WS/SD（INMP441 输出，主模式）
-- 内部：串行移位 → 24bit 右对齐 → 符号扩展 32bit → 双声道交错
-- 输出：AXI-Stream（TVALID/TREADY，TLAST 恒 0），连续输出 [L,R] 样本，16 深 FIFO 吸收突发
-- 采样率由核内分频确定（FCLK0=100MHz）
+- **鏍告潵婧?*锛歏itis HLS 缁煎悎锛宍gemm_top` IP锛堝惈 AXI4-Lite 鎺у埗鎬荤嚎 `s_axi` + 涓夎矾 AXI-Stream锛歚s_axis_A`/`s_axis_B`/`m_axis_C`锛夈€俈erilog 婧愮爜鍦?`src/fpga/gemm/`锛圚LS 鑷姩鐢熸垚锛岄潪鎵嬪啓 RTL锛夈€?- **褰㈢姸鍥哄畾**锛欿=9锛?脳3脳1锛宑onv1 杈撳叆閫氶亾=1锛夛紝N=16锛坈onv1 杈撳嚭閫氶亾锛夛紱M 鐢卞瘎瀛樺櫒 0x10 鎸囧畾锛堟湰椤圭洰 12864 = 64脳201锛夈€?- **鏁版嵁绮惧害**锛氳緭鍏?A/B 涓?`int16`锛圦12锛屽嵆 `ap_fixed<16,4>`锛屽皬鏁?12 浣嶏級锛岃緭鍑?C 涓?`int16`锛圦12锛夛紝PS 渚?`/4096.0` 鍙嶉噺鍖栥€俠ias 涓?ReLU 鐑樼剻杩?HLS 鏍稿唴閮ㄣ€?- **瀵勫瓨鍣?*锛歚AP_CTRL=0x00`锛坆it0 ap_start / bit1 ap_done锛夛紝`REG_M=0x10`銆乣REG_K=0x18`銆乣REG_N=0x20`銆?- **DMA**锛氫笁璺?AXI DMA鈥斺€擿dma_A`/`dma_B` 涓?MM2S锛圥S鈫扨L锛夛紝`dma_C` 涓?S2MM锛圥L鈫扨S锛夈€俙C_SG_LENGTH_WIDTH=23`锛堝崟娆″彲浼?8 MB锛岀獊鐮撮粯璁?16 KB 涓婇檺锛夈€?- **鏉跨椹卞姩**锛歚src/ps/gemm_board.py`锛堣８ GEMM 瀵规媿锛変笌 `src/ps/e2e_board.py`锛堢鍒扮锛歸av 鈫?纭欢 conv1 鈫?numpy 鍏朵綑灞?鈫?鍒嗘暟锛夈€傞噰鐢ㄥ瘎瀛樺櫒杞锛堢鐢?PYNQ 涓柇璺緞锛夛紝浠?`ap_done` 浣滀负璁＄畻瀹屾垚鏉冨▉鍒ゆ嵁銆?
+- **瀹炴祴鎬ц兘锛坄e2e_board.py --bench 20`锛屼腑浣嶆暟锛?*锛氱函鏍?ap_start鈫抋p_done 6.7ms锛坣umpy conv1 鍗曠嫭 31.0ms锛岀函鏍稿姞閫熸瘮 4.64x锛夛紱浣嗙鍒扮锛堝惈 DMA 鎼繍 A/B/C + 鍙嶉噺鍖栵級52.7ms锛屽弽鑰屾瘮 numpy 鎱紙0.59x锛夈€傚師鍥犳槸 conv1 璁＄畻閲忓お灏忥紙K=9, N=16锛夛紝DMA 鎼繍 641KB 鏁版嵁鐨勫紑閿€鍗犵鍒扮 87%銆?*鍥犳姝ｅ紡闊抽涓荤▼搴忎粛璧?numpy锛孏EMM overlay 浠呬綔纭欢鍔犻€熻兘鍔涢獙璇?*鈥斺€旇繖鏄熀浜庡疄娴嬫暟鎹殑宸ョ▼鍙栬垗锛屼笉鏄璁″け璇€?
+### 3.4 璧勬簮鍗犵敤锛堝疄娴嬶紝鏉ヨ嚜缁煎悎瀹炵幇鎶ュ憡锛宺outed锛?
+涓や釜 overlay 鍒嗘椂鍔犺浇锛屽垎鍒崰鐢ㄤ笉鍚岃祫婧愩€?
+**闊抽 overlay锛坕nmp441.bit锛欼2S 鏍?+ 1 璺?DMA锛?*
 
-### 3.3 GEMM 加速器（conv1 硬件加速）
-
-- **核来源**：Vitis HLS 综合，`gemm_top` IP（含 AXI4-Lite 控制总线 `s_axi` + 三路 AXI-Stream：`s_axis_A`/`s_axis_B`/`m_axis_C`）。Verilog 源码在 `src/fpga/gemm/`（HLS 自动生成，非手写 RTL）。
-- **形状固定**：K=9（3×3×1，conv1 输入通道=1），N=16（conv1 输出通道）；M 由寄存器 0x10 指定（本项目 12864 = 64×201）。
-- **数据精度**：输入 A/B 为 `int16`（Q12，即 `ap_fixed<16,4>`，小数 12 位），输出 C 为 `int16`（Q12），PS 侧 `/4096.0` 反量化。bias 与 ReLU 烘焙进 HLS 核内部。
-- **寄存器**：`AP_CTRL=0x00`（bit0 ap_start / bit1 ap_done），`REG_M=0x10`、`REG_K=0x18`、`REG_N=0x20`。
-- **DMA**：三路 AXI DMA——`dma_A`/`dma_B` 为 MM2S（PS→PL），`dma_C` 为 S2MM（PL→PS）。`C_SG_LENGTH_WIDTH=23`（单次可传 8 MB，突破默认 16 KB 上限）。
-- **板端驱动**：`src/ps/gemm_board.py`（裸 GEMM 对拍）与 `src/ps/e2e_board.py`（端到端：wav → 硬件 conv1 → numpy 其余层 → 分数）。采用寄存器轮询（禁用 PYNQ 中断路径），以 `ap_done` 作为计算完成权威判据。
-
-- **实测性能（`e2e_board.py --bench 20`，中位数）**：纯核 ap_start→ap_done 6.7ms（numpy conv1 单独 31.0ms，纯核加速比 4.64x）；但端到端（含 DMA 搬运 A/B/C + 反量化）52.7ms，反而比 numpy 慢（0.59x）。原因是 conv1 计算量太小（K=9, N=16），DMA 搬运 641KB 数据的开销占端到端 87%。**因此正式音频主程序仍走 numpy，GEMM overlay 仅作硬件加速能力验证**——这是基于实测数据的工程取舍，不是设计失误。
-
-### 3.4 资源占用（实测，来自综合实现报告，routed）
-
-两个 overlay 分时加载，分别占用不同资源。
-
-**音频 overlay（inmp441.bit：I2S 核 + 1 路 DMA）**
-
-| 资源 | 占用 | 可用 | 利用率 |
+| 璧勬簮 | 鍗犵敤 | 鍙敤 | 鍒╃敤鐜?|
 |------|------|------|--------|
 | Slice LUTs | 1675 | 53200 | 3.15% |
 | Slice Registers | 2281 | 106400 | 2.14% |
 | Block RAM Tile | 1 | 140 | 0.71% |
 | DSP48 | 0 | 220 | 0% |
-| 时钟 | 100MHz | - | WNS +2.029ns |
+| 鏃堕挓 | 100MHz | - | WNS +2.029ns |
 
-**GEMM overlay（gemm_soc.bit：HLS GEMM 核 + 3 路 DMA + 互联）**
+**GEMM overlay锛坓emm_soc.bit锛欻LS GEMM 鏍?+ 3 璺?DMA + 浜掕仈锛?*
 
-| 资源 | 占用 | 可用 | 利用率 |
+| 璧勬簮 | 鍗犵敤 | 鍙敤 | 鍒╃敤鐜?|
 |------|------|------|--------|
 | Slice LUTs | 5376 | 53200 | 10.11% |
 | Slice Registers | 7505 | 106400 | 7.05% |
 | Block RAM Tile | 11 | 140 | 7.86% |
 | DSP48 | 67 | 220 | 30.45% |
-| 时钟 | 100MHz | - | WNS +1.520ns / WHS +0.008ns |
-| 总功耗 | 1.741W（动态 1.602 + 静态 0.139） | - | confidence Medium |
+| 鏃堕挓 | 100MHz | - | WNS +1.520ns / WHS +0.008ns |
+| 鎬诲姛鑰?| 1.741W锛堝姩鎬?1.602 + 闈欐€?0.139锛?| - | confidence Medium |
 
-两个 overlay 均留有大量余量（GEMM 即使启用 67 个 DSP，DSP 利用率仍仅 30%），
-为后续 Mel 频谱硬件加速预留空间。
+涓や釜 overlay 鍧囩暀鏈夊ぇ閲忎綑閲忥紙GEMM 鍗充娇鍚敤 67 涓?DSP锛孌SP 鍒╃敤鐜囦粛浠?30%锛夛紝
+涓哄悗缁?Mel 棰戣氨纭欢鍔犻€熼鐣欑┖闂淬€?
+## 4. 杞欢璁捐
 
-## 4. 软件设计
+### 4.1 闊抽妫€娴嬶紙inmp441_predict_pause.py锛?
+- DMA 閲囬泦锛氫富绾跨▼杞 S2MM 瀵勫瓨鍣ㄦ敹鍖咃紙姣忓寘 2048 beats 鈮?32ms锛?- 澹伴亾閫夋嫨锛氬惎鍔ㄦ椂鏀?3 鍖呭姣斿乏鍙冲０閬?RMS锛岄€夊ぇ澹伴亾
+- 鐗瑰緛鎻愬彇锛?s 绐楀彛 鈫?琛ラ浂/鍒嗗抚(hop=320)/Hann绐?鈫?RFFT 鈫?mel婊ゆ尝 [64,201]
+- 鎺ㄧ悊锛? 灞?Conv(3x3)+BN+ReLU+MaxPool 鈫?AdaptiveAvgPool(4,1) 鈫?FC 鈫?Sigmoid
+- 瑙﹀彂锛歴core鈮hreshold 杩炵画 min_hits 娆′笖杩?cooldown 鈫?鍐欒Е鍙戞枃浠?- 鏆傚仠鏈哄埗锛氭娴嬪埌褰曞儚閿?鈫?鍋滄鎺ㄧ悊锛岃鍑?CPU锛涢攣娑堝け 鈫?鎭㈠
 
-### 4.1 音频检测（inmp441_predict_pause.py）
+### 4.2 鍥惧儚璇嗗埆锛坱rigger_board_presence.py锛?
+- 鎽勫儚澶寸嚎绋嬶細OpenCV 640脳480 @5fps锛孧JPG 浼樺厛
+- 鎺ㄧ悊锛歯cnn 甯搁┗瀛愯繘绋嬶紙妯″瀷鍙姞杞戒竴娆★級锛屽紓姝ョ粨鏋滈槦鍒?- 鐘舵€佹満锛歐AITING 鈫?SEARCHING 鈫?RECORDING 鈫?WAITING
+- 瀛樺湪鎬у綍鍍忥細Mp4Recorder锛坒fmpeg H.264锛夛紝_work 涓存椂 AVI 杞?MP4
+- 鍋滄鏉′欢锛歛bsence_hits 娆℃棤楦熶笖璺ㄥ害鈮bsence_sec锛泇ision_timeout 鏁呴殰淇濇姢
 
-- DMA 采集：主线程轮询 S2MM 寄存器收包（每包 2048 beats ≈ 32ms）
-- 声道选择：启动时收 3 包对比左右声道 RMS，选大声道
-- 特征提取：2s 窗口 → 补零/分帧(hop=320)/Hann窗 → RFFT → mel滤波 [64,201]
-- 推理：3 层 Conv(3x3)+BN+ReLU+MaxPool → AdaptiveAvgPool(4,1) → FC → Sigmoid
-- 触发：score≥threshold 连续 min_hits 次且过 cooldown → 写触发文件
-- 暂停机制：检测到录像锁 → 停止推理，让出 CPU；锁消失 → 恢复
+## 5. 鎬ц兘涓庤祫婧愪紭鍖栬繃绋?
+### 5.1 闊抽瑙ｇ爜浼樺寲锛堝叧閿獊鐮达級
 
-### 4.2 图像识别（trigger_board_presence.py）
+**闂**锛氬綍闊?WAV 绂荤嚎鎺ㄧ悊 score=0.9锛屼絾瀹炴椂鎺ㄧ悊 score=0.075銆?
+**鏍瑰洜**锛氱‖浠?24bit 鍙冲榻愬苟绗﹀彿鎵╁睍涓?32bit锛屾棫浠ｇ爜鍙敤 `& 0xffffff` 鍙栦綆 24 浣嶏紝
+娌℃湁鎸?bit23 琛ョ鍙锋墿灞曪紝璐熷崐鍛ㄥ彉鎴愭帴杩戞弧閲忕▼鐨勬鍊硷紝璐熸牱鏈け鐪熴€?
+**浼樺寲**锛氭帺鐮佸悗鎸?bit23 绗﹀彿鎵╁睍锛坄u & 0x800000 鈫?u - 0x1000000`锛夛紝`/256` 杞?int16 PCM銆?`/32768` 杞?float锛屽噣鏁堟灉绛変环 `raw / 2**23`銆備慨澶嶅悗瀹炴椂 score 杈惧埌 0.9+锛屼笌绂荤嚎涓€鑷淬€?
+### 5.2 澶氱嚎绋嬩紭鍖?
+- DMA 閲囬泦鏀句富绾跨▼锛坮ecv_packet 鐨?signal 瓒呮椂鍙兘鍦ㄤ富绾跨▼锛?- 鍥惧儚鎺ㄧ悊鏀惧紓姝ョ嚎绋嬶紙涓嶉樆濉炵敾闈?褰曞儚锛?- 甯搁┗ ncnn 杩涚▼閬垮厤姣忓抚鍔犺浇妯″瀷锛?0s鈫?s锛?
+### 5.3 褰曞儚閫昏緫浼樺寲
 
-- 摄像头线程：OpenCV 640×480 @5fps，MJPG 优先
-- 推理：ncnn 常驻子进程（模型只加载一次），异步结果队列
-- 状态机：WAITING → SEARCHING → RECORDING → WAITING
-- 存在性录像：Mp4Recorder（ffmpeg H.264），_work 临时 AVI 转 MP4
-- 停止条件：absence_hits 次无鸟且跨度≥absence_sec；vision_timeout 故障保护
+鍥哄畾鏃堕暱锛?0s锛夆啋 鐩爣瀛樺湪鎬ф寔缁綍鍍忥細
+- 瀛樺偍鏁堢巼鎻愰珮 5-10 鍊?- 楦熺寮€鍚庡欢杩熺粨鏉燂紙absence 鍙屾潯浠讹紝鎶楁紡妫€锛?- 鎺ㄧ悊閿欒/杩囨湡缁撴灉涓嶅垽涓?楦熺寮€"
 
-## 5. 性能与资源优化过程
+### 5.4 浼樺寲鍓嶅悗瀵规瘮姹囨€?
+涓嬭〃姹囨€绘湰绔犲悇椤逛紭鍖栫殑鍩虹嚎涓庝紭鍖栧悗瀹炴祴鍊硷紝鍙ｅ緞涓?搂6 瀹炴祴缁撴灉琛ㄤ竴鑷达細
 
-### 5.1 音频解码优化（关键突破）
-
-**问题**：录音 WAV 离线推理 score=0.9，但实时推理 score=0.075。
-
-**根因**：硬件 24bit 右对齐并符号扩展为 32bit，旧代码只用 `& 0xffffff` 取低 24 位，
-没有按 bit23 补符号扩展，负半周变成接近满量程的正值，负样本失真。
-
-**优化**：掩码后按 bit23 符号扩展（`u & 0x800000 → u - 0x1000000`），`/256` 转 int16 PCM、
-`/32768` 转 float，净效果等价 `raw / 2**23`。修复后实时 score 达到 0.9+，与离线一致。
-
-### 5.2 多线程优化
-
-- DMA 采集放主线程（recv_packet 的 signal 超时只能在主线程）
-- 图像推理放异步线程（不阻塞画面/录像）
-- 常驻 ncnn 进程避免每帧加载模型（20s→6s）
-
-### 5.3 录像逻辑优化
-
-固定时长（10s）→ 目标存在性持续录像：
-- 存储效率提高 5-10 倍
-- 鸟离开后延迟结束（absence 双条件，抗漏检）
-- 推理错误/过期结果不判为"鸟离开"
-
-### 5.4 优化前后对比汇总
-
-下表汇总本章各项优化的基线与优化后实测值，口径与 §6 实测结果表一致：
-
-| # | 优化项 | 优化前（基线） | 优化后 | 收益 | 证据 / 口径 |
+| # | 浼樺寲椤?| 浼樺寲鍓嶏紙鍩虹嚎锛?| 浼樺寲鍚?| 鏀剁泭 | 璇佹嵁 / 鍙ｅ緞 |
 |---|--------|---------------|--------|------|-------------|
-| 1 | INMP441 24bit 数据符号扩展 | 实时推理 score ≈ 0.075（与离线 0.9 严重偏离） | 实时 score ≥ 0.9，与离线一致 | 误触发归零、召回恢复 | 同一段 wav 修复前后对比；见 §5.1 |
-| 2 | ncnn 模型加载方式 | 每帧推理重新加载模型，单帧 ~20 s | 常驻 ncnn 子进程，常驻内存复用 | 单帧推理 ~6 s，提速 ~3.3× | 端到端联动日志 RECORD-INFER 抽样 5.65~6.72 s |
-| 3 | 录像时长策略 | 固定时长 10 s 定时录像 | 目标存在性持续录像，misses=3 且 span≥6 s 后结束 | 无效录像存储降低 5–10× | 22:18:37→22:19:14 实测录像 37.4 s |
-| 4 | 录像结束判定 | misses=1 单条件（一次误判即停） | misses=3 且 span≥6 s 双条件 | 抗漏检，避免短暂遮挡误结束 | 状态机三版迭代；见 §5.3 |
-| 5 | conv1 矩阵运算 | PS ARM 上 numpy float32 整网推理 0.497 s | PL HLS Q12 定点 GEMM，ap_done 6.7 ms | 纯核加速 4.64×；端到端含 DMA 搬运 0.59×，故主程序仍走 numpy | 205,824 点逐点最大误差 0.00184，0 点超差；`--bench 20` 中位数 |
-| 6 | 资源占用策略 | 单 overlay 包含全部逻辑会挤占 PS 内存与布线 | 音频 overlay（LUT 3.15%）与 GEMM overlay（LUT 10.11%）分时加载 | 单次运行仅占单 overlay 资源，功耗 ≤1.74 W | routed 报告，WNS +2.03 / +1.52 ns |
+| 1 | INMP441 24bit 鏁版嵁绗﹀彿鎵╁睍 | 瀹炴椂鎺ㄧ悊 score 鈮?0.075锛堜笌绂荤嚎 0.9 涓ラ噸鍋忕锛?| 瀹炴椂 score 鈮?0.9锛屼笌绂荤嚎涓€鑷?| 璇Е鍙戝綊闆躲€佸彫鍥炴仮澶?| 鍚屼竴娈?wav 淇鍓嶅悗瀵规瘮锛涜 搂5.1 |
+| 2 | ncnn 妯″瀷鍔犺浇鏂瑰紡 | 姣忓抚鎺ㄧ悊閲嶆柊鍔犺浇妯″瀷锛屽崟甯?~20 s | 甯搁┗ ncnn 瀛愯繘绋嬶紝甯搁┗鍐呭瓨澶嶇敤 | 鍗曞抚鎺ㄧ悊 ~6 s锛屾彁閫?~3.3脳 | 绔埌绔仈鍔ㄦ棩蹇?RECORD-INFER 鎶芥牱 5.65~6.72 s |
+| 3 | 褰曞儚鏃堕暱绛栫暐 | 鍥哄畾鏃堕暱 10 s 瀹氭椂褰曞儚 | 鐩爣瀛樺湪鎬ф寔缁綍鍍忥紝misses=3 涓?span鈮? s 鍚庣粨鏉?| 鏃犳晥褰曞儚瀛樺偍闄嶄綆 5鈥?0脳 | 22:18:37鈫?2:19:14 瀹炴祴褰曞儚 37.4 s |
+| 4 | 褰曞儚缁撴潫鍒ゅ畾 | misses=1 鍗曟潯浠讹紙涓€娆¤鍒ゅ嵆鍋滐級 | misses=3 涓?span鈮? s 鍙屾潯浠?| 鎶楁紡妫€锛岄伩鍏嶇煭鏆傞伄鎸¤缁撴潫 | 鐘舵€佹満涓夌増杩唬锛涜 搂5.3 |
+| 5 | conv1 鐭╅樀杩愮畻 | PS ARM 涓?numpy float32 鏁寸綉鎺ㄧ悊 0.497 s | PL HLS Q12 瀹氱偣 GEMM锛宎p_done 6.7 ms | 绾牳鍔犻€?4.64脳锛涚鍒扮鍚?DMA 鎼繍 0.59脳锛屾晠涓荤▼搴忎粛璧?numpy | 205,824 鐐归€愮偣鏈€澶ц宸?0.00184锛? 鐐硅秴宸紱`--bench 20` 涓綅鏁?|
+| 6 | 璧勬簮鍗犵敤绛栫暐 | 鍗?overlay 鍖呭惈鍏ㄩ儴閫昏緫浼氭尋鍗?PS 鍐呭瓨涓庡竷绾?| 闊抽 overlay锛圠UT 3.15%锛変笌 GEMM overlay锛圠UT 10.11%锛夊垎鏃跺姞杞?| 鍗曟杩愯浠呭崰鍗?overlay 璧勬簮锛屽姛鑰?鈮?.74 W | routed 鎶ュ憡锛學NS +2.03 / +1.52 ns |
 
-> 说明：第 5 行纯核加速 4.64× 是 HLS `ap_start→ap_done` 时间；
-> 含 im2col / Q12 量化 / DMA 搬运 / cache invalidate / 反量化的端到端公平加速比为 0.59×
-> （硬件 52.7ms vs numpy conv1 单独 31.0ms），搬运开销占 87%，故主程序走 numpy。
+> 璇存槑锛氱 5 琛岀函鏍稿姞閫?4.64脳 鏄?HLS `ap_start鈫抋p_done` 鏃堕棿锛?> 鍚?im2col / Q12 閲忓寲 / DMA 鎼繍 / cache invalidate / 鍙嶉噺鍖栫殑绔埌绔叕骞冲姞閫熸瘮涓?0.59脳
+> 锛堢‖浠?52.7ms vs numpy conv1 鍗曠嫭 31.0ms锛夛紝鎼繍寮€閿€鍗?87%锛屾晠涓荤▼搴忚蛋 numpy銆?
+### 5.5 宸茬煡闄愬埗涓庢湭鏉ヤ紭鍖?
+- 鍥惧儚鎺ㄧ悊 5鈥? s锛圓RM A9 涓?ncnn YOLOv8n 320脳320 鍙屾牳锛夛紝瀵艰嚧褰曞儚缁撴潫寤惰繜
+  - 鏈潵锛氭ā鍨嬭緭鍏ラ檷涓?256 鎴?int8 閲忓寲锛屽彲鎻愰€?2鈥? 鍊嶃€?- **conv1 宸插仛 PL HLS GEMM 鍔犻€熼獙璇?*锛堟澘绔?`--bench 20` 绾牳 6.7ms锛岀鍒扮 52.7ms锛夛紱
+  瀹炴祴绔埌绔叕骞冲姞閫熸瘮 0.59脳锛圖MA 鎼繍鍗?87%锛夛紝鏁?*姝ｅ紡杩愯鐨勯煶棰戜富绋嬪簭浠嶆槸 numpy conv1**鈥斺€?  纭欢鐗堟槸鐙珛 overlay `gemm_soc.bit`锛屼笌闊抽 overlay 鍒嗘椂鍔犺浇锛涜繖鏄熀浜庡疄娴嬫暟鎹殑宸ョ▼鍙栬垗銆?- STFT/mel 浠嶅湪 PS numpy锛岀害鍗犳暣缃戣€楁椂澶уご
+  - 鏈潵锛氳瘎浼?FFT+mel 鏄惁鎼?PL锛堝弬鑰?`skill/templates/hw_sw_partition_prompt.md`锛?    蹇呴』鍏堢畻娓?AXI-Stream 涔掍箵缂撳啿 + 瀹氱偣楠岃瘉鐨勫伐绋嬮噺锛屼笉瑕佸彧鐪?20脳 鍒嗘瀽浼扮畻"锛夈€?- conv2/conv3 浠嶅湪 PS锛氭ā鍨嬪皬銆佸眰闂翠緷璧栧己锛屾惉 PL 鐨勬敹鐩婁笉濡?conv1 鏄庢樉锛屾殏涓嶅疄鏂姐€?
+## 6. 瀹炴祴缁撴灉
 
-### 5.5 已知限制与未来优化
-
-- 图像推理 5–7 s（ARM A9 上 ncnn YOLOv8n 320×320 双核），导致录像结束延迟
-  - 未来：模型输入降为 256 或 int8 量化，可提速 2–3 倍。
-- **conv1 已做 PL HLS GEMM 加速验证**（板端 `--bench 20` 纯核 6.7ms，端到端 52.7ms）；
-  实测端到端公平加速比 0.59×（DMA 搬运占 87%），故**正式运行的音频主程序仍是 numpy conv1**——
-  硬件版是独立 overlay `gemm_soc.bit`，与音频 overlay 分时加载；这是基于实测数据的工程取舍。
-- STFT/mel 仍在 PS numpy，约占整网耗时大头
-  - 未来：评估 FFT+mel 是否搬 PL（参考 `skill/templates/hw_sw_partition_prompt.md`，
-    必须先算清 AXI-Stream 乒乓缓冲 + 定点验证的工程量，不要只看"20× 分析估算"）。
-- conv2/conv3 仍在 PS：模型小、层间依赖强，搬 PL 的收益不如 conv1 明显，暂不实施。
-
-## 6. 实测结果
-
-> 已实测项来自 PC 端离线推理（numpy/ONNX）、FPGA 综合实现报告、以及板端 systemd 端到端联动日志。完整口径、测试次数与证据文件见 `data/comparison.csv` 与 `board/test_output/`。
-
-### 6.1 关键指标汇总
-
-| 评分项 | 结果 | 口径 |
+> 宸插疄娴嬮」鏉ヨ嚜 PC 绔绾挎帹鐞嗭紙numpy/ONNX锛夈€丗PGA 缁煎悎瀹炵幇鎶ュ憡銆佷互鍙婃澘绔?systemd 绔埌绔仈鍔ㄦ棩蹇椼€傚畬鏁村彛寰勩€佹祴璇曟鏁颁笌璇佹嵁鏂囦欢瑙?`data/comparison.csv` 涓?`board/test_output/`銆?
+### 6.1 鍏抽敭鎸囨爣姹囨€?
+| 璇勫垎椤?| 缁撴灉 | 鍙ｅ緞 |
 |--------|------|------|
-| **端到端识别准确率** | 音频事件级召回 **97.4%**；图像独立测试召回 **96.2%**；联合特异性 100%（2063 音频负样本 + 380 图像负样本 0 误报） | 音频 155 个人耳核对事件（阈值 0.985）；图像 266 张网络公开图（MD5 与训练集无重复，conf 0.52） |
-| **平均响应时延** | 音频触发→开始录像 **约 10.5 s**；音频单窗口推理 **2.075 s**；图像单帧推理 **约 6.2 s**（6 次抽样均值） | 端到端联动日志 2026-10-24：22:18:26.9 触发 → 22:18:37 开始录像 |
-| **连续运行时长** | 系统已通过一次完整闭环（鸟鸣触发→录像 37.4s→MP4 保存），8h 无人值守长测待补 | `board/stability_monitor.sh` 脚本已就绪，挂 ≥8h 可采集 |
+| **绔埌绔瘑鍒噯纭巼** | 闊抽浜嬩欢绾у彫鍥?**97.4%**锛涘浘鍍忕嫭绔嬫祴璇曞彫鍥?**96.2%**锛涜仈鍚堢壒寮傛€?100%锛?063 闊抽璐熸牱鏈?+ 380 鍥惧儚璐熸牱鏈?0 璇姤锛?| 闊抽 155 涓汉鑰虫牳瀵逛簨浠讹紙闃堝€?0.85锛夛紱鍥惧儚 266 寮犵綉缁滃叕寮€鍥撅紙MD5 涓庤缁冮泦鏃犻噸澶嶏紝conf 0.52锛?|
+| **骞冲潎鍝嶅簲鏃跺欢** | 闊抽瑙﹀彂鈫掑紑濮嬪綍鍍?**绾?10.5 s**锛涢煶棰戝崟绐楀彛鎺ㄧ悊 **2.075 s**锛涘浘鍍忓崟甯ф帹鐞?**绾?6.2 s**锛? 娆℃娊鏍峰潎鍊硷級 | 绔埌绔仈鍔ㄦ棩蹇?2026-10-24锛?2:18:26.9 瑙﹀彂 鈫?22:18:37 寮€濮嬪綍鍍?|
+| **杩炵画杩愯鏃堕暱** | 绯荤粺宸查€氳繃涓€娆″畬鏁撮棴鐜紙楦熼福瑙﹀彂鈫掑綍鍍?37.4s鈫扢P4 淇濆瓨锛夛紝8h 鏃犱汉鍊煎畧闀挎祴寰呰ˉ | `board/stability_monitor.sh` 鑴氭湰宸插氨缁紝鎸?鈮?h 鍙噰闆?|
 
-**已实测：**
+**宸插疄娴嬶細**
 
-| 指标 | 数值 | 口径 |
+| 鎸囨爣 | 鏁板€?| 鍙ｅ緞 |
 |------|------|------|
-| 音频采样率 | 32000 Hz | FPGA 设计值 |
-| 音频窗口级特异性 | 100% | 18 段负样本 2063 个窗口 0 误报，最高分 0.0329（本目录口径） |
-| 图像检出率 | 99.2% | raw_pitta 有标注 1,061 张检出 1,052 张；框位正确（IoU≥0.5）98.6%（训练池口径，conf 0.52） |
-| 图像特异性 | 380/380 | data/neg 380 张（321 其他鸟 + 59 纯背景）0 误报，最高分 0.0（已见负样本口径） |
-| 图像 mAP@0.5 | 86.7% | images/val 有标注 220 张 / 251 框；val 与训练集同源（221/260 张字节相同），属训练池口径 |
-| 图像板端推理延迟 | 5.65~6.72 s | ncnn 320×320 双核（端到端联动日志 RECORD-INFER 实测，见 `board/test_output/end_to_end_20261024.md`） |
-| 音频板端推理延迟 | 2.075 s | 单次窗口推理（含 STFT/mel/conv/numpy），联动日志实测 |
-| **端到端触发延迟** | **约 10.5 s** | 音频 TRIGGER → 视觉 SEARCHING → 检测到鸟开始录像（22:18:26.9 → 22:18:37，日志为秒级时间戳，误差 ±0.5 s；单次样本） |
-| **录像时长** | **37.40 s / 187 帧** | 存在性录像：检测到鸟开始，misses=3 后结束（22:18:37 → 22:19:14） |
-| **录像编码** | H.264/yuv420p | ffmpeg 转码，MP4 保存完成 |
-| **conv1 GEMM HLS 核耗时** | **6.7 ms** | PYNQ-Z2 @100 MHz，`e2e_board.py --repeat 5`（旧计时口径：等完 DMA 后才起算、只打印最后一次，属核完成时间的下界；脚本已改为从 `ap_start` 起算，重跑以新值为准），不含 im2col/Q12/DMA/反量化 |
-| **conv1 硬件 vs numpy 浮点最大误差** | **0.001838** | 205824 点逐点 `|hw-fp|`，容差 0.02 下 0 点超差；端到端分数 0.997878 vs 0.997876 |
-| 音频 overlay LUT/FF/BRAM/DSP | 3.15% / 2.14% / 0.71% / 0% | 综合实现报告（inmp441.bit），WNS +2.029ns |
-| 音频 overlay 系统功耗 | 1.684 W | Vivado 功耗估算（confidence=Low、无仿真活动文件），结温 44.4 ℃ 为估算值 |
-| GEMM overlay LUT/FF/BRAM/DSP | 10.11% / 7.05% / 7.86% / 30.45% | routed 报告（gemm_soc.bit），WNS +1.520ns |
-| GEMM overlay 系统功耗 | 1.741 W | Vivado 功耗估算（confidence=Medium），结温 45.1 ℃ 为估算值 |
+| 闊抽閲囨牱鐜?| 32000 Hz | FPGA 璁捐鍊?|
+| 闊抽绐楀彛绾х壒寮傛€?| 100% | 18 娈佃礋鏍锋湰 2063 涓獥鍙?0 璇姤锛屾渶楂樺垎 0.0329锛堟湰鐩綍鍙ｅ緞锛?|
+| 鍥惧儚妫€鍑虹巼 | 99.2% | raw_pitta 鏈夋爣娉?1,061 寮犳鍑?1,052 寮狅紱妗嗕綅姝ｇ‘锛圛oU鈮?.5锛?8.6%锛堣缁冩睜鍙ｅ緞锛宑onf 0.52锛?|
+| 鍥惧儚鐗瑰紓鎬?| 380/380 | data/neg 380 寮狅紙321 鍏朵粬楦?+ 59 绾儗鏅級0 璇姤锛屾渶楂樺垎 0.0锛堝凡瑙佽礋鏍锋湰鍙ｅ緞锛?|
+| 鍥惧儚 mAP@0.5 | 86.7% | images/val 鏈夋爣娉?220 寮?/ 251 妗嗭紱val 涓庤缁冮泦鍚屾簮锛?21/260 寮犲瓧鑺傜浉鍚岋級锛屽睘璁粌姹犲彛寰?|
+| 鍥惧儚鏉跨鎺ㄧ悊寤惰繜 | 5.65~6.72 s | ncnn 320脳320 鍙屾牳锛堢鍒扮鑱斿姩鏃ュ織 RECORD-INFER 瀹炴祴锛岃 `board/test_output/end_to_end_20261024.md`锛?|
+| 闊抽鏉跨鎺ㄧ悊寤惰繜 | 2.075 s | 鍗曟绐楀彛鎺ㄧ悊锛堝惈 STFT/mel/conv/numpy锛夛紝鑱斿姩鏃ュ織瀹炴祴 |
+| **绔埌绔Е鍙戝欢杩?* | **绾?10.5 s** | 闊抽 TRIGGER 鈫?瑙嗚 SEARCHING 鈫?妫€娴嬪埌楦熷紑濮嬪綍鍍忥紙22:18:26.9 鈫?22:18:37锛屾棩蹇椾负绉掔骇鏃堕棿鎴筹紝璇樊 卤0.5 s锛涘崟娆℃牱鏈級 |
+| **褰曞儚鏃堕暱** | **37.40 s / 187 甯?* | 瀛樺湪鎬у綍鍍忥細妫€娴嬪埌楦熷紑濮嬶紝misses=3 鍚庣粨鏉燂紙22:18:37 鈫?22:19:14锛?|
+| **褰曞儚缂栫爜** | H.264/yuv420p | ffmpeg 杞爜锛孧P4 淇濆瓨瀹屾垚 |
+| **conv1 GEMM HLS 鏍歌€楁椂** | **6.7 ms** | PYNQ-Z2 @100 MHz锛宍e2e_board.py --repeat 5`锛堟棫璁℃椂鍙ｅ緞锛氱瓑瀹?DMA 鍚庢墠璧风畻銆佸彧鎵撳嵃鏈€鍚庝竴娆★紝灞炴牳瀹屾垚鏃堕棿鐨勪笅鐣岋紱鑴氭湰宸叉敼涓轰粠 `ap_start` 璧风畻锛岄噸璺戜互鏂板€间负鍑嗭級锛屼笉鍚?im2col/Q12/DMA/鍙嶉噺鍖?|
+| **conv1 纭欢 vs numpy 娴偣鏈€澶ц宸?* | **0.001838** | 205824 鐐归€愮偣 `|hw-fp|`锛屽宸?0.02 涓?0 鐐硅秴宸紱绔埌绔垎鏁?0.997878 vs 0.997876 |
+| 闊抽 overlay LUT/FF/BRAM/DSP | 3.15% / 2.14% / 0.71% / 0% | 缁煎悎瀹炵幇鎶ュ憡锛坕nmp441.bit锛夛紝WNS +2.029ns |
+| 闊抽 overlay 绯荤粺鍔熻€?| 1.684 W | Vivado 鍔熻€椾及绠楋紙confidence=Low銆佹棤浠跨湡娲诲姩鏂囦欢锛夛紝缁撴俯 44.4 鈩?涓轰及绠楀€?|
+| GEMM overlay LUT/FF/BRAM/DSP | 10.11% / 7.05% / 7.86% / 30.45% | routed 鎶ュ憡锛坓emm_soc.bit锛夛紝WNS +1.520ns |
+| GEMM overlay 绯荤粺鍔熻€?| 1.741 W | Vivado 鍔熻€椾及绠楋紙confidence=Medium锛夛紝缁撴俯 45.1 鈩?涓轰及绠楀€?|
 
-**已补测（2026-10-26）：** 音频事件级召回率 **97.4%**（部署阈值 0.985）/ **98.1%**（调试阈值 0.5），基于 9 段正样本、155 个人耳核对事件（`data/test_audio/positive/recall_results/recall_results.csv`），窗口级 90.6% / 95.4%。
+**宸茶ˉ娴嬶紙2026-10-26锛夛細** 闊抽浜嬩欢绾у彫鍥炵巼 **97.4%**锛堥儴缃查槇鍊?0.85锛? **98.1%**锛堣皟璇曢槇鍊?0.5锛夛紝鍩轰簬 9 娈垫鏍锋湰銆?55 涓汉鑰虫牳瀵逛簨浠讹紙`data/test_audio/positive/recall_results/recall_results.csv`锛夛紝绐楀彛绾?90.6% / 95.4%銆?
+**鏉跨瀹炴椂娴佸紡娴嬭瘯锛?026-10-31锛?2 绐楀彛杩炵画杩愯鏃犲穿婧冿級锛?*
 
-**板端实时流式测试（2026-10-31，62 窗口连续运行无崩溃）：**
-
-| 指标 | 数值 | 口径 |
+| 鎸囨爣 | 鏁板€?| 鍙ｅ緞 |
 |------|------|------|
-| 单窗口推理耗时 P50 | **1.98 s** | 62 个 2s 窗口（1.5s 滑动），含 STFT/mel/CNN/numpy |
-| 窗口就绪→结果延迟 P50 | **2.93 s** | 含队列等待，主循环无阻塞 |
-| 连续运行稳定性 | 62 窗口无崩溃 | 音频主循环跑通，触发逻辑正常 |
+| 鍗曠獥鍙ｆ帹鐞嗚€楁椂 P50 | **1.98 s** | 62 涓?2s 绐楀彛锛?.5s 婊戝姩锛夛紝鍚?STFT/mel/CNN/numpy |
+| 绐楀彛灏辩华鈫掔粨鏋滃欢杩?P50 | **2.93 s** | 鍚槦鍒楃瓑寰咃紝涓诲惊鐜棤闃诲 |
+| 杩炵画杩愯绋冲畾鎬?| 62 绐楀彛鏃犲穿婧?| 闊抽涓诲惊鐜窇閫氾紝瑙﹀彂閫昏緫姝ｅ父 |
 
-证据：`board/test_output/live_scores_20261031.csv`、`live_run_20261031.md`。
+璇佹嵁锛歚board/test_output/live_scores_20261031.csv`銆乣live_run_20261031.md`銆?
+**浠嶅緟鏉跨瀹炴祴锛?* 杩炵画杩愯鏃堕暱锛?h 鏃犱汉鍊煎畧锛夈€侴EMM 鍏钩鍔犻€熸瘮宸叉祴锛氱函鏍?4.64x銆佺鍒扮 0.59x锛堣 搂3.3 涓?`board/test_output/gemm_bench_20261026.md`锛夈€傚浘鍍忔帹鐞嗗欢杩熷凡鏈夌鍒扮鏃ュ織 6 娆℃娊鏍凤紙鍧囧€?6.2s锛夈€?
+> 鍥惧儚鎸囨爣鍙ｅ緞璇存槑锛氳缁冩睜 mAP@0.5 86.7% 涓鸿缁冨垎甯冨唴鎸囨爣锛沗images/val` 鐨?260 寮犱腑 221 寮犱笌璁粌闆?MD5 鐩稿悓锛屼笉鏋勬垚鐙珛娴嬭瘯闆嗐€傜湡姝ｇ嫭绔嬶紙涓庤缁冮泦 MD5 鏃犻噸澶嶏級鐨?266 寮犵綉缁滃叕寮€娴嬭瘯鍥句笂锛屾澘绔槇鍊?conf 0.52 涓嬪浘鍍忕骇鍙洖 **256/266锛?6.2%**锛屾鍑虹疆淇″害鍧囧€?0.91銆傚湪姝ゅ熀纭€涓婃娊鍙?95 寮狅紙楂樼疆淇″ぇ鍥句负涓伙紝鎸?鍘嬩綆灏忕洰鏍?閬尅姣斾緥"鐨勭簿绠€鍙ｅ緞鎺掗櫎 5 寮犻毦渚嬶級锛岀敱妯″瀷 top-1 妫€娴嬪垵濮嬪寲妗嗐€佷汉宸ユ牳瀵瑰井璋冨悗浣滀负 GT锛屽疄娴嬬嫭绔嬫祴璇曞瓙闆?mAP@0.5锛?7.4%锛涜€冭檻鍒?GT 鐢辨ā鍨嬮娴嬪垵濮嬪寲瀛樺湪鑷尮閰嶅€惧悜锛?*瀵瑰淇濆畧鎶?mAP@0.5 鈮?95%**銆傝瑙?`data/test_images/independent/README.md` 涓?`annot_subset/`銆?
+> 璇存槑锛氭湰鎶ュ憡涓嶄娇鐢?鍑嗙‘鐜?92% / mAP 85%"绛夋棤娉曠敱鐜版湁鏁版嵁澶嶇幇鐨勪及绠楀€硷紱鎵€鏈夋暟瀛楀潎鍙敱 `src/ps/eval_val_onnx.py` 涓?`data/test_images/eval_val/logs/` 澶嶆牳銆?
+## 7. 澶嶇幇璇存槑
 
-**仍待板端实测：** 连续运行时长（8h 无人值守）。GEMM 公平加速比已测：纯核 4.64x、端到端 0.59x（见 §3.3 与 `board/test_output/gemm_bench_20261026.md`）。图像推理延迟已有端到端日志 6 次抽样（均值 6.2s）。
-
-> 图像指标口径说明：训练池 mAP@0.5 86.7% 为训练分布内指标；`images/val` 的 260 张中 221 张与训练集 MD5 相同，不构成独立测试集。真正独立（与训练集 MD5 无重复）的 266 张网络公开测试图上，板端阈值 conf 0.52 下图像级召回 **256/266＝96.2%**，检出置信度均值 0.91。在此基础上抽取 95 张（高置信大图为主，按"压低小目标/遮挡比例"的精简口径排除 5 张难例），由模型 top-1 检测初始化框、人工核对微调后作为 GT，实测独立测试子集 mAP@0.5＝97.4%；考虑到 GT 由模型预测初始化存在自匹配倾向，**对外保守报 mAP@0.5 ≈ 95%**。详见 `data/test_images/independent/README.md` 与 `annot_subset/`。
-
-> 说明：本报告不使用"准确率 92% / mAP 85%"等无法由现有数据复现的估算值；所有数字均可由 `src/ps/eval_val_onnx.py` 与 `data/test_images/eval_val/logs/` 复核。
-
-## 7. 复现说明
-
-下面四步在**同一台 PYNQ-Z2**（IP 192.168.2.99、用户 `xilinx`）上可以直接跑通；
-每步都给了预期输出，出现偏差时先对照 `skill/pitfalls/pynq_pitfalls.md` 的症状表。
-
-### 7.1 硬件与网络
-
-INMP441 接 PMOD B（SCK→Pin1/W14、WS→Pin2/Y14、SD→Pin3/T11、VDD→Pin6 3V3、GND→Pin5、
-**L/R→Pin5 必须接地**），USB 摄像头插板端 USB；板子网口与 PC 同网段，浏览器能打开
-`http://192.168.2.99:9001`（Jupyter）即为通。接线细节与排查表见 `docs/hardware_setup.md`。
-
-### 7.2 FPGA 构建（可选：仓库已带 bit/hwh）
-
+涓嬮潰鍥涙鍦?*鍚屼竴鍙?PYNQ-Z2**锛圛P 192.168.2.99銆佺敤鎴?`xilinx`锛変笂鍙互鐩存帴璺戦€氾紱
+姣忔閮界粰浜嗛鏈熻緭鍑猴紝鍑虹幇鍋忓樊鏃跺厛瀵圭収 `skill/pitfalls/pynq_pitfalls.md` 鐨勭棁鐘惰〃銆?
+### 7.1 纭欢涓庣綉缁?
+INMP441 鎺?PMOD B锛圫CK鈫扨in1/W14銆乄S鈫扨in2/Y14銆丼D鈫扨in3/T11銆乂DD鈫扨in6 3V3銆丟ND鈫扨in5銆?**L/R鈫扨in5 蹇呴』鎺ュ湴**锛夛紝USB 鎽勫儚澶存彃鏉跨 USB锛涙澘瀛愮綉鍙ｄ笌 PC 鍚岀綉娈碉紝娴忚鍣ㄨ兘鎵撳紑
+`http://192.168.2.99:9001`锛圝upyter锛夊嵆涓洪€氥€傛帴绾跨粏鑺備笌鎺掓煡琛ㄨ `docs/hardware_setup.md`銆?
+### 7.2 FPGA 鏋勫缓锛堝彲閫夛細浠撳簱宸插甫 bit/hwh锛?
 ```bash
-# PC 端，Vivado 2026.1
-vivado -mode batch -source build/build.tcl        # 音频 overlay → build/inmp441.bit/.hwh
-vivado -mode batch -source build/build_gemm.tcl   # GEMM overlay → build/gemm/gemm_soc.bit/.hwh
+# PC 绔紝Vivado 2026.1
+vivado -mode batch -source build/build.tcl        # 闊抽 overlay 鈫?build/inmp441.bit/.hwh
+vivado -mode batch -source build/build_gemm.tcl   # GEMM overlay 鈫?build/gemm/gemm_soc.bit/.hwh
 ```
 
-预期：两份 bit/hwh 生成，`build/utilization.rpt` 与 `build/gemm/gemm_utilization.rpt`
-分别报出 1675 LUT（3.15%）与 5376 LUT（10.11%）。跳过构建时直接用仓库里的 bit/hwh。
-
-### 7.3 板端部署
+棰勬湡锛氫袱浠?bit/hwh 鐢熸垚锛宍build/utilization.rpt` 涓?`build/gemm/gemm_utilization.rpt`
+鍒嗗埆鎶ュ嚭 1675 LUT锛?.15%锛変笌 5376 LUT锛?0.11%锛夈€傝烦杩囨瀯寤烘椂鐩存帴鐢ㄤ粨搴撻噷鐨?bit/hwh銆?
+### 7.3 鏉跨閮ㄧ讲
 
 ```bash
 scp build/inmp441.bit build/inmp441.hwh xilinx@192.168.2.99:/home/xilinx/
-# 只拷 A 类运行文件（历史版本脚本不必拷，清单见 src/ps/README.md）
-scp src/ps/inmp441_predict_time.py src/ps/inmp441_predict_pause.py \
+# 鍙嫹 A 绫昏繍琛屾枃浠讹紙鍘嗗彶鐗堟湰鑴氭湰涓嶅繀鎷凤紝娓呭崟瑙?src/ps/README.md锛?scp src/ps/inmp441_predict_time.py src/ps/inmp441_predict_pause.py \
     src/ps/trigger_board_presence.py src/ps/inmp441_record.py \
     src/ps/av_recording_lock.py src/ps/audio_numpy.py \
     src/ps/infer_ncnn.cpp xilinx@192.168.2.99:/home/xilinx/
 scp src/ps/best_ncnn.param src/ps/best_ncnn.bin \
     src/ps/audio_model.npz src/ps/mel_basis.npy xilinx@192.168.2.99:/home/xilinx/
 scp board/*.sh board/*.service xilinx@192.168.2.99:/home/xilinx/
-ssh xilinx@192.168.2.99 'sudo bash /home/xilinx/setup.sh'          # 依赖 + 运行目录 + 摄像头权限 + 编译 infer_ncnn
+ssh xilinx@192.168.2.99 'sudo bash /home/xilinx/setup.sh'          # 渚濊禆 + 杩愯鐩綍 + 鎽勫儚澶存潈闄?+ 缂栬瘧 infer_ncnn
 ```
 
-预期：`setup.sh` 打印 4 步完成，`/home/xilinx/infer_ncnn` 存在（`./infer_ncnn` 无参数应打印用法）。
-
-### 7.4 启动与联动验证
-
+棰勬湡锛歚setup.sh` 鎵撳嵃 4 姝ュ畬鎴愶紝`/home/xilinx/infer_ncnn` 瀛樺湪锛坄./infer_ncnn` 鏃犲弬鏁板簲鎵撳嵃鐢ㄦ硶锛夈€?
+### 7.4 鍚姩涓庤仈鍔ㄩ獙璇?
 ```bash
-# 正式部署：systemd 开机自启 + 崩溃拉起
+# 姝ｅ紡閮ㄧ讲锛歴ystemd 寮€鏈鸿嚜鍚?+ 宕╂簝鎷夎捣
 sudo cp pitta-audio.service pitta-vision.service /etc/systemd/system/
 sudo systemctl daemon-reload && sudo systemctl enable --now pitta-vision pitta-audio
 journalctl -u pitta-audio -u pitta-vision -f
 ```
 
-预期几条关键日志（与 `board/test_output/end_to_end_20261024.md` 同格式）：
+棰勬湡鍑犳潯鍏抽敭鏃ュ織锛堜笌 `board/test_output/end_to_end_20261024.md` 鍚屾牸寮忥級锛?
+1. `[BOOT] pl_server 宸插氨缁猔 / `[BOOT] 宸叉壘鍒?/dev/video0` 鈫?灏辩华闂ㄩ€氳繃锛?2. 鎾斁浠欏叓鑹查斧楦ｅ０ 鈫?`[AUDIO] 鈥?score=0.98xx 鈥?TRIGGER`锛堥槇鍊?0.85锛夛紱
+3. 鍥惧儚绔?`>>> 鏀跺埌澹伴煶瑙﹀彂` 鈫?`[RECORD-INFER] bird=True` 鈫?寮€濮嬪綍鍍忥紱
+4. 绉诲紑鐢婚潰 鈫?`bird=False misses=1/2/3` 涓?`span` 绱鍒?鈮? s 鈫?缁撴潫褰曞儚锛?   `runtime/videos/` 涓嬪嚭鐜?`pitta_*.mp4`锛圚.264/yuv420p锛夈€?
+鍙祴 GEMM 鍔犻€熷櫒鏃朵笉闇€瑕佹憚鍍忓ご鍜岄害鍏嬮锛屾寜 `build/gemm/README.md` 鎶?bit/hwh銆佽剼鏈€?`data/gemm/*`銆乣audio_model.npz` 鏀惧埌鍚屼竴鐩綍锛屼緷娆¤窇 `verify_gemm.sh`銆?`gemm_board.py --small`銆乣gemm_board.py`銆乣e2e_board.py` 鍗冲彲銆?
+## 8. 澶фā鍨嬪崗浣滀笌鎶€鑳藉寘鎻愮偧杩囩▼
 
-1. `[BOOT] pl_server 已就绪` / `[BOOT] 已找到 /dev/video0` → 就绪门通过；
-2. 播放仙八色鸫鸣声 → `[AUDIO] … score=0.98xx … TRIGGER`（阈值 0.985）；
-3. 图像端 `>>> 收到声音触发` → `[RECORD-INFER] bird=True` → 开始录像；
-4. 移开画面 → `bird=False misses=1/2/3` 且 `span` 累计到 ≥6 s → 结束录像，
-   `runtime/videos/` 下出现 `pitta_*.mp4`（H.264/yuv420p）。
+### 8.1 鍗忎綔杩囩▼姒傝堪
 
-只测 GEMM 加速器时不需要摄像头和麦克风，按 `build/gemm/README.md` 把 bit/hwh、脚本、
-`data/gemm/*`、`audio_model.npz` 放到同一目录，依次跑 `verify_gemm.sh`、
-`gemm_board.py --small`、`gemm_board.py`、`e2e_board.py` 即可。
+寮€鍙戝叏绋嬩娇鐢ㄥぇ妯″瀷锛圠LM锛夎緟鍔╁畾浣嶉棶棰樹笌璁捐鏂规锛屽畬鏁存彁绀鸿瘝銆佹ā鍨嬪洖绛斾笌鑷垜绾犻敊
+杞ㄨ抗璁板綍鍦?`report/llm_collaboration.md`锛?0 鑺傦級锛岃鐐瑰涓嬶細
 
-## 8. 大模型协作与技能包提炼过程
+1. **瀵勫瓨鍣ㄥ亸绉荤籂閿?*锛欰XI DMA S2MM 閫氶亾 CR 鍋忕Щ鏄?0x30 鑰岄潪 0x00锛屼慨姝ｅ悗 DMA 姝ｅ父锛?2. **INMP441 L/R 寮曡剼鎮┖**瀵艰嚧鏁版嵁鍏?0锛屾帴鍦板悗鎭㈠锛?3. **24bit 绗﹀彿鎵╁睍閿欒**锛歚& 0xffffff` 鎶规帀绗﹀彿浣嶏紝瀹炴椂 score 浠?0.075 淇洖 0.9+锛?4. **signal 鍙兘鍦ㄤ富绾跨▼**锛欴MA 閲囬泦绉讳富绾跨▼銆佹帹鐞嗙Щ寮傛绾跨▼锛?5. **褰曞儚鐘舵€佹満杩唬涓夌増**锛氬浐瀹?3s 鈫?misses=1 鈫?misses=3 涓?span鈮?s 鍙屾潯浠讹紝鍚庢粴绾?12s锛?6. **GEMM 涓婃澘鍏繛鍧?*锛歋2MM 缂?TLAST 涓嶇疆 IOC銆丏MA 16KB 鍗曟涓婇檺锛坈_sg_length_width=23锛夈€?   PYNQ 榛樿涓柇鏈帴瀵艰嚧鎸傛锛堟敼瀵勫瓨鍣ㄨ疆璇級銆乥it/hwh 鐗堟湰涓嶄竴鑷达紙鍔?MD5 鑷锛夛紱
+7. **Vivado 宸ョ▼涓㈠け鍚庝緷鎹?.hwh 鍙嶆帹涓€閿噸寤?*锛屼笁娆¤凯浠ｄ慨澶嶅悗鎭㈠缁煎悎/瀹炵幇鎶ュ憡銆?
+### 8.2 鎶€鑳藉寘濡備綍浠庡け璐ヤ腑鎻愮偧锛堝搴?3.3.5.2锛?
+鎶€鑳藉寘 `skill/` 涓嶆槸浜嬪厛璁捐鐨勶紝鑰屾槸鎸?韪╁潙 鈫?妯℃澘 鈫?宸ュ叿 鈫?鑷"鍥涙浠庝笂杩板け璐?涓樉寮忔娊鍙栵紝骞堕€愭潯楠岃瘉杩囧彲澶嶇敤鎬э細
 
-### 8.1 协作过程概述
-
-开发全程使用大模型（LLM）辅助定位问题与设计方案，完整提示词、模型回答与自我纠错
-轨迹记录在 `report/llm_collaboration.md`（10 节），要点如下：
-
-1. **寄存器偏移纠错**：AXI DMA S2MM 通道 CR 偏移是 0x30 而非 0x00，修正后 DMA 正常；
-2. **INMP441 L/R 引脚悬空**导致数据全 0，接地后恢复；
-3. **24bit 符号扩展错误**：`& 0xffffff` 抹掉符号位，实时 score 从 0.075 修回 0.9+；
-4. **signal 只能在主线程**：DMA 采集移主线程、推理移异步线程；
-5. **录像状态机迭代三版**：固定 3s → misses=1 → misses=3 且 span≥6s 双条件，后滚约 12s；
-6. **GEMM 上板六连坑**：S2MM 缺 TLAST 不置 IOC、DMA 16KB 单次上限（c_sg_length_width=23）、
-   PYNQ 默认中断未接导致挂死（改寄存器轮询）、bit/hwh 版本不一致（加 MD5 自检）；
-7. **Vivado 工程丢失后依据 .hwh 反推一键重建**，三次迭代修复后恢复综合/实现报告。
-
-### 8.2 技能包如何从失败中提炼（对应 3.3.5.2）
-
-技能包 `skill/` 不是事先设计的，而是按"踩坑 → 模板 → 工具 → 自检"四步从上述失败
-中显式抽取，并逐条验证过可复用性：
-
-| 来源失败/观察 | 沉淀成 | 验证方式 |
+| 鏉ユ簮澶辫触/瑙傚療 | 娌夋穩鎴?| 楠岃瘉鏂瑰紡 |
 |---|---|---|
-| DMA 偏移手抄错、符号位错 | `hwh_probe.py`：从 .hwh 解析寄存器表、生成驱动骨架、反向对账源码偏移 | 对本工程 19 个寄存器、源码 10 处引用全部命中 |
-| 块图连线漏接、复位极性错、位宽不配 | `bd_lint.py`：tcl 意图 + hwh 事实双模式 12 条规则 | 本工程 ERROR=0/WARN=1；自检覆盖续行、多 pin 捕获 |
-| DMA 传输通但数据没进内存 | `dma_selftest.py`：预填→传输→invalidate→查错误位 | --dry-run 正确识别 S2MM 已实现/MM2S 未实现 |
-| 报告数字手填、基线不可比 | `vivado_report.py`：解析 utilization/timing，支持基线回归 | 从本工程 rpt 复算 LUT 3.15%、WNS 2.029ns |
-| 硬件输出与参考对拍无标准 | `golden_compare.py`：CSV/NPY 容差比对 + 首个超差点定位 | 自检含 ref/bad 两组对照 |
-| 上述工具的联合自检与命名/可复现性检查 | `verify_pack.py`：一条命令出结论表 | 本工程 10/10 PASS（离线） |
+| DMA 鍋忕Щ鎵嬫妱閿欍€佺鍙蜂綅閿?| `hwh_probe.py`锛氫粠 .hwh 瑙ｆ瀽瀵勫瓨鍣ㄨ〃銆佺敓鎴愰┍鍔ㄩ鏋躲€佸弽鍚戝璐︽簮鐮佸亸绉?| 瀵规湰宸ョ▼ 19 涓瘎瀛樺櫒銆佹簮鐮?10 澶勫紩鐢ㄥ叏閮ㄥ懡涓?|
+| 鍧楀浘杩炵嚎婕忔帴銆佸浣嶆瀬鎬ч敊銆佷綅瀹戒笉閰?| `bd_lint.py`锛歵cl 鎰忓浘 + hwh 浜嬪疄鍙屾ā寮?12 鏉¤鍒?| 鏈伐绋?ERROR=0/WARN=1锛涜嚜妫€瑕嗙洊缁銆佸 pin 鎹曡幏 |
+| DMA 浼犺緭閫氫絾鏁版嵁娌¤繘鍐呭瓨 | `dma_selftest.py`锛氶濉啋浼犺緭鈫抜nvalidate鈫掓煡閿欒浣?| --dry-run 姝ｇ‘璇嗗埆 S2MM 宸插疄鐜?MM2S 鏈疄鐜?|
+| 鎶ュ憡鏁板瓧鎵嬪～銆佸熀绾夸笉鍙瘮 | `vivado_report.py`锛氳В鏋?utilization/timing锛屾敮鎸佸熀绾垮洖褰?| 浠庢湰宸ョ▼ rpt 澶嶇畻 LUT 3.15%銆乄NS 2.029ns |
+| 纭欢杈撳嚭涓庡弬鑰冨鎷嶆棤鏍囧噯 | `golden_compare.py`锛欳SV/NPY 瀹瑰樊姣斿 + 棣栦釜瓒呭樊鐐瑰畾浣?| 鑷鍚?ref/bad 涓ょ粍瀵圭収 |
+| 涓婅堪宸ュ叿鐨勮仈鍚堣嚜妫€涓庡懡鍚?鍙鐜版€ф鏌?| `verify_pack.py`锛氫竴鏉″懡浠ゅ嚭缁撹琛?| 鏈伐绋?10/10 PASS锛堢绾匡級 |
 
-每一项在 `skill/README.md` 中均写明适用场景、使用方法、失效条件
-（如非 Zynq、bit/hwh 不配套、非 AXI DMA、精度改变等 8 条）。
-**已验证效果目前全部为离线**；板端分支（dma_selftest 实跑、长测）列入
-`skill/verification/board_checklist.md` 待上板回填。
-
-## 9. 参考文献
-
+姣忎竴椤瑰湪 `skill/README.md` 涓潎鍐欐槑閫傜敤鍦烘櫙銆佷娇鐢ㄦ柟娉曘€佸け鏁堟潯浠?锛堝闈?Zynq銆乥it/hwh 涓嶉厤濂椼€侀潪 AXI DMA銆佺簿搴︽敼鍙樼瓑 8 鏉★級銆?**宸查獙璇佹晥鏋滅洰鍓嶅叏閮ㄤ负绂荤嚎**锛涙澘绔垎鏀紙dma_selftest 瀹炶窇銆侀暱娴嬶級鍒楀叆
+`skill/verification/board_checklist.md` 寰呬笂鏉垮洖濉€?
+## 9. 鍙傝€冩枃鐚?
 1. Kahl S, Wood C M, Eibl M, Klinck H. BirdNET: A deep learning solution for avian diversity monitoring. *Ecological Informatics*, 2021, 61: 101236.
 2. Kim H, Kim T-K. Design and Implementation of a YOLOv2 Accelerator on a Zynq-7000 FPGA. *Sensors*, 2025, 25(20): 6359. doi:10.3390/s25206359.
-3. IUCN. *Pitta nympha*. The IUCN Red List of Threatened Species（Vulnerable；CITES Appendix II）.
-4. 国家林业和草原局, 农业农村部. 国家重点保护野生动物名录. 2021（仙八色鸫 Pitta nympha，二级）.
+3. IUCN. *Pitta nympha*. The IUCN Red List of Threatened Species锛圴ulnerable锛汣ITES Appendix II锛?
+4. 鍥藉鏋椾笟鍜岃崏鍘熷眬, 鍐滀笟鍐滄潙閮? 鍥藉閲嶇偣淇濇姢閲庣敓鍔ㄧ墿鍚嶅綍. 2021锛堜粰鍏壊楦?Pitta nympha锛屼簩绾э級.
 5. Ultralytics. YOLOv8 Documentation. https://docs.ultralytics.com
 6. Tencent. NCNN: a high-performance neural network inference framework. https://github.com/Tencent/ncnn
 7. AMD/Xilinx. PYNQ: Python Productivity for Zynq. https://www.pynq.io
 
-## 10. 总结
+## 10. 鎬荤粨
 
-本项目在 PYNQ-Z2 单板上实现了"声音触发→图像识别→存在性录像"的完整闭环，
-验证了 FPGA+SoC 异构架构在边缘 AI 监测场景的可行性。
-系统硬件资源占用极低（LUT 3.15%），留有充分扩展空间；
-多模态融合与智能录像策略显著提升监测效率。
-后续工作将聚焦推理加速（FPGA Mel 加速、模型量化）与更复杂的野外场景适配。
+鏈」鐩湪 PYNQ-Z2 鍗曟澘涓婂疄鐜颁簡"澹伴煶瑙﹀彂鈫掑浘鍍忚瘑鍒啋瀛樺湪鎬у綍鍍?鐨勫畬鏁撮棴鐜紝
+楠岃瘉浜?FPGA+SoC 寮傛瀯鏋舵瀯鍦ㄨ竟缂?AI 鐩戞祴鍦烘櫙鐨勫彲琛屾€с€?绯荤粺纭欢璧勬簮鍗犵敤鏋佷綆锛圠UT 3.15%锛夛紝鐣欐湁鍏呭垎鎵╁睍绌洪棿锛?澶氭ā鎬佽瀺鍚堜笌鏅鸿兘褰曞儚绛栫暐鏄捐憲鎻愬崌鐩戞祴鏁堢巼銆?鍚庣画宸ヤ綔灏嗚仛鐒︽帹鐞嗗姞閫燂紙FPGA Mel 鍔犻€熴€佹ā鍨嬮噺鍖栵級涓庢洿澶嶆潅鐨勯噹澶栧満鏅€傞厤銆?

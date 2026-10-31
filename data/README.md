@@ -1,76 +1,54 @@
-# data/ 测试数据目录
+# data/ 娴嬭瘯鏁版嵁鐩綍
 
-## test_images/ 图像测试集（精选子集，145 张，14.43MB）
-
-> **这是从完整数据集挑选的演示子集，且全部取自训练池（模型训练时见过）。** 完整数据集：`raw_pitta` 1,302 正样本 + `neg` 380 负样本（321 其他鸟 + 59 纯背景），原始池合计 1,682 张，体积约 600MB，未随包提供。
-
-整合后的清晰结构：
-
-| 目录 | 内容 | 数量 |
+## test_images/ 鍥惧儚娴嬭瘯闆嗭紙绮鹃€夊瓙闆嗭紝145 寮狅紝14.43MB锛?
+> **杩欐槸浠庡畬鏁存暟鎹泦鎸戦€夌殑婕旂ず瀛愰泦锛屼笖鍏ㄩ儴鍙栬嚜璁粌姹狅紙妯″瀷璁粌鏃惰杩囷級銆?* 瀹屾暣鏁版嵁闆嗭細`raw_pitta` 1,302 姝ｆ牱鏈?+ `neg` 380 璐熸牱鏈紙321 鍏朵粬楦?+ 59 绾儗鏅級锛屽師濮嬫睜鍚堣 1,682 寮狅紝浣撶Н绾?600MB锛屾湭闅忓寘鎻愪緵銆?
+鏁村悎鍚庣殑娓呮櫚缁撴瀯锛?
+| 鐩綍 | 鍐呭 | 鏁伴噺 |
 |------|------|------|
-| `positive/raw/` | 补充正样本带框（中小距离），`pitta_raw_*.jpg` | 30 |
-| `positive/annotated/close/` | **近景**带框（框面积 ≥50%，鸟明显大），`pitta_close_*.jpg` | 20 |
-| `positive/annotated/medium/` | **中景**带框（框面积 20%–30%），`pitta_medium_*.jpg` | 20 |
-| `positive/annotated/far/` | **远景**带框（框面积 3%–8%，鸟明显小），`pitta_far_*.jpg` | 20 |
-| `negative/background/` | 纯森林背景（无鸟），`neg_background_*.jpg` | 20 |
-| `negative/other_birds/` | 其他鸟类难负样本（均含鸟，验证不误报），`neg_bird_*.jpg` | 30 |
-| `board_captured/` | 板端推理输出画面（屏幕翻拍，640×480 PNG），`board_*.png` | 5 |
+| `positive/raw/` | 琛ュ厖姝ｆ牱鏈甫妗嗭紙涓皬璺濈锛夛紝`pitta_raw_*.jpg` | 30 |
+| `positive/annotated/close/` | **杩戞櫙**甯︽锛堟闈㈢Н 鈮?0%锛岄笩鏄庢樉澶э級锛宍pitta_close_*.jpg` | 20 |
+| `positive/annotated/medium/` | **涓櫙**甯︽锛堟闈㈢Н 20%鈥?0%锛夛紝`pitta_medium_*.jpg` | 20 |
+| `positive/annotated/far/` | **杩滄櫙**甯︽锛堟闈㈢Н 3%鈥?%锛岄笩鏄庢樉灏忥級锛宍pitta_far_*.jpg` | 20 |
+| `negative/background/` | 绾．鏋楄儗鏅紙鏃犻笩锛夛紝`neg_background_*.jpg` | 20 |
+| `negative/other_birds/` | 鍏朵粬楦熺被闅捐礋鏍锋湰锛堝潎鍚笩锛岄獙璇佷笉璇姤锛夛紝`neg_bird_*.jpg` | 30 |
+| `board_captured/` | 鏉跨鎺ㄧ悊杈撳嚭鐢婚潰锛堝睆骞曠炕鎷嶏紝640脳480 PNG锛夛紝`board_*.png` | 5 |
 
-- 命名统一为 `类别_分组_序号.jpg`（板端图为 `board_序号.png`），工整可排序。
-- 正样本：best.onnx 对 1,302 张 raw_pitta 批量标注（conf 0.52、letterbox 320），2026-10-25 复算检出 1,090 张（83.7%）；只在有标注的 1,061 张上算为 99.2%。近/中/远按框面积取明显三档（≥50% / 20–30% / 3–8%）。
-- 特异性：380 张负样本（321 其他鸟 + 59 纯背景）2026-10-25 复算 0 误报、最高分 0.0。
-- **图像指标口径**：训练池数字（99.2% 检出、86.7% mAP）为模型见过的图自测；`images/val` 260 张中 221 张与训练集字节相同，不构成独立测试集。独立测试见 `test_images/independent/`（266 张网络公开图，图像级召回 96.2%）。完整重算过程见 `test_images/eval_val/README.md`。
-- **详细的来源、筛选方法、完整数据集对比、命名规范、复现方法见 `test_images/README.md`。**
+- 鍛藉悕缁熶竴涓?`绫诲埆_鍒嗙粍_搴忓彿.jpg`锛堟澘绔浘涓?`board_搴忓彿.png`锛夛紝宸ユ暣鍙帓搴忋€?- 姝ｆ牱鏈細best.onnx 瀵?1,302 寮?raw_pitta 鎵归噺鏍囨敞锛坈onf 0.52銆乴etterbox 320锛夛紝2026-10-25 澶嶇畻妫€鍑?1,090 寮狅紙83.7%锛夛紱鍙湪鏈夋爣娉ㄧ殑 1,061 寮犱笂绠椾负 99.2%銆傝繎/涓?杩滄寜妗嗛潰绉彇鏄庢樉涓夋。锛堚墺50% / 20鈥?0% / 3鈥?%锛夈€?- 鐗瑰紓鎬э細380 寮犺礋鏍锋湰锛?21 鍏朵粬楦?+ 59 绾儗鏅級2026-10-25 澶嶇畻 0 璇姤銆佹渶楂樺垎 0.0銆?- **鍥惧儚鎸囨爣鍙ｅ緞**锛氳缁冩睜鏁板瓧锛?9.2% 妫€鍑恒€?6.7% mAP锛変负妯″瀷瑙佽繃鐨勫浘鑷祴锛沗images/val` 260 寮犱腑 221 寮犱笌璁粌闆嗗瓧鑺傜浉鍚岋紝涓嶆瀯鎴愮嫭绔嬫祴璇曢泦銆傜嫭绔嬫祴璇曡 `test_images/independent/`锛?66 寮犵綉缁滃叕寮€鍥撅紝鍥惧儚绾у彫鍥?96.2%锛夈€傚畬鏁撮噸绠楄繃绋嬭 `test_images/eval_val/README.md`銆?- **璇︾粏鐨勬潵婧愩€佺瓫閫夋柟娉曘€佸畬鏁存暟鎹泦瀵规瘮銆佸懡鍚嶈鑼冦€佸鐜版柟娉曡 `test_images/README.md`銆?*
 
-## test_audio/ 音频测试集（9 段正样本 + 18 段负样本）
-
-| 目录 | 内容 | 段数 | 时长 |
+## test_audio/ 闊抽娴嬭瘯闆嗭紙9 娈垫鏍锋湰 + 18 娈佃礋鏍锋湰锛?
+| 鐩綍 | 鍐呭 | 娈垫暟 | 鏃堕暱 |
 |------|------|-----:|-----:|
-| `positive/` | 仙八色鸫鸣声（Xeno-canto / Macaulay 原始录音，按质量指标筛选） | 9 | 753.2 s |
-| `negative/ambient/` | 环境音（室内嗡声、雨、风、树叶、脚步、人群、键盘、车流） | 10 | 485.0 s |
-| `negative/other_birds/` | 其他鸟鸣（8 个不同属 / 种，从原始包 54 种中优选） | 8 | 575.0 s |
+| `positive/` | 浠欏叓鑹查斧楦ｅ０锛圶eno-canto / Macaulay 鍘熷褰曢煶锛屾寜璐ㄩ噺鎸囨爣绛涢€夛級 | 9 | 753.2 s |
+| `negative/ambient/` | 鐜闊筹紙瀹ゅ唴鍡″０銆侀洦銆侀銆佹爲鍙躲€佽剼姝ャ€佷汉缇ゃ€侀敭鐩樸€佽溅娴侊級 | 10 | 485.0 s |
+| `negative/other_birds/` | 鍏朵粬楦熼福锛? 涓笉鍚屽睘 / 绉嶏紝浠庡師濮嬪寘 54 绉嶄腑浼橀€夛級 | 8 | 575.0 s |
 
-- 正样本 1,474 个 2 s 窗口（跳 0.5 s），score≥0.5 的 724 个，板端阈值 0.985 下 500 个，候选事件 150 个。
-- 负样本 2,063 个窗口，**全部低于 0.5，误报 0 个，最高分 0.0329**。
-- 每段配 `_predictions.csv`（逐窗 score / rms）与 `_events.csv`（候选事件），由 `src/ps/audio_numpy.py` 在 PC 上生成。
-- 命名规则 `<split>_<class>_<detail>`（`pos_pitta_nympha_*` / `neg_ambient_*` / `neg_bird_*`），全目录清单见 `test_audio/manifest.csv`。
-- 音频保留原始码流（mp3 / wav），未做重采样或降噪；推理时才重采样到 32 kHz。环境音负样本本身是 32 kHz 单声道 WAV，与板端采样率一致。
-- 筛选规则（正样本 7 条阈值、负样本体积/动态范围/频带规则）、排除清单、误报结果见 `test_audio/README.md`。
-- 仍待补：板端 32000 Hz 实测录音（`/home/xilinx/results_av/*.wav`），以及 46 种未导入的鸟（体积/质量原因）。
-- 事件级召回率：9 段 155 个人耳核对事件，`eval_recall.py` 实测 **97.4%**（板端阈值 0.985）
-  / 98.1%（0.5），窗口级 90.6% / 95.4%；4 处漏检中 2 处在 `xc188359`。
-  真值是录音母本口径（不是板端实录），明细与限制见 `positive/recall_results/README.md`。
+- 姝ｆ牱鏈?1,474 涓?2 s 绐楀彛锛堣烦 0.5 s锛夛紝score鈮?.5 鐨?724 涓紝鏉跨闃堝€?0.85 涓?500 涓紝鍊欓€変簨浠?150 涓€?- 璐熸牱鏈?2,063 涓獥鍙ｏ紝**鍏ㄩ儴浣庝簬 0.5锛岃鎶?0 涓紝鏈€楂樺垎 0.0329**銆?- 姣忔閰?`_predictions.csv`锛堥€愮獥 score / rms锛変笌 `_events.csv`锛堝€欓€変簨浠讹級锛岀敱 `src/ps/audio_numpy.py` 鍦?PC 涓婄敓鎴愩€?- 鍛藉悕瑙勫垯 `<split>_<class>_<detail>`锛坄pos_pitta_nympha_*` / `neg_ambient_*` / `neg_bird_*`锛夛紝鍏ㄧ洰褰曟竻鍗曡 `test_audio/manifest.csv`銆?- 闊抽淇濈暀鍘熷鐮佹祦锛坢p3 / wav锛夛紝鏈仛閲嶉噰鏍锋垨闄嶅櫔锛涙帹鐞嗘椂鎵嶉噸閲囨牱鍒?32 kHz銆傜幆澧冮煶璐熸牱鏈湰韬槸 32 kHz 鍗曞０閬?WAV锛屼笌鏉跨閲囨牱鐜囦竴鑷淬€?- 绛涢€夎鍒欙紙姝ｆ牱鏈?7 鏉￠槇鍊笺€佽礋鏍锋湰浣撶Н/鍔ㄦ€佽寖鍥?棰戝甫瑙勫垯锛夈€佹帓闄ゆ竻鍗曘€佽鎶ョ粨鏋滆 `test_audio/README.md`銆?- 浠嶅緟琛ワ細鏉跨 32000 Hz 瀹炴祴褰曢煶锛坄/home/xilinx/results_av/*.wav`锛夛紝浠ュ強 46 绉嶆湭瀵煎叆鐨勯笩锛堜綋绉?璐ㄩ噺鍘熷洜锛夈€?- 浜嬩欢绾у彫鍥炵巼锛? 娈?155 涓汉鑰虫牳瀵逛簨浠讹紝`eval_recall.py` 瀹炴祴 **97.4%**锛堟澘绔槇鍊?0.85锛?  / 98.1%锛?.5锛夛紝绐楀彛绾?90.6% / 95.4%锛? 澶勬紡妫€涓?2 澶勫湪 `xc188359`銆?  鐪熷€兼槸褰曢煶姣嶆湰鍙ｅ緞锛堜笉鏄澘绔疄褰曪級锛屾槑缁嗕笌闄愬埗瑙?`positive/recall_results/README.md`銆?
+## gemm/ GEMM 鍔犻€熷櫒娴嬭瘯鏁版嵁
 
-## gemm/ GEMM 加速器测试数据
-
-| 文件 | 内容 |
+| 鏂囦欢 | 鍐呭 |
 |------|------|
-| `bird_sample.wav` | 32 kHz 单声道测试音频（2 s） |
-| `a.bin` / `b.bin` / `c_ref.bin` | 全量 GEMM 输入 A/B 与参考输出 C（M=12864 K=9 N=16，int16 Q12） |
-| `a_small.bin` / `b_small.bin` / `c_ref_small.bin` | 小数据档（M=32），用于快速验证 |
+| `bird_sample.wav` | 32 kHz 鍗曞０閬撴祴璇曢煶棰戯紙2 s锛?|
+| `a.bin` / `b.bin` / `c_ref.bin` | 鍏ㄩ噺 GEMM 杈撳叆 A/B 涓庡弬鑰冭緭鍑?C锛圡=12864 K=9 N=16锛宨nt16 Q12锛?|
+| `a_small.bin` / `b_small.bin` / `c_ref_small.bin` | 灏忔暟鎹。锛圡=32锛夛紝鐢ㄤ簬蹇€熼獙璇?|
 
-- 由 `src/ps/make_board_data.py` 在 PC 端生成；板端 `gemm_board.py` 用 a/b 跑出 C 并与 c_ref 对拍，`e2e_board.py` 用 bird_sample.wav 做端到端验证。
-- 构建产物与已实测结果见 `build/gemm/README.md`。
+- 鐢?`src/ps/make_board_data.py` 鍦?PC 绔敓鎴愶紱鏉跨 `gemm_board.py` 鐢?a/b 璺戝嚭 C 骞朵笌 c_ref 瀵规媿锛宍e2e_board.py` 鐢?bird_sample.wav 鍋氱鍒扮楠岃瘉銆?- 鏋勫缓浜х墿涓庡凡瀹炴祴缁撴灉瑙?`build/gemm/README.md`銆?
+## comparison.csv 鎸囨爣鍙ｅ緞
 
-## comparison.csv 指标口径
-
-| 列 | 说明 |
+| 鍒?| 璇存槑 |
 |----|------|
-| 指标名称 / 类别 | 指标名 + 类别（核心/AI/FPGA/可靠性） |
-| 数值 / 单位 | 实测值（FPGA 资源来自 build/*.rpt） |
-| 测量条件 | 测试时的参数与环境 |
-| 测试次数 | 实测样本数 |
-| 证据文件 | 支撑证据的相对路径 |
+| 鎸囨爣鍚嶇О / 绫诲埆 | 鎸囨爣鍚?+ 绫诲埆锛堟牳蹇?AI/FPGA/鍙潬鎬э級 |
+| 鏁板€?/ 鍗曚綅 | 瀹炴祴鍊硷紙FPGA 璧勬簮鏉ヨ嚜 build/*.rpt锛?|
+| 娴嬮噺鏉′欢 | 娴嬭瘯鏃剁殑鍙傛暟涓庣幆澧?|
+| 娴嬭瘯娆℃暟 | 瀹炴祴鏍锋湰鏁?|
+| 璇佹嵁鏂囦欢 | 鏀拺璇佹嵁鐨勭浉瀵硅矾寰?|
 
-## 第三方素材来源与许可证（重要）
-
-仓库根目录的 MIT 许可证**只覆盖本项目自写的代码与文档**，不覆盖下列第三方素材；
-公开仓库/提交包里保留这些文件时，请按各自原始许可标注来源。
-
-| 素材 | 来源 | 许可状态 |
+## 绗笁鏂圭礌鏉愭潵婧愪笌璁稿彲璇侊紙閲嶈锛?
+浠撳簱鏍圭洰褰曠殑 MIT 璁稿彲璇?*鍙鐩栨湰椤圭洰鑷啓鐨勪唬鐮佷笌鏂囨。**锛屼笉瑕嗙洊涓嬪垪绗笁鏂圭礌鏉愶紱
+鍏紑浠撳簱/鎻愪氦鍖呴噷淇濈暀杩欎簺鏂囦欢鏃讹紝璇锋寜鍚勮嚜鍘熷璁稿彲鏍囨敞鏉ユ簮銆?
+| 绱犳潗 | 鏉ユ簮 | 璁稿彲鐘舵€?|
 |---|---|---|
-| `test_images/` 全部图片、训练用 `raw_pitta` / `neg` | iNaturalist 公开观测记录（`src/ps/01_collect_images.py` 等采集脚本） | 逐条目不同（CC BY / CC BY-NC / 保留所有权利），以原观测页为准；本仓库未逐张附带许可声明 |
-| `test_audio/positive/` 9 段 | Xeno-canto（文件名 `xc*`）与 Macaulay Library（文件名 `ml*`）原始录音 | 按各录音条目页的许可使用；XC 多为 CC BY-NC-SA 系列，ML 逐条不同 |
-| `test_audio/negative/other_birds/` 8 段 | 同上（XC / ML 记录的**其他鸟种**） | 同上 |
-| `test_audio/negative/ambient/` 10 段 | 公共音效素材与自录，导入时的压缩包内未逐条标注来源页 | **待补来源链接与许可**，公开发布前需补齐 |
-| `src/ps/best_ncnn.*`、`audio_model.npz` | 本项目训练产物（YOLOv8n / 三层 CNN） | 随本仓库 MIT 发布；Ultralytics YOLOv8 框架为 AGPL-3.0，仅作依赖使用 |
+| `test_images/` 鍏ㄩ儴鍥剧墖銆佽缁冪敤 `raw_pitta` / `neg` | iNaturalist 鍏紑瑙傛祴璁板綍锛坄src/ps/01_collect_images.py` 绛夐噰闆嗚剼鏈級 | 閫愭潯鐩笉鍚岋紙CC BY / CC BY-NC / 淇濈暀鎵€鏈夋潈鍒╋級锛屼互鍘熻娴嬮〉涓哄噯锛涙湰浠撳簱鏈€愬紶闄勫甫璁稿彲澹版槑 |
+| `test_audio/positive/` 9 娈?| Xeno-canto锛堟枃浠跺悕 `xc*`锛変笌 Macaulay Library锛堟枃浠跺悕 `ml*`锛夊師濮嬪綍闊?| 鎸夊悇褰曢煶鏉＄洰椤电殑璁稿彲浣跨敤锛沊C 澶氫负 CC BY-NC-SA 绯诲垪锛孧L 閫愭潯涓嶅悓 |
+| `test_audio/negative/other_birds/` 8 娈?| 鍚屼笂锛圶C / ML 璁板綍鐨?*鍏朵粬楦熺**锛?| 鍚屼笂 |
+| `test_audio/negative/ambient/` 10 娈?| 鍏叡闊虫晥绱犳潗涓庤嚜褰曪紝瀵煎叆鏃剁殑鍘嬬缉鍖呭唴鏈€愭潯鏍囨敞鏉ユ簮椤?| **寰呰ˉ鏉ユ簮閾炬帴涓庤鍙?*锛屽叕寮€鍙戝竷鍓嶉渶琛ラ綈 |
+| `src/ps/best_ncnn.*`銆乣audio_model.npz` | 鏈」鐩缁冧骇鐗╋紙YOLOv8n / 涓夊眰 CNN锛?| 闅忔湰浠撳簱 MIT 鍙戝竷锛沀ltralytics YOLOv8 妗嗘灦涓?AGPL-3.0锛屼粎浣滀緷璧栦娇鐢?|

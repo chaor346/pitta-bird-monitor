@@ -2,21 +2,15 @@
 # -*- coding: utf-8 -*-
 """
 =====================================================================
- 音频事件级召回率评估
+ 闊抽浜嬩欢绾у彫鍥炵巼璇勪及
 =====================================================================
- 输入：
-   1) 人工真值 events_truth.csv（由 label_audio_events.py 草稿核对得到）
-        字段：audio,event_id,start_sec,end_sec
-   2) 每段录音的 *_predictions.csv（逐窗模型分数，已存在）
-        字段：start_sec,end_sec,score,...
+ 杈撳叆锛?   1) 浜哄伐鐪熷€?events_truth.csv锛堢敱 label_audio_events.py 鑽夌鏍稿寰楀埌锛?        瀛楁锛歛udio,event_id,start_sec,end_sec
+   2) 姣忔褰曢煶鐨?*_predictions.csv锛堥€愮獥妯″瀷鍒嗘暟锛屽凡瀛樺湪锛?        瀛楁锛歴tart_sec,end_sec,score,...
 
- 输出：
-   - 事件级召回：每个真值事件，只要事件期间有任意窗口 score≥阈值即算检出
-   - 窗口级召回：真值区间内的窗口中 score≥阈值的比例（参考）
-   - 在两个阈值下分别报告：0.5（评估口径）、0.985（板端实际阈值）
+ 杈撳嚭锛?   - 浜嬩欢绾у彫鍥烇細姣忎釜鐪熷€间簨浠讹紝鍙浜嬩欢鏈熼棿鏈変换鎰忕獥鍙?score鈮ラ槇鍊煎嵆绠楁鍑?   - 绐楀彛绾у彫鍥烇細鐪熷€煎尯闂村唴鐨勭獥鍙ｄ腑 score鈮ラ槇鍊肩殑姣斾緥锛堝弬鑰冿級
+   - 鍦ㄤ袱涓槇鍊间笅鍒嗗埆鎶ュ憡锛?.5锛堣瘎浼板彛寰勶級銆?.985锛堟澘绔疄闄呴槇鍊硷級
 
- 用法：
-   python eval_recall.py --positive <test_audio/positive> \
+ 鐢ㄦ硶锛?   python eval_recall.py --positive <test_audio/positive> \
        --truth <events_truth.csv> --out recall_results
 =====================================================================
 """
@@ -59,14 +53,14 @@ def evaluate(truth, positive, threshold):
     for audio, events in truth.items():
         wins = read_predictions(positive, audio)
         if wins is None:
-            print("  [警告] 缺少 predictions: %s" % audio)
+            print("  [璀﹀憡] 缂哄皯 predictions: %s" % audio)
             continue
         f_total, f_hit = len(events), 0
         for (s, e) in events:
             detected = any(overlap(s, e, ws, we) > 0 and sc >= threshold
                            for ws, we, sc in wins)
             f_hit += int(detected)
-        # 窗口级：窗口中心落在真值事件内
+        # 绐楀彛绾э細绐楀彛涓績钀藉湪鐪熷€间簨浠跺唴
         w_total, w_hit = 0, 0
         for ws, we, sc in wins:
             c = (ws + we) / 2
@@ -91,15 +85,15 @@ def main():
 
     truth = read_truth(args.truth)
     out_rows = []
-    for threshold in (0.5, 0.985):
+    for threshold in (0.5, 0.85):
         per, te, he, tw, hw = evaluate(truth, args.positive, threshold)
         er = 100.0 * he / te if te else 0.0
         wr = 100.0 * hw / tw if tw else 0.0
-        print("\n===== 阈值 = %.3f =====" % threshold)
-        print("事件级召回: %d/%d = %.1f%%" % (he, te, er))
-        print("窗口级召回: %d/%d = %.1f%%（真值区间内窗口）" % (hw, tw, wr))
+        print("\n===== 闃堝€?= %.3f =====" % threshold)
+        print("浜嬩欢绾у彫鍥? %d/%d = %.1f%%" % (he, te, er))
+        print("绐楀彛绾у彫鍥? %d/%d = %.1f%%锛堢湡鍊煎尯闂村唴绐楀彛锛? % (hw, tw, wr))
         for audio, ft, fh, wt, wh in per:
-            print("  %-38s 事件 %d/%d  窗口 %d/%d"
+            print("  %-38s 浜嬩欢 %d/%d  绐楀彛 %d/%d"
                   % (audio, fh, ft, wh, wt))
             out_rows.append(dict(threshold=threshold, audio=audio,
                                  truth_events=ft, detected_events=fh,
@@ -109,13 +103,13 @@ def main():
 
     p = os.path.join(args.out, "recall_results.csv")
     if not out_rows:
-        print("\n[空结果] 真值 CSV 里没有可用事件（或对应录音缺 *_predictions.csv），不写 CSV。")
+        print("\n[绌虹粨鏋淽 鐪熷€?CSV 閲屾病鏈夊彲鐢ㄤ簨浠讹紙鎴栧搴斿綍闊崇己 *_predictions.csv锛夛紝涓嶅啓 CSV銆?)
         return
     with open(p, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(out_rows[0].keys()))
         w.writeheader()
         w.writerows(out_rows)
-    print("\n明细: %s" % p)
+    print("\n鏄庣粏: %s" % p)
 
 
 if __name__ == "__main__":

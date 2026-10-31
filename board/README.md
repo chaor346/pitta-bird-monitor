@@ -1,18 +1,16 @@
-# board/ 板端脚本
+# board/ 鏉跨鑴氭湰
 
-所有脚本以 `/home/xilinx` 为工作目录，加载 bit 需要 root。
+鎵€鏈夎剼鏈互 `/home/xilinx` 涓哄伐浣滅洰褰曪紝鍔犺浇 bit 闇€瑕?root銆?
+## 姝ｅ紡閮ㄧ讲锛坰ystemd 寮€鏈鸿嚜鍚級
 
-## 正式部署（systemd 开机自启）
-
-| 文件 | 作用 |
+| 鏂囦欢 | 浣滅敤 |
 |------|------|
-| `pitta-vision.service` | 图像识别 + 存在性录像。`Restart=always`，启动前 sleep 20s |
-| `pitta-audio.service` | 鸟鸣检测。`Restart=always`，每 1800s 正常退出后重开新会话 |
-| `start_pitta_vision.sh` | 视觉入口：等 `/dev/video0` → `trigger_board_presence.py` |
-| `start_pitta_audio.sh` | 音频入口：等 `pl_server` → `inmp441_predict_time.py --threshold 0.985` |
+| `pitta-vision.service` | 鍥惧儚璇嗗埆 + 瀛樺湪鎬у綍鍍忋€俙Restart=always`锛屽惎鍔ㄥ墠 sleep 20s |
+| `pitta-audio.service` | 楦熼福妫€娴嬨€俙Restart=always`锛屾瘡 1800s 姝ｅ父閫€鍑哄悗閲嶅紑鏂颁細璇?|
+| `start_pitta_vision.sh` | 瑙嗚鍏ュ彛锛氱瓑 `/dev/video0` 鈫?`trigger_board_presence.py` |
+| `start_pitta_audio.sh` | 闊抽鍏ュ彛锛氱瓑 `pl_server` 鈫?`inmp441_predict_time.py --threshold 0.85` |
 
-安装：
-
+瀹夎锛?
 ```bash
 sudo cp board/pitta-vision.service board/pitta-audio.service /etc/systemd/system/
 sudo systemctl daemon-reload
@@ -20,22 +18,21 @@ sudo systemctl enable --now pitta-vision pitta-audio
 journalctl -u pitta-audio -u pitta-vision -f
 ```
 
-两个 unit 都 `Requires=pl_server.service`（PYNQ 镜像自带）。
+涓や釜 unit 閮?`Requires=pl_server.service`锛圥YNQ 闀滃儚鑷甫锛夈€?
+## 鎵嬪姩璋冭瘯
 
-## 手动调试
-
-| 文件 | 说明 |
+| 鏂囦欢 | 璇存槑 |
 |------|------|
-| `start_vision.sh` | 视觉前台运行，无就绪门，适合接线时验证 |
-| `start_audio.sh` | 音频前台运行，阈值 0.5、跑 600s 即退 |
+| `start_vision.sh` | 瑙嗚鍓嶅彴杩愯锛屾棤灏辩华闂紝閫傚悎鎺ョ嚎鏃堕獙璇?|
+| `start_audio.sh` | 闊抽鍓嶅彴杩愯锛岄槇鍊?0.5銆佽窇 600s 鍗抽€€ |
 
-## 工具脚本
+## 宸ュ叿鑴氭湰
 
-| 文件 | 作用 |
+| 鏂囦欢 | 浣滅敤 |
 |------|------|
-| `setup.sh` | 装 ffmpeg/v4l-utils/opencv、建 `runtime/`、编译 `infer_ncnn` |
-| `verify_gemm.sh` | 校验 GEMM bit/hwh 的 MD5 与 `C_SG_LENGTH_WIDTH`，不加载硬件 |
-| `stability_monitor.sh` | 定时记录服务状态/内存/负载到 CSV |
+| `setup.sh` | 瑁?ffmpeg/v4l-utils/opencv銆佸缓 `runtime/`銆佺紪璇?`infer_ncnn` |
+| `verify_gemm.sh` | 鏍￠獙 GEMM bit/hwh 鐨?MD5 涓?`C_SG_LENGTH_WIDTH`锛屼笉鍔犺浇纭欢 |
+| `stability_monitor.sh` | 瀹氭椂璁板綍鏈嶅姟鐘舵€?鍐呭瓨/璐熻浇鍒?CSV |
 
 ```bash
 nohup bash stability_monitor.sh --interval 300 --out stability_log.csv &
@@ -44,4 +41,4 @@ column -t -s, stability_log.csv
 
 ## test_output/
 
-板端真实运行日志，见该目录 README。
+鏉跨鐪熷疄杩愯鏃ュ織锛岃璇ョ洰褰?README銆?

@@ -4,7 +4,7 @@ cd /home/xilinx
 mkdir -p /home/xilinx/runtime/trigger
 mkdir -p /home/xilinx/runtime/audio_sessions
 
-# 等 PYNQ PL Server 就绪，避免开机期加载 Overlay 冲突
+# 绛?PYNQ PL Server 灏辩华锛岄伩鍏嶅紑鏈烘湡鍔犺浇 Overlay 鍐茬獊
 for i in $(seq 1 60); do
   if pgrep -f start_pl_server.py >/dev/null 2>&1; then
     echo "[BOOT] pl_server ready (check ${i})"
@@ -23,7 +23,7 @@ exec /usr/bin/python3 -u \
   /home/xilinx/inmp441_predict_time.py \
   --model /home/xilinx/audio_model.npz \
   --overlay /home/xilinx/inmp441.bit \
-  --threshold 0.9850068688392639 \
+  --threshold 0.85 \
   --min-hits 1 \
   --hop 1.5 \
   --cooldown 5 \

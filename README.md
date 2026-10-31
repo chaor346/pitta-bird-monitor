@@ -1,76 +1,68 @@
-# 仙八色鸫鸣声与图像协同监测系统
+# 浠欏叓鑹查斧楦ｅ０涓庡浘鍍忓崗鍚岀洃娴嬬郴缁?
+鍩轰簬 PYNQ-Z2 (Zynq-7000 XC7Z020) 鐨勬繏鍗遍笩绫昏嚜鍔ㄥ寲鐩戞祴绯荤粺銆?閫氳繃 FPGA 纭欢闊抽閲囬泦 + ARM 绔?AI 鎺ㄧ悊锛屽疄鐜伴笩楦ｈЕ鍙戙€佸浘鍍忚瘑鍒笌鐩爣瀛樺湪鎬у綍鍍忕殑瀹屾暣闂幆銆?
+## 绯荤粺鍔熻兘
 
-基于 PYNQ-Z2 (Zynq-7000 XC7Z020) 的濒危鸟类自动化监测系统。
-通过 FPGA 硬件音频采集 + ARM 端 AI 推理，实现鸟鸣触发、图像识别与目标存在性录像的完整闭环。
+1. **FPGA 闊抽閲囬泦**锛欼NMP441 MEMS 楹﹀厠椋?鈫?I2S 鎺ユ敹鏍?鈫?AXI DMA 鈫?DDR锛?2000Hz 閲囨牱锛?4bit 绮惧害
+2. **楦熼福妫€娴?*锛? 灞?CNN锛? 绉掓粦鍔ㄧ獥鍙ｏ紝妫€娴嬪埌楦熼福鍐欒Е鍙戞枃浠躲€俢onv1锛?脳3, 16 閫氶亾锛夊凡鍋?PL HLS GEMM 鏍搁獙璇侊紙M=12864 K=9 N=16, Q12 瀹氱偣锛岀嫭绔?overlay `gemm_soc.bit`锛岀鍒扮鍒嗘暟涓庢诞鐐逛竴鑷达級锛?*姝ｅ紡杩愯鐨勯煶棰戜富绋嬪簭浠嶄负 numpy 鍏ㄨ蒋浠跺疄鐜?*锛屼袱涓?overlay 鍒嗘椂鍔犺浇
+3. **澹伴煶瑙﹀彂鍥惧儚**锛氬浘鍍忕妫€娴嬭Е鍙戞枃浠?鈫?杩涘叆鎼滅储鐘舵€?鈫?YOLOv8n (ncnn) 璇嗗埆浠欏叓鑹查斧
+4. **鐩爣瀛樺湪鎬у綍鍍?*锛氭娴嬪埌楦熷紑濮嬪綍鍍忥紝楦熸秷澶卞悗寤惰繜缁撴潫锛屽綍鍍忔湡闂存殏鍋滈煶棰戞帹鐞嗛伩鍏?CPU 浜夋姠
 
-## 系统功能
+## 纭欢娓呭崟
 
-1. **FPGA 音频采集**：INMP441 MEMS 麦克风 → I2S 接收核 → AXI DMA → DDR，32000Hz 采样，24bit 精度
-2. **鸟鸣检测**：3 层 CNN，2 秒滑动窗口，检测到鸟鸣写触发文件。conv1（3×3, 16 通道）已做 PL HLS GEMM 核验证（M=12864 K=9 N=16, Q12 定点，独立 overlay `gemm_soc.bit`，端到端分数与浮点一致）；**正式运行的音频主程序仍为 numpy 全软件实现**，两个 overlay 分时加载
-3. **声音触发图像**：图像端检测触发文件 → 进入搜索状态 → YOLOv8n (ncnn) 识别仙八色鸫
-4. **目标存在性录像**：检测到鸟开始录像，鸟消失后延迟结束，录像期间暂停音频推理避免 CPU 争抢
-
-## 硬件清单
-
-| 器件 | 型号 | 接口 |
+| 鍣ㄤ欢 | 鍨嬪彿 | 鎺ュ彛 |
 |------|------|------|
-| FPGA 开发板 | PYNQ-Z2 (XC7Z020CLG400-1) | - |
-| MEMS 麦克风 | INMP441 | PMOD B (I2S) |
-| USB 摄像头 | 1080p USB UVC | /dev/video0 |
+| FPGA 寮€鍙戞澘 | PYNQ-Z2 (XC7Z020CLG400-1) | - |
+| MEMS 楹﹀厠椋?| INMP441 | PMOD B (I2S) |
+| USB 鎽勫儚澶?| 1080p USB UVC | /dev/video0 |
 
-## 目录结构
+## 鐩綍缁撴瀯
 
 ```
 pitta_bird_monitor/
-├── README.md
-├── LICENSE
-├── .gitignore
-├── docs/                  # 架构、接口、硬件接线
-│   ├── architecture.md
-│   ├── interface.md
-│   └── hardware_setup.md
-├── src/
-│   ├── fpga/              # I2S 接收核 RTL + GEMM HLS IP
-│   │   ├── i2s_mems_rx.v
-│   │   ├── inmp441_pmodb.xdc
-│   │   ├── system_wrapper.v
-│   │   └── gemm/          # HLS 生成的 IP 核
-│   └── ps/                # 板端 Python + 模型 + PC 训练脚本
-├── sim/                   # I2S 接收核 testbench
-├── build/                 # Vivado 构建脚本 + bit/hwh + 报告
-│   ├── build.tcl
-│   ├── build_gemm.tcl
-│   ├── inmp441.bit / .hwh
-│   ├── utilization/timing/power.rpt
-│   ├── drc_routed.rpt
-│   ├── vivado_project.zip
-│   └── gemm/              # GEMM overlay
-├── board/                 # 上板脚本 + 实测日志
-├── data/                  # 测试数据 + 指标汇总
-├── skill/                 # PYNQ 验证技能包
-└── report/                # 设计报告 + 海报
+鈹溾攢鈹€ README.md
+鈹溾攢鈹€ LICENSE
+鈹溾攢鈹€ .gitignore
+鈹溾攢鈹€ docs/                  # 鏋舵瀯銆佹帴鍙ｃ€佺‖浠舵帴绾?鈹?  鈹溾攢鈹€ architecture.md
+鈹?  鈹溾攢鈹€ interface.md
+鈹?  鈹斺攢鈹€ hardware_setup.md
+鈹溾攢鈹€ src/
+鈹?  鈹溾攢鈹€ fpga/              # I2S 鎺ユ敹鏍?RTL + GEMM HLS IP
+鈹?  鈹?  鈹溾攢鈹€ i2s_mems_rx.v
+鈹?  鈹?  鈹溾攢鈹€ inmp441_pmodb.xdc
+鈹?  鈹?  鈹溾攢鈹€ system_wrapper.v
+鈹?  鈹?  鈹斺攢鈹€ gemm/          # HLS 鐢熸垚鐨?IP 鏍?鈹?  鈹斺攢鈹€ ps/                # 鏉跨 Python + 妯″瀷 + PC 璁粌鑴氭湰
+鈹溾攢鈹€ sim/                   # I2S 鎺ユ敹鏍?testbench
+鈹溾攢鈹€ build/                 # Vivado 鏋勫缓鑴氭湰 + bit/hwh + 鎶ュ憡
+鈹?  鈹溾攢鈹€ build.tcl
+鈹?  鈹溾攢鈹€ build_gemm.tcl
+鈹?  鈹溾攢鈹€ inmp441.bit / .hwh
+鈹?  鈹溾攢鈹€ utilization/timing/power.rpt
+鈹?  鈹溾攢鈹€ drc_routed.rpt
+鈹?  鈹溾攢鈹€ vivado_project.zip
+鈹?  鈹斺攢鈹€ gemm/              # GEMM overlay
+鈹溾攢鈹€ board/                 # 涓婃澘鑴氭湰 + 瀹炴祴鏃ュ織
+鈹溾攢鈹€ data/                  # 娴嬭瘯鏁版嵁 + 鎸囨爣姹囨€?鈹溾攢鈹€ skill/                 # PYNQ 楠岃瘉鎶€鑳藉寘
+鈹斺攢鈹€ report/                # 璁捐鎶ュ憡 + 娴锋姤
 ```
 
-## 复现步骤
+## 澶嶇幇姝ラ
 
-### 1. 硬件连接
+### 1. 纭欢杩炴帴
 
-- INMP441 → PMOD B：VDD→Pin6(3V3), GND→Pin5, SCK→Pin1(W14), WS→Pin2(Y14), SD→Pin3(T11), L/R→Pin5(GND)
-- USB 摄像头 → 板子 USB 口
-
-### 2. FPGA 构建（可选，bit 已提供）
+- INMP441 鈫?PMOD B锛歏DD鈫扨in6(3V3), GND鈫扨in5, SCK鈫扨in1(W14), WS鈫扨in2(Y14), SD鈫扨in3(T11), L/R鈫扨in5(GND)
+- USB 鎽勫儚澶?鈫?鏉垮瓙 USB 鍙?
+### 2. FPGA 鏋勫缓锛堝彲閫夛紝bit 宸叉彁渚涳級
 
 ```bash
-# 在 PC 上用 Vivado 2026.1
+# 鍦?PC 涓婄敤 Vivado 2026.1
 vivado -mode batch -source build/build.tcl
-# 产出 inmp441.bit 和 inmp441.hwh
+# 浜у嚭 inmp441.bit 鍜?inmp441.hwh
 ```
 
-### 3. 板端部署
+### 3. 鏉跨閮ㄧ讲
 
 ```bash
-# 上传文件到 PYNQ-Z2（只拷 A 类运行文件，历史版本不必拷，见 src/ps/README.md）
-scp build/inmp441.bit build/inmp441.hwh xilinx@192.168.2.99:/home/xilinx/
+# 涓婁紶鏂囦欢鍒?PYNQ-Z2锛堝彧鎷?A 绫昏繍琛屾枃浠讹紝鍘嗗彶鐗堟湰涓嶅繀鎷凤紝瑙?src/ps/README.md锛?scp build/inmp441.bit build/inmp441.hwh xilinx@192.168.2.99:/home/xilinx/
 scp src/ps/inmp441_predict_time.py src/ps/inmp441_predict_pause.py \
     src/ps/trigger_board_presence.py src/ps/inmp441_record.py \
     src/ps/av_recording_lock.py src/ps/audio_numpy.py \
@@ -79,31 +71,25 @@ scp src/ps/best_ncnn.param src/ps/best_ncnn.bin \
     src/ps/audio_model.npz src/ps/mel_basis.npy xilinx@192.168.2.99:/home/xilinx/
 scp board/*.sh board/*.service xilinx@192.168.2.99:/home/xilinx/
 
-# SSH 到板子
-ssh xilinx@192.168.2.99
+# SSH 鍒版澘瀛?ssh xilinx@192.168.2.99
 
-# 配置环境（依赖 + runtime 目录 + 摄像头权限 + 编译 infer_ncnn）
-sudo bash /home/xilinx/setup.sh
+# 閰嶇疆鐜锛堜緷璧?+ runtime 鐩綍 + 鎽勫儚澶存潈闄?+ 缂栬瘧 infer_ncnn锛?sudo bash /home/xilinx/setup.sh
 ```
 
-> `setup.sh` 已包含 `infer_ncnn` 的编译，不必再手工 `g++`。
+> `setup.sh` 宸插寘鍚?`infer_ncnn` 鐨勭紪璇戯紝涓嶅繀鍐嶆墜宸?`g++`銆?
+### 4. 杩愯
 
-### 4. 运行
-
-两种方式二选一：**手动调试**（下面终端 1/2，阈值 0.5）或 **systemd 正式部署**
-（`board/pitta-audio.service` + `board/pitta-vision.service`，阈值 0.985、音频每 1800 s
-自动换会话）。两者参数不同，报告里的实测数字均来自 systemd 正式部署。
-
+涓ょ鏂瑰紡浜岄€変竴锛?*鎵嬪姩璋冭瘯**锛堜笅闈㈢粓绔?1/2锛岄槇鍊?0.5锛夋垨 **systemd 姝ｅ紡閮ㄧ讲**
+锛坄board/pitta-audio.service` + `board/pitta-vision.service`锛岄槇鍊?0.85銆侀煶棰戞瘡 1800 s
+鑷姩鎹細璇濓級銆備袱鑰呭弬鏁颁笉鍚岋紝鎶ュ憡閲岀殑瀹炴祴鏁板瓧鍧囨潵鑷?systemd 姝ｅ紡閮ㄧ讲銆?
 ```bash
-# 正式部署（推荐，开机自启 + 崩溃拉起）
-sudo cp board/pitta-audio.service board/pitta-vision.service /etc/systemd/system/
+# 姝ｅ紡閮ㄧ讲锛堟帹鑽愶紝寮€鏈鸿嚜鍚?+ 宕╂簝鎷夎捣锛?sudo cp board/pitta-audio.service board/pitta-vision.service /etc/systemd/system/
 sudo systemctl daemon-reload && sudo systemctl enable --now pitta-vision pitta-audio
 journalctl -u pitta-audio -u pitta-vision -f
 ```
 
 ```bash
-# 终端1：音频检测（调试参数，等价于 bash start_audio.sh）
-sudo python3 -u inmp441_predict_pause.py \
+# 缁堢1锛氶煶棰戞娴嬶紙璋冭瘯鍙傛暟锛岀瓑浠蜂簬 bash start_audio.sh锛?sudo python3 -u inmp441_predict_pause.py \
   --model audio_model.npz --overlay inmp441.bit \
   --threshold 0.5 --min-hits 1 \
   --hop 1.5 --cooldown 5 \
@@ -112,8 +98,7 @@ sudo python3 -u inmp441_predict_pause.py \
   --vision-trigger /home/xilinx/runtime/trigger/pitta.trigger \
   --audio-pause-file /home/xilinx/runtime/trigger/vision_recording.lock
 
-# 终端2：图像识别 + 存在性录像（等价于 bash start_vision.sh）
-sudo chmod 666 /dev/video0
+# 缁堢2锛氬浘鍍忚瘑鍒?+ 瀛樺湪鎬у綍鍍忥紙绛変环浜?bash start_vision.sh锛?sudo chmod 666 /dev/video0
 sudo python3 -u trigger_board_presence.py \
   --width 640 --height 480 --fps 5 --detect-hz 0.2 \
   --search-sec 30 --record-fps 5 \
@@ -121,13 +106,11 @@ sudo python3 -u trigger_board_presence.py \
   --audio-pause-file /home/xilinx/runtime/trigger/vision_recording.lock
 ```
 
-### 4.5 GEMM 端到端验证（conv1 硬件加速）
+### 4.5 GEMM 绔埌绔獙璇侊紙conv1 纭欢鍔犻€燂級
 
-conv1 走 PL HLS GEMM 核的端到端验证，不依赖摄像头/麦克风，用录好的 wav 即可。
-仓库里文件按规范分散存放，板端部署时需收集到同一目录：
-
+conv1 璧?PL HLS GEMM 鏍哥殑绔埌绔獙璇侊紝涓嶄緷璧栨憚鍍忓ご/楹﹀厠椋庯紝鐢ㄥ綍濂界殑 wav 鍗冲彲銆?浠撳簱閲屾枃浠舵寜瑙勮寖鍒嗘暎瀛樻斁锛屾澘绔儴缃叉椂闇€鏀堕泦鍒板悓涓€鐩綍锛?
 ```bash
-# 在 PC 上把分散的 GEMM 文件收集到板端 /home/xilinx/gemm/
+# 鍦?PC 涓婃妸鍒嗘暎鐨?GEMM 鏂囦欢鏀堕泦鍒版澘绔?/home/xilinx/gemm/
 ssh xilinx@192.168.2.99 'mkdir -p /home/xilinx/gemm'
 scp build/gemm/gemm_soc.bit build/gemm/gemm_soc.hwh  xilinx@192.168.2.99:/home/xilinx/gemm/
 scp src/ps/e2e_board.py src/ps/gemm_board.py       xilinx@192.168.2.99:/home/xilinx/gemm/
@@ -135,84 +118,67 @@ scp data/gemm/*                                      xilinx@192.168.2.99:/home/x
 scp src/ps/audio_model.npz                           xilinx@192.168.2.99:/home/xilinx/gemm/
 scp board/verify_gemm.sh                             xilinx@192.168.2.99:/home/xilinx/gemm/
 
-# 板端自检文件版本
+# 鏉跨鑷鏂囦欢鐗堟湰
 cd /home/xilinx/gemm
 bash verify_gemm.sh
 
-# 端到端：wav → numpy 特征 → 硬件 conv1 → numpy 其余层 → 分数
+# 绔埌绔細wav 鈫?numpy 鐗瑰緛 鈫?纭欢 conv1 鈫?numpy 鍏朵綑灞?鈫?鍒嗘暟
 sudo python3 e2e_board.py
-sudo python3 e2e_board.py --repeat 5    # 重复 5 次测稳定耗时
+sudo python3 e2e_board.py --repeat 5    # 閲嶅 5 娆℃祴绋冲畾鑰楁椂
 ```
 
-预期输出：硬件 conv1 分数 ≈ 0.9979，numpy 全浮点 ≈ 0.9979，
-conv1 最大误差 < 0.02（205824 点 0 超差），判定 PASS。
-详见 `build/gemm/README.md`。
+棰勬湡杈撳嚭锛氱‖浠?conv1 鍒嗘暟 鈮?0.9979锛宯umpy 鍏ㄦ诞鐐?鈮?0.9979锛?conv1 鏈€澶ц宸?< 0.02锛?05824 鐐?0 瓒呭樊锛夛紝鍒ゅ畾 PASS銆?璇﹁ `build/gemm/README.md`銆?
+### 5. 娴嬭瘯
 
-### 5. 测试
+鎾斁楦熼福澹伴煶 鈫?缁堢1杈撳嚭 `TRIGGER` 鈫?缁堢2杈撳嚭 `鏀跺埌澹伴煶瑙﹀彂锛屽紑濮嬫悳楦焋 鈫?妫€娴嬪埌楦?鈫?寮€濮嬪綍鍍?鈫?楦熸秷澶卞悗寤惰繜缁撴潫 鈫?鍥炲埌绛夊緟銆?
+### 6. 杩愯浜х墿钀界偣锛堢畝浠嬫墍璇寸殑"鐓х墖銆佽棰戜笌棰勬祴鏃ュ織"锛?
+鏉跨 `~/runtime/` 涓嬶細
 
-播放鸟鸣声音 → 终端1输出 `TRIGGER` → 终端2输出 `收到声音触发，开始搜鸟` → 检测到鸟 → 开始录像 → 鸟消失后延迟结束 → 回到等待。
-
-### 6. 运行产物落点（简介所说的"照片、视频与预测日志"）
-
-板端 `~/runtime/` 下：
-
-| 目录 | 内容 |
+| 鐩綍 | 鍐呭 |
 |------|------|
-| `runtime/annotated/` | `frame_*.jpg` 抓拍快照 + `frame_*.json` 预测日志（时间戳、帧序号、框坐标、置信度、推理耗时） |
-| `runtime/videos/` | 目标存在期间的 MP4 录像 |
-| `runtime/trigger/` | 音频触发文件 `pitta.trigger`、录像锁 `vision_recording.lock` |
+| `runtime/annotated/` | `frame_*.jpg` 鎶撴媿蹇収 + `frame_*.json` 棰勬祴鏃ュ織锛堟椂闂存埑銆佸抚搴忓彿銆佹鍧愭爣銆佺疆淇″害銆佹帹鐞嗚€楁椂锛?|
+| `runtime/videos/` | 鐩爣瀛樺湪鏈熼棿鐨?MP4 褰曞儚 |
+| `runtime/trigger/` | 闊抽瑙﹀彂鏂囦欢 `pitta.trigger`銆佸綍鍍忛攣 `vision_recording.lock` |
 
-### 7. 扩展到其他鸟类
+### 7. 鎵╁睍鍒板叾浠栭笩绫?
+杞‖浠舵祦绋嬩笌鐗╃鏃犲叧锛屾崲鐗╃鍙渶鏇挎崲鏁版嵁涓庢ā鍨嬶細
 
-软硬件流程与物种无关，换物种只需替换数据与模型：
+1. **闊抽绔?*锛氶噰闆嗘柊鐗╃楦ｅ０姝ｆ牱鏈?+ 鏈湴鐜璐熸牱鏈紝閲嶈窇 `train_binary_fixed.py`锛屾浛鎹?`audio_model.npz`锛?2. **瑙嗚绔?*锛氭寜 `pitta.yaml` 鐨勬爣娉ㄦ牸寮忛噰闆嗘柊鐗╃鍥剧墖锛岄噸璺?`03_train.py` 璁粌 + `04_export.py` 瀵煎嚭 ncnn锛屾浛鎹?`best_ncnn.param/bin`锛?3. 璋冩暣閮ㄧ讲闃堝€硷紙褰撳墠闊抽 0.85 / 瑙嗚 conf 0.52锛夊嵆鍙紝閲囬泦鏍搞€両2S銆丏MA銆佸綍鍍忕姸鎬佹満鍏ㄩ儴澶嶇敤銆?
+## FPGA 璧勬簮鍗犵敤
 
-1. **音频端**：采集新物种鸣声正样本 + 本地环境负样本，重跑 `train_binary_fixed.py`，替换 `audio_model.npz`；
-2. **视觉端**：按 `pitta.yaml` 的标注格式采集新物种图片，重跑 `03_train.py` 训练 + `04_export.py` 导出 ncnn，替换 `best_ncnn.param/bin`；
-3. 调整部署阈值（当前音频 0.985 / 视觉 conf 0.52）即可，采集核、I2S、DMA、录像状态机全部复用。
-
-## FPGA 资源占用
-
-| 资源 | 占用 | 可用 | 利用率 |
+| 璧勬簮 | 鍗犵敤 | 鍙敤 | 鍒╃敤鐜?|
 |------|------|------|--------|
 | Slice LUTs | 1675 | 53200 | 3.15% |
 | Slice Registers | 2281 | 106400 | 2.14% |
 | Block RAM Tile | 1 | 140 | 0.71% |
 | DSP48 | 0 | 220 | 0% |
 
-时钟频率：100MHz (FCLK0)，时序收敛。
+鏃堕挓棰戠巼锛?00MHz (FCLK0)锛屾椂搴忔敹鏁涖€?
+涓婅〃鏄?*闊抽 overlay**锛坄inmp441.bit`锛夈€侴EMM overlay锛坄gemm_soc.bit`锛夊崟鐙竴缁勶細
+LUT 5376 (10.11%) / FF 7505 (7.05%) / BRAM 11 (7.86%) / DSP 67 (30.45%)锛學NS +1.520 ns锛?鍔熻€椾及绠?1.741 W锛坈onfidence Medium锛夈€備袱鑰呭垎鏃跺姞杞斤紝涓嶅悓鏃跺崰鏉裤€?
+## 鍏抽敭鎬ц兘鎸囨爣
 
-上表是**音频 overlay**（`inmp441.bit`）。GEMM overlay（`gemm_soc.bit`）单独一组：
-LUT 5376 (10.11%) / FF 7505 (7.05%) / BRAM 11 (7.86%) / DSP 67 (30.45%)，WNS +1.520 ns，
-功耗估算 1.741 W（confidence Medium）。两者分时加载，不同时占板。
+**宸插疄娴嬶紙PC 绔绾挎帹鐞?+ FPGA 鎶ュ憡锛夛細**
 
-## 关键性能指标
-
-**已实测（PC 端离线推理 + FPGA 报告）：**
-
-| 指标 | 数值 | 说明 |
+| 鎸囨爣 | 鏁板€?| 璇存槑 |
 |------|------|------|
-| 音频采样率 | 32000 Hz | FPGA DMA 连续采集 |
-| 音频窗口级特异性 | 100% | 本目录 18 段负样本 2,063 个窗口 0 误报，最高分 0.0329（非总体特异性） |
-| 音频事件级召回率 | 97.4%（0.985）/ 98.1%（0.5） | 9 段正样本、155 个人耳核对事件（`events_truth.csv`）；4 处漏检中 2 处在 `xc188359`；窗口级 90.6%/95.4%，见 `data/test_audio/positive/recall_results/` |
-| 图像检出率 | 99.2% | raw_pitta 有标注 1,061 张检出 1,052 张（训练池口径，conf 0.52） |
-| 图像特异性 | 380/380 | data/neg 380 张（321 其他鸟 + 59 纯背景）0 误报（已见负样本口径） |
-| 图像 mAP@0.5 | 86.7% | images/val 有标注 220 张 / 251 框；val 与训练集同源，属训练池口径 |
-| 图像板端推理延迟 | 5.65~6.72 s | ncnn YOLOv8n 320×320 双核；端到端联动日志 6 次 RECORD-INFER 抽样（均值 6.17 s），见 `board/test_output/end_to_end_20261024.md` |
-| 音频板端推理延迟 | 2.075 s | 单次窗口推理（含 STFT/mel/conv/numpy），同一份联动日志 |
-| 端到端触发延迟 | 约 10.5 s | 鸟鸣 TRIGGER → 检测到鸟开始录像（22:18:26.9 → 22:18:37，秒级时间戳） |
-| **conv1 GEMM HLS 核耗时** | **6.7 ms** | PYNQ-Z2 @100 MHz，纯核 ap_start→ap_done；`--bench 20` 中位数 |
-| **conv1 公平加速比** | **0.59x（端到端）/ 4.64x（纯核）** | 端到端 52.7ms（DMA搬运+GEMM+反量化）vs numpy conv1 31.0ms；搬运开销吃掉收益，故正式音频主程序仍走 numpy |
-| **conv1 硬件 vs numpy 最大误差** | **0.001838** | 205824 点逐点，容差 0.02 下 0 点超差；端到端分数 0.997878 vs 0.997876 |
-| 音频 overlay 资源 LUT/FF/BRAM/DSP | 3.15% / 2.14% / 0.71% / 0% | inmp441.bit，WNS +2.029ns，功耗 1.684 W（confidence Low） |
-| GEMM overlay 资源 LUT/FF/BRAM/DSP | 10.11% / 7.05% / 7.86% / 30.45% | gemm_soc.bit，WNS +1.520ns，功耗 1.741 W（confidence Medium） |
+| 闊抽閲囨牱鐜?| 32000 Hz | FPGA DMA 杩炵画閲囬泦 |
+| 闊抽绐楀彛绾х壒寮傛€?| 100% | 鏈洰褰?18 娈佃礋鏍锋湰 2,063 涓獥鍙?0 璇姤锛屾渶楂樺垎 0.0329锛堥潪鎬讳綋鐗瑰紓鎬э級 |
+| 闊抽浜嬩欢绾у彫鍥炵巼 | 97.4%锛?.985锛? 98.1%锛?.5锛?| 9 娈垫鏍锋湰銆?55 涓汉鑰虫牳瀵逛簨浠讹紙`events_truth.csv`锛夛紱4 澶勬紡妫€涓?2 澶勫湪 `xc188359`锛涚獥鍙ｇ骇 90.6%/95.4%锛岃 `data/test_audio/positive/recall_results/` |
+| 鍥惧儚妫€鍑虹巼 | 99.2% | raw_pitta 鏈夋爣娉?1,061 寮犳鍑?1,052 寮狅紙璁粌姹犲彛寰勶紝conf 0.52锛?|
+| 鍥惧儚鐗瑰紓鎬?| 380/380 | data/neg 380 寮狅紙321 鍏朵粬楦?+ 59 绾儗鏅級0 璇姤锛堝凡瑙佽礋鏍锋湰鍙ｅ緞锛?|
+| 鍥惧儚 mAP@0.5 | 86.7% | images/val 鏈夋爣娉?220 寮?/ 251 妗嗭紱val 涓庤缁冮泦鍚屾簮锛屽睘璁粌姹犲彛寰?|
+| 鍥惧儚鏉跨鎺ㄧ悊寤惰繜 | 5.65~6.72 s | ncnn YOLOv8n 320脳320 鍙屾牳锛涚鍒扮鑱斿姩鏃ュ織 6 娆?RECORD-INFER 鎶芥牱锛堝潎鍊?6.17 s锛夛紝瑙?`board/test_output/end_to_end_20261024.md` |
+| 闊抽鏉跨鎺ㄧ悊寤惰繜 | 2.075 s | 鍗曟绐楀彛鎺ㄧ悊锛堝惈 STFT/mel/conv/numpy锛夛紝鍚屼竴浠借仈鍔ㄦ棩蹇?|
+| 绔埌绔Е鍙戝欢杩?| 绾?10.5 s | 楦熼福 TRIGGER 鈫?妫€娴嬪埌楦熷紑濮嬪綍鍍忥紙22:18:26.9 鈫?22:18:37锛岀绾ф椂闂存埑锛?|
+| **conv1 GEMM HLS 鏍歌€楁椂** | **6.7 ms** | PYNQ-Z2 @100 MHz锛岀函鏍?ap_start鈫抋p_done锛沗--bench 20` 涓綅鏁?|
+| **conv1 鍏钩鍔犻€熸瘮** | **0.59x锛堢鍒扮锛? 4.64x锛堢函鏍革級** | 绔埌绔?52.7ms锛圖MA鎼繍+GEMM+鍙嶉噺鍖栵級vs numpy conv1 31.0ms锛涙惉杩愬紑閿€鍚冩帀鏀剁泭锛屾晠姝ｅ紡闊抽涓荤▼搴忎粛璧?numpy |
+| **conv1 纭欢 vs numpy 鏈€澶ц宸?* | **0.001838** | 205824 鐐归€愮偣锛屽宸?0.02 涓?0 鐐硅秴宸紱绔埌绔垎鏁?0.997878 vs 0.997876 |
+| 闊抽 overlay 璧勬簮 LUT/FF/BRAM/DSP | 3.15% / 2.14% / 0.71% / 0% | inmp441.bit锛學NS +2.029ns锛屽姛鑰?1.684 W锛坈onfidence Low锛?|
+| GEMM overlay 璧勬簮 LUT/FF/BRAM/DSP | 10.11% / 7.05% / 7.86% / 30.45% | gemm_soc.bit锛學NS +1.520ns锛屽姛鑰?1.741 W锛坈onfidence Medium锛?|
 
-> **图像指标口径**：训练池 mAP@0.5 86.7% 为训练分布内指标。真正独立（与训练集 MD5 无重复）
-> 的 266 张网络公开测试图上，板端阈值 conf 0.52 下图像级召回 **256/266 = 96.2%**，
-> 检出置信度均值 0.91。详见 `data/test_images/independent/README.md`。
-
-**待板端实测：** 连续运行时长（`stability_monitor.sh --interval 300` 挂 ≥8h）。GEMM 公平加速比已测（0.59x 端到端 / 4.64x 纯核），图像推理延迟已有 6 次抽样（均值 6.2s）。详见 `data/comparison.csv`。
-
-## 许可证
-
-MIT License，全文见仓库根目录 `LICENSE`。第三方组件（PYNQ、ncnn、OpenCV、ffmpeg、
-Ultralytics YOLOv8）遵循各自许可证，未在本仓库内重新分发。
+> **鍥惧儚鎸囨爣鍙ｅ緞**锛氳缁冩睜 mAP@0.5 86.7% 涓鸿缁冨垎甯冨唴鎸囨爣銆傜湡姝ｇ嫭绔嬶紙涓庤缁冮泦 MD5 鏃犻噸澶嶏級
+> 鐨?266 寮犵綉缁滃叕寮€娴嬭瘯鍥句笂锛屾澘绔槇鍊?conf 0.52 涓嬪浘鍍忕骇鍙洖 **256/266 = 96.2%**锛?> 妫€鍑虹疆淇″害鍧囧€?0.91銆傝瑙?`data/test_images/independent/README.md`銆?
+**寰呮澘绔疄娴嬶細** 杩炵画杩愯鏃堕暱锛坄stability_monitor.sh --interval 300` 鎸?鈮?h锛夈€侴EMM 鍏钩鍔犻€熸瘮宸叉祴锛?.59x 绔埌绔?/ 4.64x 绾牳锛夛紝鍥惧儚鎺ㄧ悊寤惰繜宸叉湁 6 娆℃娊鏍凤紙鍧囧€?6.2s锛夈€傝瑙?`data/comparison.csv`銆?
+## 璁稿彲璇?
+MIT License锛屽叏鏂囪浠撳簱鏍圭洰褰?`LICENSE`銆傜涓夋柟缁勪欢锛圥YNQ銆乶cnn銆丱penCV銆乫fmpeg銆?Ultralytics YOLOv8锛夐伒寰悇鑷鍙瘉锛屾湭鍦ㄦ湰浠撳簱鍐呴噸鏂板垎鍙戙€?
