@@ -100,6 +100,7 @@ PL 侧现在有两个独立 Overlay：音频采集用的 `inmp441.bit`（I2S+DMA
 - **板端驱动**：`src/ps/gemm_board.py`（裸 GEMM 对拍）与 `src/ps/e2e_board.py`（端到端：wav → 硬件 conv1 → numpy 其余层 → 分数）。采用寄存器轮询（禁用 PYNQ 中断路径），以 `ap_done` 作为计算完成权威判据。
 
 - **实测性能（`e2e_board.py --bench 20`，中位数）**：纯核 ap_start→ap_done 6.7ms（numpy conv1 单独 31.0ms，纯核加速比 4.64x）；但端到端（含 DMA 搬运 A/B/C + 反量化）52.7ms，反而比 numpy 慢（0.59x）。原因是 conv1 计算量太小（K=9, N=16），DMA 搬运 641KB 数据的开销占端到端 87%。**因此正式音频主程序仍走 numpy，GEMM overlay 仅作硬件加速能力验证**——这是基于实测数据的工程取舍，不是设计失误。
+- **工程结论与后续方向**：本次验证打通了完整的 HLS 设计→Vivado 集成→PYNQ Overlay→板端逐点对拍流程（205,824 点最大误差 0.00184，0 点超差），证明了软硬件协同开发链路是通的。端到端负加速的根因是"小矩阵 + 大搬运"的算力/通信比不匹配，后续可通过三条路径获得真正的端到端收益：(1) 把计算量更大的 conv2/conv3 也搬到 PL，摊薄 DMA 固定开销；(2) 使用 scatter-gather DMA + 双缓冲，把搬运和计算重叠；(3) 把 A/B 权重常驻 BRAM，只流式输入激活值。
 
 ### 3.4 资源占用（实测，来自综合实现报告，routed）
 
