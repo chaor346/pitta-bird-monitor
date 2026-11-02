@@ -9,7 +9,7 @@
 | `pitta-vision.service` | 图像识别 + 存在性录像。`Restart=always`，启动前 sleep 20s |
 | `pitta-audio.service` | 鸟鸣检测。`Restart=always`，每 1800s 正常退出后重开新会话 |
 | `start_pitta_vision.sh` | 视觉入口：等 `/dev/video0` → `trigger_board_presence.py` |
-| `start_pitta_audio.sh` | 音频入口：等 `pl_server` → `inmp441_predict_time.py --threshold 0.85` |
+| `start_pitta_audio.sh` | 音频入口：等 `pl_server` → `inmp441_predict_time.py --threshold 0.985` |
 
 安装：
 

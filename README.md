@@ -18,6 +18,14 @@
 | MEMS 麦克风 | INMP441 | PMOD B (I2S) |
 | USB 摄像头 | 1080p USB UVC | /dev/video0 |
 
+## 最终交付物
+
+| 文件 | 说明 |
+|------|------|
+| `report/post.pptx` | 作品海报（中文一页 + 英文一页，AMD 官方模板） |
+| `report/design_report.pdf` | 设计报告（最终版） |
+| `board/test_output/demo_video.mp4` | 板端演示视频（声视联动闭环） |
+
 ## 目录结构
 
 ```
@@ -25,10 +33,6 @@ pitta_bird_monitor/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
-├── docs/                  # 架构、接口、硬件接线
-│   ├── architecture.md
-│   ├── interface.md
-│   └── hardware_setup.md
 ├── src/
 │   ├── fpga/              # I2S 接收核 RTL + GEMM HLS IP
 │   │   ├── i2s_mems_rx.v
@@ -45,7 +49,7 @@ pitta_bird_monitor/
 │   ├── drc_routed.rpt
 │   ├── vivado_project.zip
 │   └── gemm/              # GEMM overlay
-├── board/                 # 上板脚本 + 实测日志
+├── board/                 # 上板脚本 + 实测日志 + 演示视频
 ├── data/                  # 测试数据 + 指标汇总
 ├── skill/                 # PYNQ 验证技能包
 └── report/                # 设计报告 + 海报
@@ -91,7 +95,7 @@ sudo bash /home/xilinx/setup.sh
 ### 4. 运行
 
 两种方式二选一：**手动调试**（下面终端 1/2，阈值 0.5）或 **systemd 正式部署**
-（`board/pitta-audio.service` + `board/pitta-vision.service`，阈值 0.85、音频每 1800 s
+（`board/pitta-audio.service` + `board/pitta-vision.service`，阈值 0.985、音频每 1800 s
 自动换会话）。两者参数不同，报告里的实测数字均来自 systemd 正式部署。
 
 ```bash

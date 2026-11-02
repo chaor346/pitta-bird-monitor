@@ -30,7 +30,7 @@ exec /usr/bin/python3 -u \
   /home/xilinx/inmp441_predict_time.py \
   --model /home/xilinx/audio_model.npz \
   --overlay /home/xilinx/inmp441.bit \
-  --threshold 0.85 \
+  --threshold 0.985 \
   --min-hits 1 \
   --hop 1.5 \
   --cooldown 5 \

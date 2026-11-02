@@ -3,8 +3,8 @@
 音频采集吞吐,核心,256000,bytes/s,32000Hz*2声道*4字节=256000；理论值,连续,build/build.tcl
 音频窗口级特异性,AI,100,%,PC numpy实测；18段负样本2063个2s窗口无一≥0.5,2063,data/test_audio/
 音频负样本最高分,AI,0.0329,score,PC numpy实测；距0.5阈值约15倍余量,2063,data/test_audio/negative/other_birds/neg_bird_carpodacus_sibiricus_ussuriensis_predictions.csv
-音频正样本检出窗口,AI,724,个,PC numpy实测；9段正样本1474窗口中score≥0.5（板端阈值0.85下）,1474,data/test_audio/manifest.csv
-音频事件级召回率,AI,97.4,%,PC numpy实测；9段正样本155个人耳核对事件；板端阈值0.85下事件有任意窗口≥0.85即算检出（旧阈值0.985下97.4%、0.5阈值下98.1%、窗口级90.6%/95.4%）；漏检4处其中2处在xc188359；真值取自录音母本非板端实录,155,data/test_audio/positive/recall_results/recall_results.csv
+音频正样本检出窗口,AI,724,个,PC numpy实测；9段正样本1474窗口中score≥0.5（板端阈值0.985下）,1474,data/test_audio/manifest.csv
+音频事件级召回率,AI,97.4,%,PC numpy实测；9段正样本155个人耳核对事件；板端阈值0.985下事件有任意窗口≥0.85即算检出（旧阈值0.985下97.4%、0.5阈值下98.1%、窗口级90.6%/95.4%）；漏检4处其中2处在xc188359；真值取自录音母本非板端实录,155,data/test_audio/positive/recall_results/recall_results.csv
 图像检出率,AI,99.2,%,PC onnxruntime实测；raw_pitta 有标注1061张检出1052张；conf0.52 imgsz320 letterbox（训练池口径）,1061,data/test_images/eval_val/logs/eval_log_20261025.txt
 图像特异性,AI,100,%,PC onnxruntime实测；data/neg 380张（321其他鸟+59纯背景）0误报，最高分0.0（已见负样本口径）,380,data/test_images/eval_val/logs/eval_log_20261025.txt
 图像检测mAP,AI,86.7,%,PC onnxruntime实测；images/val 有标注220张/251框；val 与训练集同源（221/260字节相同），仅训练池口径,220,data/test_images/eval_val/metrics.json
