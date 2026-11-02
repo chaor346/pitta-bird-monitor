@@ -69,7 +69,7 @@ PL 侧现在有两个独立 Overlay：音频采集用的 `inmp441.bit`（I2S+DMA
 ### 2.3 工作流程
 
 1. 音频端持续采集 2s 音频窗口，计算 mel 频谱 [64,201]，CNN 推理输出鸟鸣概率
-2. 概率≥0.85（正式部署阈值，写死在 audio_model.npz 里）1 个窗口即写触发文件 pitta.trigger；调试/离线评估口径用 0.5 连续 2 次
+2. 概率≥0.985（正式部署阈值，写死在 audio_model.npz 里）1 个窗口即写触发文件 pitta.trigger；调试/离线评估口径用 0.5 连续 2 次
 3. 图像端 WAITING 状态检测到触发文件 → 删除 → 进入 SEARCHING
 4. SEARCHING 中按 detect-hz 节流提交 ncnn 推理（异步，不阻塞）
 5. 检测到鸟（conf≥0.52）→ 保存画框照片 + JSON → 进入 RECORDING
