@@ -1,82 +1,100 @@
-# test_audio/ 闊抽娴嬭瘯闆?
-**姝ｆ牱鏈細浠欏叓鑹查斧锛圥itta nympha锛夐福澹?9 娈碉紝753.2 s / 1,474 涓?2 s 绐楀彛锛屽懡涓?500 涓€?*
-**璐熸牱鏈細鐜闊?10 娈?+ 鍏朵粬楦熼福 8 娈碉紝1,060.0 s / 2,063 涓獥鍙ｅ叏閮ㄦ湭瑙﹀彂锛堣鎶?0锛夈€?*
-鏉跨褰曢煶灏氭湭瀵煎叆銆?
-## 鍛藉悕瑙勮寖
+﻿# test_audio/ 音频测试集
+
+**正样本：仙八色鸫（Pitta nympha）鸣声 9 段，753.2 s / 1,474 个 2 s 窗口，命中 500 个。**
+**负样本：环境音 10 段 + 其他鸟鸣 8 段，1,060.0 s / 2,063 个窗口全部未触发（误报 0）。**
+板端录音尚未导入。
+
+## 命名规范
 
 ```
 <split>_<class>_<detail>.<ext>
-split  : pos锛堟鏍锋湰锛?/ neg锛堣礋鏍锋湰锛?class  : pitta锛堜粰鍏壊楦級 / ambient锛堢幆澧冮煶锛?/ bird锛堝叾浠栭笩楦ｏ級
-detail : 鍘熷鏉ユ簮缂栧彿锛圡L鈥?XC鈥︼級鎴栧満鏅悕 / 鐗╃鍚?```
+split  : pos（正样本） / neg（负样本）
+class  : pitta（仙八色鸫） / ambient（环境音） / bird（其他鸟鸣）
+detail : 原始来源编号（ML…/XC…）或场景名 / 物种名
+```
 
-| 鐩綍 | 鍓嶇紑 | 绀轰緥 |
+| 目录 | 前缀 | 示例 |
 |------|------|------|
 | `positive/` | `pos_pitta_nympha_` | `pos_pitta_nympha_xc179391.mp3` |
 | `negative/ambient/` | `neg_ambient_` | `neg_ambient_rain_hiss.wav` |
 | `negative/other_birds/` | `neg_bird_` | `neg_bird_mycerobas_carnipes.mp3` |
 
-- 鍏ㄩ儴灏忓啓鑻辨枃 + 涓嬪垝绾匡紝鏃犵┖鏍笺€佹棤涓枃锛岀鍚堢珵璧涘浠撳簱璺緞鐨勮姹傘€?- 姣忔闊抽閰嶄袱涓悓鍓嶇紑 CSV锛歚_predictions.csv`锛堥€愮獥锛変笌 `_events.csv`锛堜簨浠讹級锛屾帓搴忔椂鑷姩鑱氬湪涓€璧枫€?- `manifest.csv` 鏄叏鐩綍娓呭崟锛堣矾寰勩€佹爣绛俱€佺被鍒€佹椂闀裤€侀噰鏍风巼銆佸０閬撱€佺獥鍙ｆ暟銆佸悇闃堝€煎懡涓暟銆佷簨浠舵暟銆佸嘲鍊煎垎鏁帮級锛屾敼鍚嶅悗闇€鍚屾鏇存柊銆?- 2026-10-24 缁熶竴杩囦竴娆″懡鍚嶏細姝ｆ牱鏈姞 `pos_` 鍓嶇紑锛岀幆澧冮煶鐢?`neg_env_` 鏀逛负 `neg_ambient_`锛堜笌鐩綍鍚嶄竴鑷达級銆傚彧鏀规枃浠跺悕锛岄煶棰戝唴瀹逛笌 CSV 鏁版嵁鏈彉銆?
-## 姝ｆ牱鏈枃浠舵竻鍗?
-| 鏂囦欢 | 鍘熷 ID | 鏃堕暱 | 閲囨牱鐜?/ 澹伴亾 | 绐楀彛 | score鈮?.5 | score鈮?.985 | 浜嬩欢 | 宄板€?|
+- 全部小写英文 + 下划线，无空格、无中文，符合竞赛对仓库路径的要求。
+- 每段音频配两个同前缀 CSV：`_predictions.csv`（逐窗）与 `_events.csv`（事件），排序时自动聚在一起。
+- `manifest.csv` 是全目录清单（路径、标签、类别、时长、采样率、声道、窗口数、各阈值命中数、事件数、峰值分数），改名后需同步更新。
+- 2026-10-24 统一过一次命名：正样本加 `pos_` 前缀，环境音由 `neg_env_` 改为 `neg_ambient_`（与目录名一致）。只改文件名，音频内容与 CSV 数据未变。
+
+## 正样本文件清单
+
+| 文件 | 原始 ID | 时长 | 采样率 / 声道 | 窗口 | score≥0.5 | score≥0.985 | 事件 | 峰值 |
 |------|---------|-----:|---------------|-----:|----------:|------------:|-----:|-----:|
-| `positive/pos_pitta_nympha_ml341061311.mp3` | ML341061311 | 250.8 s | 48 kHz / 绔嬩綋澹?| 498 | 265 | 183 | 54 | 1.0000 |
-| `positive/pos_pitta_nympha_xc1043065.wav` | XC1043065 | 143.0 s | 48 kHz / 鍗曞０閬?| 282 | 156 | 102 | 33 | 1.0000 |
-| `positive/pos_pitta_nympha_xc183002.mp3` | XC183002 | 68.8 s | 44.1 kHz / 绔嬩綋澹?| 134 | 61 | 44 | 12 | 1.0000 |
-| `positive/pos_pitta_nympha_xc188359.mp3` | XC188359 | 68.8 s | 44.1 kHz / 绔嬩綋澹?| 134 | 47 | 27 | 10 | 0.9998 |
-| `positive/pos_pitta_nympha_xc133003.mp3` | XC133003 | 66.7 s | 48 kHz / 绔嬩綋澹?| 130 | 69 | 50 | 15 | 1.0000 |
-| `positive/pos_pitta_nympha_xc183003.mp3` | XC183003 | 52.9 s | 44.1 kHz / 绔嬩綋澹?| 102 | 32 | 22 | 6 | 1.0000 |
-| `positive/pos_pitta_nympha_xc801745.mp3` | XC801745 | 45.0 s | 44.1 kHz / 鍗曞０閬?| 87 | 41 | 30 | 9 | 1.0000 |
-| `positive/pos_pitta_nympha_xc179391.mp3` | XC179391 | 42.9 s | 44.1 kHz / 鍗曞０閬?| 82 | 41 | 34 | 8 | 1.0000 |
-| `positive/pos_pitta_nympha_ml659112304.mp3` | ML659112304 | 14.3 s | 48 kHz / 绔嬩綋澹?| 25 | 12 | 8 | 3 | 1.0000 |
-| **鍚堣锛? 娈碉級** | 鈥?| **753.2 s** | 鈥?| **1,474** | **724** | **500** | **150** | 鈥?|
+| `positive/pos_pitta_nympha_ml341061311.mp3` | ML341061311 | 250.8 s | 48 kHz / 立体声 | 498 | 265 | 183 | 54 | 1.0000 |
+| `positive/pos_pitta_nympha_xc1043065.wav` | XC1043065 | 143.0 s | 48 kHz / 单声道 | 282 | 156 | 102 | 33 | 1.0000 |
+| `positive/pos_pitta_nympha_xc183002.mp3` | XC183002 | 68.8 s | 44.1 kHz / 立体声 | 134 | 61 | 44 | 12 | 1.0000 |
+| `positive/pos_pitta_nympha_xc188359.mp3` | XC188359 | 68.8 s | 44.1 kHz / 立体声 | 134 | 47 | 27 | 10 | 0.9998 |
+| `positive/pos_pitta_nympha_xc133003.mp3` | XC133003 | 66.7 s | 48 kHz / 立体声 | 130 | 69 | 50 | 15 | 1.0000 |
+| `positive/pos_pitta_nympha_xc183003.mp3` | XC183003 | 52.9 s | 44.1 kHz / 立体声 | 102 | 32 | 22 | 6 | 1.0000 |
+| `positive/pos_pitta_nympha_xc801745.mp3` | XC801745 | 45.0 s | 44.1 kHz / 单声道 | 87 | 41 | 30 | 9 | 1.0000 |
+| `positive/pos_pitta_nympha_xc179391.mp3` | XC179391 | 42.9 s | 44.1 kHz / 单声道 | 82 | 41 | 34 | 8 | 1.0000 |
+| `positive/pos_pitta_nympha_ml659112304.mp3` | ML659112304 | 14.3 s | 48 kHz / 立体声 | 25 | 12 | 8 | 3 | 1.0000 |
+| **合计（9 段）** | — | **753.2 s** | — | **1,474** | **724** | **500** | **150** | — |
 
-姣忔涓や釜缁撴灉鏂囦欢锛堝悓鍚嶅墠缂€锛夛細
+每段两个结果文件（同名前缀）：
 
-- `*_predictions.csv`锛氶€愮獥 `start_sec / end_sec / score / prediction / event_id / rms_dbfs`锛?- `*_events.csv`锛歚event_id / start_sec / end_sec / positive_windows / peak_score`銆?
-## 绛涢€夎鍒?
-鍘熷鍖?`raw_target.zip` 鍏?15 娈碉紝鍏ㄩ儴涓轰粰鍏壊楦€傛寜涓嬪垪瀹㈣鎸囨爣绛涳紝婊¤冻鍏ㄩ儴 6 鏉℃墠鏀跺綍锛?
-| 瑙勫垯 | 闃堝€?|
+- `*_predictions.csv`：逐窗 `start_sec / end_sec / score / prediction / event_id / rms_dbfs`；
+- `*_events.csv`：`event_id / start_sec / end_sec / positive_windows / peak_score`。
+
+## 筛选规则
+
+原始包 `raw_target.zip` 共 15 段，全部为仙八色鸫。按下列客观指标筛，满足全部 6 条才收录：
+
+| 规则 | 阈值 |
 |------|------|
-| 鏃堕暱 | 鈮?10 s |
-| 鍓婃尝 | 鏍锋湰缁濆鍊尖墺0.999 鐨勬瘮渚?< 0.1% |
-| 鏈簳鍣０锛堝抚 RMS 鐨?10 鍒嗕綅锛?| 鈮?鈭?5 dBFS |
-| 鍔ㄦ€佽寖鍥达紙95 鍒嗕綅 鈭?10 鍒嗕綅锛?| 鈮?19 dB |
-| 褰曢煶鐢靛钩锛堝抚 RMS 鐨?95 鍒嗕綅锛?| 鈮?鈭?2 dBFS |
-| 楦ｅ０甯﹁兘閲忥紙0.2 s 甯у唴 2鈥? kHz 鍗犲搷甯ц兘閲忥級 | 鈮?40% |
-| 鐮佺巼 | 鈮?128 kbps锛圵AV 涓嶅彈闄愶級 |
+| 时长 | ≥ 10 s |
+| 削波 | 样本绝对值≥0.999 的比例 < 0.1% |
+| 本底噪声（帧 RMS 的 10 分位） | ≤ −35 dBFS |
+| 动态范围（95 分位 − 10 分位） | ≥ 19 dB |
+| 录音电平（帧 RMS 的 95 分位） | ≥ −32 dBFS |
+| 鸣声带能量（0.2 s 帧内 2–4 kHz 占响帧能量） | ≥ 40% |
+| 码率 | ≥ 128 kbps（WAV 不受限） |
 
-缁撴灉锛? 娈靛叆閫夛紝6 娈垫帓闄ゃ€?
-### 鎺掗櫎鐨?6 娈?
-| 鍘熷 ID | 鏃堕暱 | 鎺掗櫎鍘熷洜 |
+结果：9 段入选，6 段排除。
+
+### 排除的 6 段
+
+| 原始 ID | 时长 | 排除原因 |
 |---------|-----:|----------|
-| ML658106733 | 18.2 s | 鍔ㄦ€佽寖鍥?14.9 dB锛?鈥? kHz 鍗?0%锛堜富棰?65 Hz锛夛紝瀹炶川鏄綆棰戝櫔澹?|
-| ML659430723 | 124.4 s | 鏈簳 鈭?9.7 dBFS锛堢幆澧冨櫔澹板ぇ锛夛紝鍔ㄦ€佽寖鍥?17.7 dB |
-| ML661668457 | 21.4 s | 鍔ㄦ€佽寖鍥?16.0 dB锛屼富棰?1.78 kHz銆?鈥? kHz 鍗?0%锛屾ā鍨嬩粎鍛戒腑 10.3% |
-| XC303934 | 46.9 s | 鐢靛钩杩囦綆锛堟渶鍝?鈭?1.7 dBFS锛夛紝鍛戒腑鐜?21.1% |
-| XC304043 | 7.1 s | 鏃堕暱涓嶈冻 10 s |
-| XC664516 | 11.7 s | 鏃堕暱鍋忕煭锛屼笖鐮佺巼 101 kbps 浣庝簬闃堝€?|
+| ML658106733 | 18.2 s | 动态范围 14.9 dB，2–4 kHz 占 0%（主频 65 Hz），实质是低频噪声 |
+| ML659430723 | 124.4 s | 本底 −29.7 dBFS（环境噪声大），动态范围 17.7 dB |
+| ML661668457 | 21.4 s | 动态范围 16.0 dB，主频 1.78 kHz、2–4 kHz 占 0%，模型仅命中 10.3% |
+| XC303934 | 46.9 s | 电平过低（最响 −31.7 dBFS），命中率 21.1% |
+| XC304043 | 7.1 s | 时长不足 10 s |
+| XC664516 | 11.7 s | 时长偏短，且码率 101 kbps 低于阈值 |
 
-`ML661668457` 姝ゅ墠浣滀负鏍囨敞瀵圭収鏍锋湰瀵煎叆杩囦竴娆★紝杩欐鎸夎鍒欑Щ鍑恒€傚畠涓嶆槸褰曢煶鎹熷潖锛岃€屾槸鍏堕福澹颁富棰戝亸浣庛€佷笉鍦ㄦā鍨嬮€氬甫鍐咃紝鐣欎綔姝ｆ牱鏈細璇鎸囨爣銆傚闇€澶嶆牳鏃ц瘎娴嬶紝鍙敤鍘熷鍖呭崟鐙窇锛?.5 闃堝€间笅涓?8 涓獥鍙?/ 2 涓簨浠讹級銆?
-## 璐熸牱鏈竴锛氱幆澧冮煶锛?0 娈碉級
+`ML661668457` 此前作为标注对照样本导入过一次，这次按规则移出。它不是录音损坏，而是其鸣声主频偏低、不在模型通带内，留作正样本会误导指标。如需复核旧评测，可用原始包单独跑（0.5 阈值下为 8 个窗口 / 2 个事件）。
 
-| 鏂囦欢 | 鍦烘櫙 | 鏃堕暱 | 绐楀彛 | 鏈€楂樺垎 |
+## 负样本一：环境音（10 段）
+
+| 文件 | 场景 | 时长 | 窗口 | 最高分 |
 |------|------|-----:|-----:|-------:|
-| `negative/ambient/neg_ambient_ac_hum_office.wav` | 瀹ゅ唴绌鸿皟鍡″０ | 40.0 s | 77 | 0.0003 |
-| `negative/ambient/neg_ambient_crowd_babble.wav` | 浜虹兢鍢堟潅 | 60.0 s | 117 | 0.0000 |
-| `negative/ambient/neg_ambient_footsteps_pavement.wav` | 浜鸿閬撹剼姝?| 30.0 s | 57 | 0.0064 |
-| `negative/ambient/neg_ambient_garden_ambient.wav` | 搴櫌鐜锛堟棤楦燂級 | 60.0 s | 117 | 0.0013 |
-| `negative/ambient/neg_ambient_keyboard_typing.wav` | 閿洏鏁插嚮 | 45.0 s | 87 | 0.0002 |
-| `negative/ambient/neg_ambient_rain_hiss.wav` | 闆ㄥ０ | 45.0 s | 87 | 0.0000 |
-| `negative/ambient/neg_ambient_room_tone.wav` | 鎴块棿搴曞櫔 / 绮夊櫔 | 45.0 s | 87 | 0.0001 |
-| `negative/ambient/neg_ambient_traffic_street.wav` | 琛楅亾杞︽祦 | 60.0 s | 117 | 0.0005 |
-| `negative/ambient/neg_ambient_wind_gusts.wav` | 闃甸 | 60.0 s | 117 | 0.0004 |
-| `negative/ambient/neg_ambient_wind_leaves.wav` | 椋庡惞鏍戝彾 | 40.0 s | 77 | 0.0000 |
-| **鍚堣锛?0 娈碉級** | 鈥?| **485.0 s** | **940** | **0.0064** |
+| `negative/ambient/neg_ambient_ac_hum_office.wav` | 室内空调嗡声 | 40.0 s | 77 | 0.0003 |
+| `negative/ambient/neg_ambient_crowd_babble.wav` | 人群嘈杂 | 60.0 s | 117 | 0.0000 |
+| `negative/ambient/neg_ambient_footsteps_pavement.wav` | 人行道脚步 | 30.0 s | 57 | 0.0064 |
+| `negative/ambient/neg_ambient_garden_ambient.wav` | 庭院环境（无鸟） | 60.0 s | 117 | 0.0013 |
+| `negative/ambient/neg_ambient_keyboard_typing.wav` | 键盘敲击 | 45.0 s | 87 | 0.0002 |
+| `negative/ambient/neg_ambient_rain_hiss.wav` | 雨声 | 45.0 s | 87 | 0.0000 |
+| `negative/ambient/neg_ambient_room_tone.wav` | 房间底噪 / 粉噪 | 45.0 s | 87 | 0.0001 |
+| `negative/ambient/neg_ambient_traffic_street.wav` | 街道车流 | 60.0 s | 117 | 0.0005 |
+| `negative/ambient/neg_ambient_wind_gusts.wav` | 阵风 | 60.0 s | 117 | 0.0004 |
+| `negative/ambient/neg_ambient_wind_leaves.wav` | 风吹树叶 | 40.0 s | 77 | 0.0000 |
+| **合计（10 段）** | — | **485.0 s** | **940** | **0.0064** |
 
-- 鍏ㄩ儴涓?32 kHz / 鍗曞０閬?16 bit WAV锛屽彲鐩存帴鎸夋澘绔噰鏍风巼鍠傛ā鍨嬶紝涓嶉渶瑕侀噸閲囨牱锛涘潎涓烘棤楦熼福鐨勭幆澧冪墖娈碉紙`garden_ambient` 鍦ㄥ懡鍚嶄笂宸叉爣娉?no bird锛夈€?- 鎸戦€夋爣鍑嗭細瑕嗙洊 10 绫讳簰涓嶉噸澶嶇殑甯歌璇Е鍙戝満鏅紙绋虫€佸棥澹般€侀洦銆侀銆佹按鍙躲€佽剼姝ャ€佷汉娴併€侀敭鐩樸€佷氦閫氾級锛屾棤鍓婃尝锛屾椂闀?鈮?0 s銆?
-## 璐熸牱鏈簩锛氬叾浠栭笩楦ｏ紙8 娈碉級
+- 全部为 32 kHz / 单声道 16 bit WAV，可直接按板端采样率喂模型，不需要重采样；均为无鸟鸣的环境片段（`garden_ambient` 在命名上已标注 no bird）。
+- 挑选标准：覆盖 10 类互不重复的常见误触发场景（稳态嗡声、雨、风、水叶、脚步、人流、键盘、交通），无削波，时长 ≥30 s。
 
-| 鏂囦欢 | 鐗╃锛堝師濮嬫枃浠跺悕锛?| 鏃堕暱 | 绐楀彛 | 鏈€楂樺垎 |
+## 负样本二：其他鸟鸣（8 段）
+
+| 文件 | 物种（原始文件名） | 时长 | 窗口 | 最高分 |
 |------|------|-----:|-----:|-------:|
 | `negative/other_birds/neg_bird_carpodacus_sibiricus_ussuriensis.mp3` | Carpodacus sibiricus ussuriensis | 120.1 s | 237 | 0.0329 |
 | `negative/other_birds/neg_bird_urocynchramus_pylzowi.mp3` | Urocynchramus pylzowi | 109.1 s | 215 | 0.0031 |
@@ -86,47 +104,70 @@ detail : 鍘熷鏉ユ簮缂栧彿锛圡L鈥?XC鈥︼級鎴栧満鏅悕 / �
 | `negative/other_birds/neg_bird_mycerobas_carnipes.mp3` | Mycerobas carnipes | 40.8 s | 78 | 0.0024 |
 | `negative/other_birds/neg_bird_pyrrhula_erythaca.mp3` | Pyrrhula erythaca | 37.3 s | 71 | 0.0029 |
 | `negative/other_birds/neg_bird_agraphospiza_rubescens.mp3` | Agraphospiza rubescens | 32.3 s | 61 | 0.0018 |
-| **鍚堣锛? 娈碉級** | 8 涓笉鍚屽睘 / 绉?| **575.0 s** | **1,123** | **0.0329** |
+| **合计（8 段）** | 8 个不同属 / 种 | **575.0 s** | **1,123** | **0.0329** |
 
-鎸戦€夋爣鍑嗭紙浠庡師濮嬪寘鐨?54 绉嶄腑鍙?8 绉嶏級锛?
-| 瑙勫垯 | 闃堝€?|
+挑选标准（从原始包的 54 种中取 8 种）：
+
+| 规则 | 阈值 |
 |------|------|
-| 鍔ㄦ€佽寖鍥?| 鈮?27 dB |
-| 2鈥? kHz 鑳介噺鍗犲搷甯?| 鈮?44% |
-| 鍗曟枃浠朵綋绉?| 鈮?5 MB锛堝師濮嬬爜娴侊紝涓嶈浆鐮侊級 |
-| 瑕嗙洊 | 涓嶅悓灞炪€佷笉鍚屼綋鍨嬩笌楦ｅ敱绫诲瀷锛岄伩鍏嶅叏鏄悓涓€绫婚泙褰㈢洰楦ｇ |
+| 动态范围 | ≥ 27 dB |
+| 2–8 kHz 能量占响帧 | ≥ 44% |
+| 单文件体积 | ≤ 5 MB（原始码流，不转码） |
+| 覆盖 | 不同属、不同体型与鸣唱类型，避免全是同一类雀形目鸣禽 |
 
-**鏈鍏ョ殑 46 绉?*锛氫富鍥犳槸浣撶Н锛堝娈?20鈥?10 MB锛屾渶闀垮崟娈?26 min锛屽叏瀵煎叆浼氳浠撳簱浣撶Н缈绘暟鍊嶏級涓庤川閲忎笉杈炬爣銆傝川閲忔渶宸殑鍑犳涓轰緥锛?
-| 鐗╃ | 鏃堕暱 | 涓嶈揪鏍囧師鍥?|
+**未导入的 46 种**：主因是体积（多段 20–110 MB，最长单段 26 min，全导入会让仓库体积翻数倍）与质量不达标。质量最差的几段为例：
+
+| 物种 | 时长 | 不达标原因 |
 |------|-----:|------------|
-| Anthus_hodgsoni_hodgsoni | 44.5 s | 鍔ㄦ€佽寖鍥?4.9 dB锛?鈥? kHz 鍗?4.6%锛屽嚑涔庡叏鏄櫔澹?|
-| Ianthocincla_maxima | 33.7 s | 鍔ㄦ€佽寖鍥?3.5 dB锛?鈥? kHz 鍗?3.0% |
-| Motacilla_tschutschensis_taivana | 10.5 s | 鍔ㄦ€佽寖鍥?5.6 dB锛?鈥? kHz 鍗?8.2% |
-| Carpodacus_davidianus | 41.1 s | 鍔ㄦ€佽寖鍥?17.9 dB锛?鈥? kHz 鍗?4.2% |
-| Turdus_hortulorum | 216.0 s | 鍔ㄦ€佽寖鍥?8.3 dB锛?鈥? kHz 鍗?15.8% |
-| Prinia_striata | 37.1 s | 鏈簳 鈭?5.6 dBFS 鍋忓惖锛屼笖鏈夊墛娉?|
+| Anthus_hodgsoni_hodgsoni | 44.5 s | 动态范围 4.9 dB，2–8 kHz 占 4.6%，几乎全是噪声 |
+| Ianthocincla_maxima | 33.7 s | 动态范围 3.5 dB，2–8 kHz 占 3.0% |
+| Motacilla_tschutschensis_taivana | 10.5 s | 动态范围 5.6 dB，2–8 kHz 占 8.2% |
+| Carpodacus_davidianus | 41.1 s | 动态范围 17.9 dB，2–8 kHz 占 4.2% |
+| Turdus_hortulorum | 216.0 s | 动态范围 8.3 dB，2–8 kHz 占 15.8% |
+| Prinia_striata | 37.1 s | 本底 −25.6 dBFS 偏吵，且有削波 |
 
-`Motacilla_tschutschensis_taivana` 姝ｅソ鏄棫璇勬祴 `full_test_fixed_050` 鐨勮礋鏍锋湰涔嬩竴锛堝綋鏃?max_score 0.0006锛夛紝杩欐鍥犺川閲忎笉杈炬爣鏈鍏ワ紱鏃ц瘎娴嬬殑 10 娈佃礋鏍锋湰閲屽彧鏈?`Carpodacus_sibiricus_ussuriensis`銆乣Mycerobas_carnipes`銆乣Pterorhinus_waddelli`銆乣env_rain_hiss` 杩?4 娈佃繘浜嗘湰鐩綍銆?
-## 璐熸牱鏈鎶ョ粨鏋?
-- 18 娈点€?,063 涓?2 s 绐楀彛锛?*score 鈮?0.5 鐨?0 涓紝score 鈮?0.85 鐨?0 涓紝鍊欓€変簨浠?0 涓?*銆?- 鍏ㄧ洰褰曟渶楂樺垎 0.0329锛坄Carpodacus_sibiricus_ussuriensis`锛夛紝璺?0.5 闃堝€艰繕鏈?15 鍊嶄綑閲忋€?- 涓庢棫 torch 璇勬祴閫愭瀵圭収锛堝悓涓€褰曢煶锛夛細`Mycerobas_carnipes` 0.0028 鈫?0.0024锛宍Pterorhinus_waddelli` 0.0027 鈫?0.0042锛宍Carpodacus_sibiricus_ussuriensis` 0.0209 鈫?0.0329锛宍env_rain_hiss` 0.00002 鈫?0.0000銆傛暟閲忕骇涓€鑷达紝宸紓鏉ヨ嚜 mp3 瑙ｇ爜涓庨噸閲囨牱瀹炵幇銆?- **鍙ｅ緞闄愬埗**锛氳繖鍙鏄?杩?18 娈垫潗鏂欎笂娌℃湁璇姤"锛屼笉鏄€讳綋璇姤鐜囥€傜湡瀹為噹澶栬繕鏈夋槅铏€佽洐绫汇€侀澹伴鍙樸€佽澶囨懇鎿︾瓑鏈鐩栵紝涓?46 绉嶉笩鏈祴銆?
-## 鏉ユ簮
+`Motacilla_tschutschensis_taivana` 正好是旧评测 `full_test_fixed_050` 的负样本之一（当时 max_score 0.0006），这次因质量不达标未导入；旧评测的 10 段负样本里只有 `Carpodacus_sibiricus_ussuriensis`、`Mycerobas_carnipes`、`Pterorhinus_waddelli`、`env_rain_hiss` 这 4 段进了本目录。
 
-- XC 缂栧彿鏉ヨ嚜 Xeno-canto锛坔ttps://xeno-canto.org/<缂栧彿>锛夛紝ML 缂栧彿鏉ヨ嚜 Macaulay Library銆?- 鍘熷鍖咃細`C:\Users\14204\Downloads\raw_target.zip` 鐨?`raw_target/` 鐩綍锛?5 娈碉級锛屽叏閮ㄤ繚鐣欙紝鏈洰褰曞彧鍙?9 娈点€?- 璐熸牱鏈師濮嬪寘锛歚C:\Users\14204\Downloads\raw_negative.zip` 鐨?`raw_negative/` 鐩綍锛?4 涓枃浠讹細10 娈电幆澧冮煶 + 54 绉嶉笩锛夛紝鏈洰褰曞彇 18 涓紝鍏朵綑淇濈暀鍦ㄥ師鍖呫€?- **浣跨敤涓庡啀鍒嗗彂鍓嶈鏍稿姣忔褰曢煶鐨勮鍙潯娆?*锛圶eno-canto 鏉＄洰椤垫爣娉?CC 鍗忚锛夛紝骞跺湪鎶ュ憡/浠撳簱 README 涓敞鏄庢潵婧愮紪鍙枫€?
-## 鎺ㄧ悊璁剧疆锛堢敓鎴愪笂杩?CSV 鐨勬潯浠讹級
+## 负样本误报结果
 
-- 妯″瀷锛歚src/ps/audio_model.npz`锛堢函 numpy 瀹炵幇锛宍src/ps/audio_numpy.py`锛夛紝`sr=32000`銆乣n_fft=1024`銆乣hop=320`銆乣n_mels=64`銆乣mean=-45.12`銆乣std=16.89`锛?- 绐楀彛锛?.0 s / 璺?0.5 s锛涚珛浣撳０鍏堝彇鍙屽０閬撳钩鍧囷紱
-- 閲嶉噰鏍凤細44.1/48 kHz 鈫?32 kHz锛孎FT 棰戝煙閲嶉噰鏍凤紙甯﹂檺锛屼笉鍋氫綆閫氳璁★級锛?- 鎺ㄧ悊鏈猴細PC锛宯umpy锛?7 娈靛悎璁＄害 100 s锛?- **`prediction` 鐢ㄦ澘绔儴缃查槇鍊?0.85**锛堝彇鑷?`audio_model.npz`锛夛紱`score鈮?.5` 涓€鍒楁槸涓轰笌鏃㈡湁璇勬祴璁板綍锛坄run_config.json` 涓?`threshold=0.5`锛夊榻愪繚鐣欑殑鍙傝€冨€笺€?
-## 涓庢棦鏈夎瘎娴嬬殑瀵圭収
+- 18 段、2,063 个 2 s 窗口，**score ≥ 0.5 的 0 个，score ≥ 0.985 的 0 个，候选事件 0 个**。
+- 全目录最高分 0.0329（`Carpodacus_sibiricus_ussuriensis`），距 0.5 阈值还有 15 倍余量。
+- 与旧 torch 评测逐段对照（同一录音）：`Mycerobas_carnipes` 0.0028 → 0.0024，`Pterorhinus_waddelli` 0.0027 → 0.0042，`Carpodacus_sibiricus_ussuriensis` 0.0209 → 0.0329，`env_rain_hiss` 0.00002 → 0.0000。数量级一致，差异来自 mp3 解码与重采样实现。
+- **口径限制**：这只说明"这 18 段材料上没有误报"，不是总体误报率。真实野外还有昆虫、蛙类、风声骤变、设备摩擦等未覆盖，且 46 种鸟未测。
 
-| 褰曢煶 | 鏈 numpy 鎺ㄧ悊锛?.5 闃堝€硷級 | 涓婃 torch 鎺ㄧ悊锛坄runs/full_test_fixed_050`锛?|
+## 来源
+
+- XC 编号来自 Xeno-canto（https://xeno-canto.org/<编号>），ML 编号来自 Macaulay Library。
+- 原始包：`C:\Users\14204\Downloads\raw_target.zip` 的 `raw_target/` 目录（15 段），全部保留，本目录只取 9 段。
+- 负样本原始包：`C:\Users\14204\Downloads\raw_negative.zip` 的 `raw_negative/` 目录（64 个文件：10 段环境音 + 54 种鸟），本目录取 18 个，其余保留在原包。
+- **使用与再分发前请核对每段录音的许可条款**（Xeno-canto 条目页标注 CC 协议），并在报告/仓库 README 中注明来源编号。
+
+## 推理设置（生成上述 CSV 的条件）
+
+- 模型：`src/ps/audio_model.npz`（纯 numpy 实现，`src/ps/audio_numpy.py`），`sr=32000`、`n_fft=1024`、`hop=320`、`n_mels=64`、`mean=-45.12`、`std=16.89`；
+- 窗口：2.0 s / 跳 0.5 s；立体声先取双声道平均；
+- 重采样：44.1/48 kHz → 32 kHz，FFT 频域重采样（带限，不做低通设计）；
+- 推理机：PC，numpy，27 段合计约 100 s；
+- **`prediction` 用板端部署阈值 0.985**（取自 `audio_model.npz`）；`score≥0.5` 一列是为与既有评测记录（`run_config.json` 中 `threshold=0.5`）对齐保留的参考值。
+
+## 与既有评测的对照
+
+| 录音 | 本次 numpy 推理（0.5 阈值） | 上次 torch 推理（`runs/full_test_fixed_050`） |
 |------|---------------------------|---------------------------------------------|
-| `XC179391` | 41 涓獥鍙?/ 8 涓簨浠?| 42 涓獥鍙?/ 8 涓€欓€変簨浠?|
+| `XC179391` | 41 个窗口 / 8 个事件 | 42 个窗口 / 8 个候选事件 |
 
-涓ゆ鍩烘湰鍚诲悎锛屽樊寮傛潵鑷噸閲囨牱瀹炵幇涓庢ā鍨嬪鍑虹簿搴︺€?
-## 缂哄彛
+两次基本吻合，差异来自重采样实现与模型导出精度。
 
-- **姝ｆ牱鏈棤閫愮獥浜哄伐鏍囨敞**锛歚reference_annotations.json` 鍙粰浜?2 娈靛綍闊崇殑鐩爣鍖洪棿锛屾湰鐩綍 9 娈垫鏍锋湰閮芥病鏈夐€愮獥鐪熷€硷紝鍥犳鑳界畻鈥滄鍑虹獥鍙ｆ暟鈥濓紝杩樹笉鑳界畻鍙洖鐜囥€傝绠楁寚鏍囬渶浜哄伐鏍囧嚭姣忔楦ｅ０璧锋銆?- **璐熸牱鏈鐩栨湁闄?*锛氬彧娴嬩簡 8 绉嶉笩 + 10 绫荤幆澧冮煶锛屽師濮嬪寘閲屽彟鏈?46 绉嶅洜浣撶Н/璐ㄩ噺鏈鍏ワ紱鏄嗚櫕銆佽洐绫汇€佽澶囨懇鎿︾瓑鏈鐩栥€?- **鏉跨褰曢煶缂哄け**锛歅YNQ-Z2 涓?INMP441 閲囩殑 32000 Hz 鍘熷绐楀彛锛坄/home/xilinx/results_av/*.wav`锛変粛闇€琛ラ噰锛涙湰鐩綍姝ｆ牱鏈兘鏉ヨ嚜鍏紑褰曢煶锛屼笉鏄澘绔噰闆嗭紙鐜闊宠礋鏍锋湰鏈韩鏄?32 kHz WAV锛屾牸寮忎笌鏉跨涓€鑷达紝浣嗕篃涓嶆槸鍦ㄦ澘绔綍鐨勶級銆?- **璁稿彲鏉℃鏈€愭潯鏍稿**锛?7 娈电殑鍏蜂綋 CC 鍗忚闇€瑕佸湪 Xeno-canto / Macaulay 鏉＄洰椤电‘璁ゅ悗鍐嶅畾浠撳簱鍒嗗彂鏂瑰紡銆?- **涓?`comparison.csv` 鐨勫彛寰勪粛鏈榻?*锛氭枃浠堕噷鍐欑殑鈥滈笩楦ｆ娴嬪噯纭巼 92% / 娴嬭瘯闆?100 娈碘€濆湪鏈洰褰曟壘涓嶅埌瀵瑰簲鏉愭枡锛屾殏鏃朵笉鑳界敤杩欏鏁版嵁澶嶇幇锛屽缓璁寜鏈洰褰曠粨鏋滈噸鍐欒琛ㄣ€?
-## 宸叉帓闄ょ殑閿欒绱犳潗锛堢暀妗ｏ級
+## 缺口
 
-2026-10-24 鏇惧鍏?`runs.zip` 鐨?`mic_target_01` / `mic_check_01` / `mic_negative_01`銆傞璋辨牳瀵癸細琚垽涓虹洰鏍囷紙score 0.94鈥?.96锛夌殑绐楀彛閲?0.5鈥? kHz 鍗?59鈥?9%銆?鈥? kHz 浠?3鈥?%锛屼笌浠欏叓鑹查斧 2鈥? kHz 绐勫甫鍝ㄩ煶涓嶇锛岀‘璁ゆ槸 PC 澹板崱褰曠殑浜哄０/浣庨鐜澹帮紝宸插叏閮ㄧЩ闄ゃ€?
-鍚屾椂鏆撮湶鐨勯棶棰橈細妯″瀷鍦ㄨ繖绫婚潪楦熼福鍣０涓婁細缁欏嚭 score鈮?.0 鐨勫亣闃虫€э紙`mic_target_01` 鏈?33/182 涓獥鍙ｏ級锛屽缓璁湪鎶ュ憡涓瀹炲啓鏄庯紝鎴栫敤鏈洰褰曟鏍锋湰閲嶆柊璇勪及鍚庡啀瀵瑰瀹ｅ竷鍑嗙‘鐜囥€?
+- **正样本无逐窗人工标注**：`reference_annotations.json` 只给了 2 段录音的目标区间，本目录 9 段正样本都没有逐窗真值，因此能算“检出窗口数”，还不能算召回率。要算指标需人工标出每段鸣声起止。
+- **负样本覆盖有限**：只测了 8 种鸟 + 10 类环境音，原始包里另有 46 种因体积/质量未导入；昆虫、蛙类、设备摩擦等未覆盖。
+- **板端录音缺失**：PYNQ-Z2 上 INMP441 采的 32000 Hz 原始窗口（`/home/xilinx/results_av/*.wav`）仍需补采；本目录正样本都来自公开录音，不是板端采集（环境音负样本本身是 32 kHz WAV，格式与板端一致，但也不是在板端录的）。
+- **许可条款未逐条核对**：27 段的具体 CC 协议需要在 Xeno-canto / Macaulay 条目页确认后再定仓库分发方式。
+- **与 `comparison.csv` 的口径仍未对齐**：文件里写的“鸟鸣检测准确率 92% / 测试集 100 段”在本目录找不到对应材料，暂时不能用这套数据复现，建议按本目录结果重写该表。
+
+## 已排除的错误素材（留档）
+
+2026-10-24 曾导入 `runs.zip` 的 `mic_target_01` / `mic_check_01` / `mic_negative_01`。频谱核对：被判为目标（score 0.94–0.96）的窗口里 0.5–2 kHz 占 59–69%、2–6 kHz 仅 3–4%，与仙八色鸫 2–4 kHz 窄带哨音不符，确认是 PC 声卡录的人声/低频环境声，已全部移除。
+
+同时暴露的问题：模型在这类非鸟鸣噪声上会给出 score≈1.0 的假阳性（`mic_target_01` 有 33/182 个窗口），建议在报告中如实写明，或用本目录正样本重新评估后再对外宣布准确率。
