@@ -27,4 +27,4 @@ GEMM overlay总功耗,FPGA,1.741,W,Vivado功耗估算 动态1.602+静态0.139；
 音频overlay DSP占用,FPGA,0,%,XC7Z020 I2S+DMA；Vivado 2026.1实测,综合实现,build/utilization.rpt
 音频overlay时钟频率,FPGA,100,MHz,FCLK0；WNS=+2.029ns时序收敛,时序收敛,build/timing.rpt
 音频overlay总功耗,FPGA,1.684,W,Vivado功耗估算；confidence=Low、无仿真活动文件、环境温度按25℃假设；结温44.4℃为估算值，非上板实测,功耗分析,build/power.rpt
-系统连续运行,可靠性,待实测,h,无人工干预无崩溃，需上板长测；用 board/stability_monitor.sh 采集，注意音频每约31分钟正常重启会递增 NRestarts,—,board/test_output/（待采集 stability_log.csv）
+系统连续运行,可靠性,23.9,h,288个5分钟采样点（2026-10-30 08:00至10-31 07:55）；视觉服务288/288 active、0重启；音频47次会话重启（--seconds 1800设计行为）；内存可用均值319.5MB无泄漏、负载load1均值0.41、磁盘稳定48%,288,board/test_output/stability_24h.csv
