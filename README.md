@@ -22,9 +22,9 @@
 
 | 文件 | 说明 |
 |------|------|
-| `report/post.pptx` | 作品海报（中文一页 + 英文一页，AMD 官方模板） |
-| `report/design_report.pdf` | 设计报告（最终版） |
-| `board/test_output/demo_video.mp4` | 板端演示视频（声视联动闭环） |
+| `report/post.pptx` | 作品海报 |
+| `report/design_report.pdf` | 设计报告 |
+| `board/test_output/demo_video.mp4` | 板端演示视频 |
 
 ## 目录结构
 
