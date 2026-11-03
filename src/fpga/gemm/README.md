@@ -70,6 +70,6 @@ Verilog/VHDL 均由 Vitis HLS 综合生成，不是手写 RTL；HLS C++ 源文�
 
 ## 手写 RTL 在哪
 
-本项目手写的 RTL 只有 `../i2s_mems_rx.v`（I2S 串行接收核，6.9 KB）。
+本项目手写的 RTL 只有 `../i2s_mems_rx.v`（I²S 串行接收核，6.9 KB）。
 GEMM 核是 HLS 生成的，这是竞赛 3.3.2 允许的实现方式（"RTL、Vitis HLS、
 AI Engine、PS 侧软件及其任意组合均可"）。

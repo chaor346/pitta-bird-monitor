@@ -5,7 +5,7 @@
 
 ## 系统功能
 
-1. **FPGA 音频采集**：INMP441 MEMS 麦克风 → I2S 接收核 → AXI DMA → DDR，32000Hz 采样，24bit 精度
+1. **FPGA 音频采集**：INMP441 MEMS 麦克风 → I²S 接收核 → AXI DMA → DDR，32000Hz 采样，24bit 精度
 2. **鸟鸣检测**：3 层 CNN，2 秒滑动窗口，检测到鸟鸣写触发文件。conv1（3×3, 16 通道）已做 PL HLS GEMM 核验证（M=12864 K=9 N=16, Q12 定点，独立 overlay `gemm_soc.bit`，端到端分数与浮点一致）；**正式运行的音频主程序仍为 numpy 全软件实现**，两个 overlay 分时加载
 3. **声音触发图像**：图像端检测触发文件 → 进入搜索状态 → YOLOv8n (ncnn) 识别仙八色鸫
 4. **目标存在性录像**：检测到鸟开始录像，鸟消失后延迟结束，录像期间暂停音频推理避免 CPU 争抢
@@ -15,7 +15,7 @@
 | 器件 | 型号 | 接口 |
 |------|------|------|
 | FPGA 开发板 | PYNQ-Z2 (XC7Z020CLG400-1) | - |
-| MEMS 麦克风 | INMP441 | PMOD B (I2S) |
+| MEMS 麦克风 | INMP441 | PMOD B (I²S) |
 | USB 摄像头 | 1080p USB UVC | /dev/video0 |
 
 ## 最终交付物
@@ -34,13 +34,13 @@ pitta_bird_monitor/
 ├── LICENSE
 ├── .gitignore
 ├── src/
-│   ├── fpga/              # I2S 接收核 RTL + GEMM HLS IP
+│   ├── fpga/              # I²S 接收核 RTL + GEMM HLS IP
 │   │   ├── i2s_mems_rx.v
 │   │   ├── inmp441_pmodb.xdc
 │   │   ├── system_wrapper.v
 │   │   └── gemm/          # HLS 生成的 IP 核
 │   └── ps/                # 板端 Python + 模型 + PC 训练脚本
-├── sim/                   # I2S 接收核 testbench
+├── sim/                   # I²S 接收核 testbench
 ├── build/                 # Vivado 构建脚本 + bit/hwh + 报告
 │   ├── build.tcl
 │   ├── build_gemm.tcl
@@ -172,7 +172,7 @@ conv1 最大误差 < 0.02（205824 点 0 超差），判定 PASS。
 
 1. **音频端**：采集新物种鸣声正样本 + 本地环境负样本，重跑 `train_binary_fixed.py`，替换 `audio_model.npz`；
 2. **视觉端**：按 `pitta.yaml` 的标注格式采集新物种图片，重跑 `03_train.py` 训练 + `04_export.py` 导出 ncnn，替换 `best_ncnn.param/bin`；
-3. 调整部署阈值（当前音频 0.985 / 视觉 conf 0.52）即可，采集核、I2S、DMA、录像状态机全部复用。
+3. 调整部署阈值（当前音频 0.985 / 视觉 conf 0.52）即可，采集核、I²S、DMA、录像状态机全部复用。
 
 ## FPGA 资源占用
 

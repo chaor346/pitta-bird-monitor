@@ -1,6 +1,6 @@
 # sim/ 仿真
 
-对 FPGA 侧手写 I2S 接收核 `i2s_mems_rx` 做行为级仿真，验证其把 INMP441 的 I2S 串行数据
+对 FPGA 侧手写 I²S 接收核 `i2s_mems_rx` 做行为级仿真，验证其把 INMP441 的 I²S 串行数据
 正确接收、24bit 符号扩展为 32bit，并按 [左,右] 顺序输出到 AXI4-Stream。
 
 > GEMM 加速器为 Vitis HLS 自动生成，RTL 与 C 模型一致性由 HLS 工具链 co-simulation
@@ -10,7 +10,7 @@
 
 | 文件 | 说明 |
 |------|------|
-| `i2s_mems_rx_tb.v` | I2S 接收核 testbench（含 25% AXI-Stream 反压） |
+| `i2s_mems_rx_tb.v` | I²S 接收核 testbench（含 25% AXI-Stream 反压） |
 | `sim_result.log` | 最近一次仿真输出：**PASS，0 错误，128 beats** |
 | `sim_report.md` | 仿真报告（覆盖场景 + 结果汇总） |
 | `run_sim.sh` | 一键编译+运行 |

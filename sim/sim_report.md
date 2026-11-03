@@ -7,7 +7,7 @@
 > C/RTL co-simulation 保证；数值精度由板端 `e2e_board.py` 对拍验证
 > （最大误差 0.001838，205824 点 0 超差），不再单独写仿真 testbench。
 
-## 1. I2S 接收核（i2s_mems_rx）
+## 1. I²S 接收核（i2s_mems_rx）
 
 | 项 | 内容 |
 |---|---|
@@ -18,7 +18,7 @@
 
 ### 覆盖场景
 
-- 标准 I2S 协议：bclk/ws 由核自生成，testbench 模拟 INMP441 在 bclk 下降沿驱动 sd
+- 标准 I²S 协议：bclk/ws 由核自生成，testbench 模拟 INMP441 在 bclk 下降沿驱动 sd
 - 24bit MSB-first 串行接收
 - 左槽（ws=0）/ 右槽（ws=1）交替
 - 24bit 符号扩展为 32bit（`{{8{v[23]}}, v}`）
@@ -46,5 +46,5 @@ bash run_sim.sh
 
 ## 3. 已知限制
 
-- I2S tb 未测运行中拉复位场景
+- I²S tb 未测运行中拉复位场景
 - 未跑 code coverage 覆盖率分析
