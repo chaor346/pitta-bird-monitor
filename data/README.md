@@ -75,5 +75,3 @@
 | `test_audio/negative/ambient/` 10 段 | 公共音效素材与自录，导入时的压缩包内未逐条标注来源页 | **待补来源链接与许可**，公开发布前需补齐 |
 | `src/ps/best_ncnn.*`、`audio_model.npz` | 本项目训练产物（YOLOv8n / 三层 CNN） | 随本仓库 MIT 发布；YOLOv8 训练框架本身为 AGPL-3.0（Ultralytics），仅作依赖使用、未重新分发其代码 |
 
-> 交付前建议：在仓库 README 或 `data/README.md` 里补一张"录音编号 → 原始页面链接"的对照表
-> （27 段音频共 27 行即可），这是开源合规最容易被打回的一点，也是评委核对数据来源最直接的入口。

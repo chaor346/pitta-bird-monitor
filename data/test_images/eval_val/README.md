@@ -20,7 +20,7 @@
 真正独立于训练集的测试结果见 [`../independent/README.md`](../independent/README.md)：
 266 张网络公开图（MD5 与训练集无重复）上图像级召回 **96.2%**（256/266），检出置信度均值 0.91。
 
-## 三、评测口径（写报告时照抄这一段）
+## 三、评测口径
 
 - 模型：`best.onnx`（YOLOv8n，单类 `fairy_pitta`，输入 1×3×320×320，输出 1×5×2100）
 - 运行：Python 3.13 + onnxruntime 1.31.0，CPU，`num_threads` 默认；无 GPU 加速
