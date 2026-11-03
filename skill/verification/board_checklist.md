@@ -51,7 +51,7 @@ sudo python3 skill_tools/dma_selftest.py --bit inmp441.bit --hwh inmp441.hwh --s
 
 证据文件：`dma_selftest.json`、终端输出。
 
-注意： 若覆盖字数为 0：先确认麦克风已接、I2S 已起振（`audio_test` 能录到非零 RMS），
+注意： 若覆盖字数为 0：先确认麦克风已接、I²S 已起振（`audio_test` 能录到非零 RMS），
 再怀疑 DMA。这是"传输完成但源端没发数"的典型情形。
 
 ---
